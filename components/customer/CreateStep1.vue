@@ -5,7 +5,7 @@
       <b-form-group label="Name" label-for="input-1">
         <b-form-input
           @input="emitFormData"
-          v-model="form.CustomerName"
+          v-model="form.customerName"
           type="text"
           required
           placeholder="Customer / Account Name"
@@ -17,8 +17,8 @@
       </b-form-group>
       <b-form-group label="Type" label-for="input-3">
         <b-form-select
-          v-model="form.selectedCustomerType"
-          :options="CustomerTypes"
+          v-model="form.customerType"
+          :options="cTypes"
         ></b-form-select>
       </b-form-group>
       <b-form-group label="Contact" label-for="input-3">
@@ -39,13 +39,13 @@ export default {
   data() {
     return {
       form: {
-        CustomerName: '',
+        customerName: '',
         code: '',
-        selectedCustomerType: '',
+        customerType: '',
         contact: ''
       },
-      selectedCustomerType: null,
-      CustomerTypes: [
+      customerType: null,
+      cTypes: [
         { value: null, text: 'Please select an option' },
         { value: 'corporation', text: 'Corporation' },
         { value: 'school', text: 'School' },
@@ -56,7 +56,7 @@ export default {
   },
   validations: {
     form: {
-      CustomerName: {
+      customerName: {
         required
       },
       contact: {

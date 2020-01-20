@@ -6,6 +6,7 @@
         <b-col>
           <b-form-group label="DbName:" label-for="input-2">
             <b-form-input
+            @input="emitFormData"
               v-model="form.dbName"
               required
               placeholder="Enter Database Name"
@@ -16,6 +17,7 @@
         <b-col>
           <b-form-group label="Email-Domain" label-for="input-3">
             <b-form-input
+            @input="emitFormData"
               v-model="form.emailDomain"
               required
               placeholder="Enter Email Domain"
@@ -25,6 +27,7 @@
         <b-col>
           <b-form-group label="Sub-Domain" label-for="input-3">
             <b-form-input
+            @input="emitFormData"
               v-model="form.subDomain"
               required
               placeholder="Enter Sub-Domain Name"
@@ -35,7 +38,7 @@
       <b-row>
         <b-col>
           <b-form-group label="Automatic Signup">
-            <b-form-select v-model="form.allowsAutomaticSignup" required>
+            <b-form-select @input="emitFormData" v-model="form.allowsAutomaticSignup" required>
               <b-form-select-option :value="false">False</b-form-select-option>
               <b-form-select-option :value="true">True</b-form-select-option>
             </b-form-select>
@@ -44,6 +47,7 @@
         <b-col>
           <b-form-group label="Automatic SignUpEmail Domain Filters">
             <b-form-select
+            @input="emitFormData"
               v-model="form.automaticSignUpEmailDomainFilters"
               required
             >
@@ -58,6 +62,7 @@
         <b-col>
           <b-form-group label="Modules">
             <b-form-checkbox-group
+            @input="emitFormData"
               v-model="form.modules"
               :options="moduleOptions"
               switches
@@ -67,9 +72,11 @@
         </b-col>
         <b-col>
           <b-form-group label="Default Security Role Model">
-            <b-form-select v-model="form.defaultSecurityRoleModel" required>
-              <b-form-select-option>...</b-form-select-option>
-              <b-form-select-option>---</b-form-select-option>
+            <b-form-select
+            @input="emitFormData"
+            v-model="form.defaultSecurityRoleModel" required>
+              <b-form-select-option :value="securityRole">SecurityRole</b-form-select-option>
+              <b-form-select-option :value="MSSecurityRole">MSSecurityRole</b-form-select-option>
             </b-form-select>
           </b-form-group>
         </b-col>
@@ -79,22 +86,44 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
 export default {
   data() {
     return {
       form: {
-        name: '',
         allowsAutomaticSignup: false,
         automaticSignUpEmailDomainFilters: [],
-        defaultSecurityRoleModel: 'SecurityRole',
+        defaultSecurityRoleModel: '',
         modules: [],
         dbName: '',
         emailDomain: '',
         masterCustomers: [],
-        name: '',
         subDomain: ''
       },
       moduleOptions: ['Receiving', 'Shipping', 'Jobsubmission']
+    }
+  },
+  validations: {
+    form: {
+        dbName: {
+          required
+        },
+        emailDomain: {
+          required
+        },
+        subDomain: {
+          required
+        }
+      },
+  },
+  computed: {
+    isValid() {
+      return !this.$v.$invalid
+    }
+  },
+  methods: {
+    emitFormData() {
+      this.$emit('stepUpdated', { data: this.form, isValid: this.isValid })
     }
   }
 }

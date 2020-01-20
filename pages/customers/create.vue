@@ -42,7 +42,7 @@
               @click.prevent="nextStep"
               >Next</b-button
             >
-            <b-button v-else squared variant="success" @click.prevent=""
+            <b-button v-else squared variant="success" @click.prevent="submit"
               >Submit</b-button
             >
           </div>
@@ -81,15 +81,17 @@ export default {
   data() {
     return {
       form: {
-        name: '',
+        customerName: '',
+        customerType: '',
         allowsAutomaticSignup: false,
         automaticSignUpEmailDomainFilters: [],
-        defaultSecurityRoleModel: 'SecurityRole',
+        defaultSecurityRoleModel: 'securityRole',
         modules: [],
         dbName: '',
         emailDomain: '',
         masterCustomers: [],
-        CustomerName: '',
+        code:'',
+        contact:'',
         subDomain: ''
       },
       activeStep: 1,
@@ -113,6 +115,15 @@ export default {
     mergeFormData({data, isValid}){
       this.form = { ...this.form, ...data }
       this.canProceed = isValid
+    },
+    submit(){
+      debugger
+      console.log(this.form)
+      this.$axios.post('/customer', this.form)
+      .then(response => {
+        console.log(response)
+      })
+      .catch(e => console.log(e))
     }
   }
 }

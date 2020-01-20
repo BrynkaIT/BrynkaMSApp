@@ -46,11 +46,11 @@
               </b-form-input>
             </b-col>
             <b-col sm="4">
-               <b-form-select
-                v-model="form.state"
-                :options="stateOptions"
-                class="m-1"
-                ></b-form-select>
+               <b-form-select v-model="form.state" :options="stateOptions" class="m-1" >
+                 <template v-slot:first>
+                  <b-form-select-option :value="null" disabled>State</b-form-select-option>
+                </template>
+               </b-form-select>
             </b-col>
             <b-col sm="4">
               <b-form-input
@@ -89,21 +89,14 @@ export default {
         street: '',
         street2: '',
         city: '',
-        state: '',
+        state: null,
         zip: '',
-        country: ''
+        country: 'United States'
       },
-      stateOptions: [
-        { value: null, text: 'State' }
-      ]
+      stateOptions: null
     }
   },
   created(){
-    // const array = this.$store.state.usStates.usaStates;
-    // array.forEach(state =>{
-    //   this.stateOptions.push(state.name)
-
-    // })
     this.stateOptions = this.$store.state.usStates.usaStates
     // console.log(this.$store.state.usStates.usaStates.name)
   },
