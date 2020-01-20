@@ -1,0 +1,90 @@
+/*--- Dark Theme ---*/
+
+.content-container {
+  min-height: 100vh;
+  background: #2d2d2d;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  background: #2d2d2d;
+  display: flex;
+  width: 100%;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+}
+.sidenav-wrapper {
+  background: #191c20;
+  position: sticky;
+}
+.content-right {
+  padding: 25px;
+  color: #fff !important;
+  width:100%;
+}
+.nav-link {
+  display: -webkit-flex !important;
+  display: flex !important;
+  -webkit-align-items: center;
+  align-items: center;
+  white-space: nowrap;
+  padding: 0.8rem 1.188rem;
+  color: #a3a3a3 !important;
+  -webkit-transition-duration: 0.45s;
+  -moz-transition-duration: 0.45s;
+  -o-transition-duration: 0.45s;
+  transition-duration: 0.45s;
+  transition-property: color;
+  -webkit-transition-property: color;
+  height: 46px;
+  padding-left:30px
+}
+.nav-link:hover, .nav-link:active{
+  color: #fff !important;
+  background: #000;
+}
+.menu-icon{
+  margin-right: 1.25rem;
+  font-size: 0.8125rem;
+  line-height: 1;
+  background: #2e2f32;
+  width: 31px;
+  height: 31px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+.card{
+  background:#191c20;
+}
+.form {
+  background: #191c20;
+  float: left;
+  margin-bottom: 1%;
+  padding: 3%;
+  width: 100%;
+  max-width: 1250px;
+}
+.form-content {
+  background: rgba(3, 169, 244, 0.67);
+  border-top-left-radius: 10% 15%;
+  border-bottom-right-radius: 10% 15%;
+  padding: 5%;
+  width:100%;
+}
+.form .form-control {
+  background-color: #393f46;
+  color: #fff !important;
+}
+
+.form-heading {
+  text-align: center;
+  margin-top: 8%;
+  margin-bottom: -15%;
+  color: #495057;
+}
+thead {
+  background: #fff;
+  color: #000;
+  border: 1px solid #bbb;
+}

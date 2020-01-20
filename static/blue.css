@@ -1,0 +1,87 @@
+/* --- Brynka Blue Theme ---*/
+
+.content-container {
+  min-height: 100vh;
+  background: #ecf0f5;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  background: #ecf0f5;
+  display: flex;
+  width: 100%;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+}
+.sidenav-wrapper {
+  background: #2196f3;
+  position: sticky;
+}
+.content-right {
+  /* padding: 25px; */
+  color: #000;
+  width:100%;
+}
+.nav-link {
+display: -webkit-flex !important;
+display: flex !important;
+-webkit-align-items: center;
+align-items: center;
+white-space: nowrap;
+padding: 0.8rem 1.188rem;
+color: #fff !important;
+-webkit-transition-duration: 0.45s;
+-moz-transition-duration: 0.45s;
+-o-transition-duration: 0.45s;
+transition-duration: 0.45s;
+transition-property: color;
+-webkit-transition-property: color;
+height: 46px;
+padding-left: 30px;
+}
+.nav-link:hover,
+.nav-link:active {
+  color: #000 !important;
+  background: #fff;
+}
+.menu-icon {
+  margin-right: 1.25rem;
+  font-size: 0.8125rem;
+  line-height: 1;
+  background: #2e2f32;
+  width: 31px;
+  height: 31px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+.card {
+  background: #fff;
+}
+.form {
+  background: #fff;
+  float: left;
+  margin-bottom: 1%;
+  padding: 3%;
+  width: 100%;
+  max-width: 1250px;
+}
+.form-content {
+  background: rgba(34, 150, 243, 0.82);
+  border-top-left-radius: 10% 15%;
+  border-bottom-right-radius: 10% 15%;
+  padding: 5%;
+  width: 100%;
+}
+
+.form-heading {
+  text-align: center;
+  margin-top: 8%;
+  margin-bottom: -15%;
+  color: #495057;
+}
+thead {
+  background: #fff;
+  color: #000;
+  border: 1px solid #bbb;
+}
