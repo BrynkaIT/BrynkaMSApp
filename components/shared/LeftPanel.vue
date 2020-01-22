@@ -4,9 +4,9 @@
       <div class="sidebar-content">
         <div class="sidebar">
           <div class="sidebar-header mb-4">
-            <h5>MS Company Logo</h5>
+            <img :src="$store.state.managedService.ManagedService.secondaryLogo" width="92px" alt="">
           </div>
-          <div v-if="!$store.state.msCustomers.selectedCustomer">
+          <div v-if="!$store.state.managedService.selectedCustomer">
             <b-row>
               <b-col class="px-4">
                 <b-input-group size="sm">
@@ -40,7 +40,7 @@
             <b-row>
               <div class="text-center w-100">
                 <p>New Customer</p>
-                <nuxt-link to="customers/create">
+                <nuxt-link to="/customers/create">
                   <b-button variant="primary"
                   >Add
                   <font-awesome-icon
@@ -54,7 +54,7 @@
           </div>
         </div>
         <b-row class="pl-3">
-          <div class="w-100" v-if="$store.state.msCustomers.selectedCustomer">
+          <div class="w-100" v-if="$store.state.managedService.selectedCustomer">
             <br />
             <ul class="list-none pl-3">
               <li class="my-3">
@@ -66,7 +66,7 @@
                     />
                   </div>
                   <div class="col-md-8">
-                    {{ $store.state.msCustomers.selectedCustomer.name }}
+                    {{ $store.state.managedService.selectedCustomer.name }}
                   </div>
                 </div>
               </li>
@@ -79,7 +79,7 @@
                     />
                   </div>
                   <div class="col-md-8">
-                    {{ $store.state.msCustomers.selectedCustomer.dbName }}
+                    {{ $store.state.managedService.selectedCustomer.dbName }}
                   </div>
                 </div>
               </li>
@@ -92,7 +92,7 @@
                     />
                   </div>
                   <div class="col-md-8">
-                    {{ $store.state.msCustomers.selectedCustomer.emailDomain }}
+                    {{ $store.state.managedService.selectedCustomer.emailDomain }}
                   </div>
                 </div>
               </li>
@@ -105,7 +105,7 @@
                     />
                   </div>
                   <div class="col-md-8">
-                    {{ $store.state.msCustomers.selectedCustomer.subDomain }}
+                    {{ $store.state.managedService.selectedCustomer.subDomain }}
                   </div>
                 </div>
               </li>
@@ -131,8 +131,6 @@ export default {
       filter:''
       }
   }
-
-
 }
 </script>
 <style scoped>

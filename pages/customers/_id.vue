@@ -68,7 +68,7 @@ export default {
       .get(`/customer/${this.$route.params.id}`)
       .then(response => {
         this.$store.dispatch(
-          'msCustomers/getSelectedCustomer',
+          'managedService/getSelectedCustomer',
           response.data.customer
         )
         this.customer = response.data.customer

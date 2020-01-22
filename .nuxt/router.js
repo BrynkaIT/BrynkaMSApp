@@ -11,6 +11,7 @@ const _6cf36969 = () => interopDefault(import('../pages/customers/create.vue' /*
 const _9fb66fe0 = () => interopDefault(import('../pages/System/securityRoles.vue' /* webpackChunkName: "pages/System/securityRoles" */))
 const _27c748c6 = () => interopDefault(import('../pages/customers/_id.vue' /* webpackChunkName: "pages/customers/_id" */))
 const _7331076f = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
+const _36e246bc = () => interopDefault(import('../pages/_ms.vue' /* webpackChunkName: "pages/_ms" */))
 
 // TODO: remove in Nuxt 3
 const emptyFn = () => {}
@@ -60,6 +61,10 @@ export const routerOptions = {
     path: "/",
     component: _7331076f,
     name: "index"
+  }, {
+    path: "/:ms",
+    component: _36e246bc,
+    name: "ms"
   }],
 
   fallback: false

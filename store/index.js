@@ -1,34 +1,36 @@
 // export const state = () => {
 //   return {
-//     msSubDomain: null
+//     ManagedService: null
 //   };
 // };
 
 
 // export const actions = {
+
+//   // Get url after brynka.com
 //   nuxtServerInit({ commit }, { req }) {
-//     var regex = /([a-z0-9]+\.)*[a-z0-9]+\.[a-z]+/gm
-//     let domain = req.headers.host;
-//     var subdomain = domain.match(regex);
-//     var managedService;
-//     if (subdomain != null) {
-//       managedService = subdomain.toString().split('.');
-//       commit('setmanagedServiceName', managedService[0]);
-//     } else {
-//       managedService = ['brynka'];
-//       commit('setmanagedServiceName', managedService[0]);
-//     }
+
+//       const ms = {}
+//       const domain = req.url
+//       if (domain != '/') {
+//         let array = domain.toString().split('/');
+//         ms.name = array[1];
+//         ms.mainLogo = "img/" + ms.name + "/mainLogo" +".png"
+//         ms.secondaryLogo = "img/" + ms.name + "/secondaryLogo" +".png"
+//         commit('setmanagedServiceName', ms);
+//       } else {
+//         ms.name = 'brynka';
+//         ms.mainLogo = "img/brynka/mainLogo.png"
+//         ms.secondaryLogo = "img/brynka/secondaryLogo.png"
+//         commit('setmanagedServiceName', ms);
+//       }
+
 //   },
+
 // };
 
 // export const mutations = {
-//   setmanagedServiceName(state, managedService) {
-//     debugger
-//     // return (state.managedService = managedService)
-//     if (state.auth.user)
-//     {return (state.auth.user.msSubDomain = managedService)
-//     }else{
-//       return (state.msSubDomain = managedService);
-//     }
+//   setmanagedServiceName(state, ms) {
+//     return (state.ManagedService = ms)
 //   }
 // }

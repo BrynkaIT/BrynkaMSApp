@@ -5,7 +5,7 @@
       <b-form-group label="Name" label-for="input-1">
         <b-form-input
           @input="emitFormData"
-          v-model="form.customerName"
+          v-model="form.name"
           type="text"
           required
           placeholder="Customer / Account Name"
@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       form: {
-        customerName: '',
+        name: '',
         code: '',
         customerType: '',
         contact: ''
@@ -56,7 +56,7 @@ export default {
   },
   validations: {
     form: {
-      customerName: {
+      name: {
         required
       },
       contact: {

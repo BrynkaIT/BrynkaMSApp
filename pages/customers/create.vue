@@ -9,7 +9,7 @@
       footer-border-variant="light"
       :sub-title="`Step ${activeStep} of 3`"
     >
-    <b-progress :value="progress.value" :max="progress.max" class="mb-3"></b-progress>
+    <b-progress :value="progress.value" :max="progress.max" :variant="progress.variant" class="mb-3"></b-progress>
       <div class="mt-4">
       <keep-alive>
         <component :is="activeComponent"
@@ -23,7 +23,7 @@
               v-if="!isFirstStep"
               squared
               variant="danger"
-              @click.prevent="nextStep"
+              @click.prevent="cancelStep"
               >Cancel</b-button
             >
             <b-button
@@ -42,8 +42,12 @@
               @click.prevent="nextStep"
               >Next</b-button
             >
-            <b-button v-else squared variant="success" @click.prevent="submit"
-              >Submit</b-button
+            <b-button
+              v-else
+              squared variant="success"
+              @click.prevent="submit"
+              :disabled="!canSubmit"
+            >Submit</b-button
             >
           </div>
         </div>
@@ -53,6 +57,7 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
 import Step1 from '@/components/customer/CreateStep1.vue'
 import Step2 from '@/components/customer/CreateStep2.vue'
 import Step3 from '@/components/customer/CreateStep3.vue'
@@ -81,7 +86,7 @@ export default {
   data() {
     return {
       form: {
-        customerName: '',
+        name: '',
         customerType: '',
         allowsAutomaticSignup: false,
         automaticSignUpEmailDomainFilters: [],
@@ -98,9 +103,11 @@ export default {
       NumberOfSteps: ['Step1', 'Step2', 'Step3'],
       progress:{
         value: 0,
-        max: 100
+        max: 100,
+        variant: 'warning'
       },
-      canProceed:false
+      canProceed:false,
+      canSubmit:false
     }
   },
   methods: {
@@ -112,18 +119,33 @@ export default {
       this.activeStep--
       this.progress.value = this.progress.value - 33.333
     },
+    cancelStep() {
+      this.activeStep = 1
+      this.progress.value = 0
+      // this.form.name = '';
+      // this.form.customerType =  '';
+      // this.form.allowsAutomaticSignup = false;
+      // this.form.automaticSignUpEmailDomainFilters = [];
+      // this.form.defaultSecurityRoleModel = 'securityRole';
+      // this.form.modules = [];
+      // this.form.dbName = '';
+      // this.form.emailDomain = '';
+      // this.form.masterCustomers = [];
+      // this.form.code = '';
+      // this.form.contact = '';
+      // this.form.subDomain = '';
+    },
     mergeFormData({data, isValid}){
       this.form = { ...this.form, ...data }
       this.canProceed = isValid
+      this.canSubmit = isValid
     },
     submit(){
-      debugger
-      console.log(this.form)
-      this.$axios.post('/customer', this.form)
-      .then(response => {
-        console.log(response)
-      })
-      .catch(e => console.log(e))
+      this.progress.variant = 'success'
+      this.progress.value = 100;
+      setTimeout(() => {
+        this.$store.dispatch('managedService/postNewCustomer', this.form)
+       }, 500);
     }
   }
 }

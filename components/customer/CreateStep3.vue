@@ -15,7 +15,7 @@
           </b-form-group>
         </b-col>
         <b-col>
-          <b-form-group label="Email-Domain" label-for="input-3">
+          <b-form-group label="Email-Domain">
             <b-form-input
             @input="emitFormData"
               v-model="form.emailDomain"
@@ -25,7 +25,7 @@
           </b-form-group>
         </b-col>
         <b-col>
-          <b-form-group label="Sub-Domain" label-for="input-3">
+          <b-form-group label="Sub-Domain">
             <b-form-input
             @input="emitFormData"
               v-model="form.subDomain"
@@ -38,21 +38,23 @@
       <b-row>
         <b-col>
           <b-form-group label="Automatic Signup">
-            <b-form-select @input="emitFormData" v-model="form.allowsAutomaticSignup" required>
-              <b-form-select-option :value="false">False</b-form-select-option>
-              <b-form-select-option :value="true">True</b-form-select-option>
+            <b-form-select
+            @input="emitFormData"
+            :options="AASignupOptions"
+            v-model="form.allowsAutomaticSignup"
+            required>
             </b-form-select>
           </b-form-group>
         </b-col>
         <b-col>
-          <b-form-group label="Automatic SignUpEmail Domain Filters">
+          <b-form-group label="Automatic Signup Email Domain Filters">
             <b-form-select
             @input="emitFormData"
-              v-model="form.automaticSignUpEmailDomainFilters"
-              required
+            multiple :select-size="3"
+            :options="ASUEDomainFiltersOptions"
+            v-model="form.automaticSignUpEmailDomainFilters"
+            required
             >
-              <b-form-select-option>...</b-form-select-option>
-              <b-form-select-option>---</b-form-select-option>
             </b-form-select>
           </b-form-group>
         </b-col>
@@ -62,9 +64,9 @@
         <b-col>
           <b-form-group label="Modules">
             <b-form-checkbox-group
+            :options="moduleOptions"
             @input="emitFormData"
-              v-model="form.modules"
-              :options="moduleOptions"
+            v-model="form.modules"
               switches
               stacked
             ></b-form-checkbox-group>
@@ -74,9 +76,9 @@
           <b-form-group label="Default Security Role Model">
             <b-form-select
             @input="emitFormData"
-            v-model="form.defaultSecurityRoleModel" required>
-              <b-form-select-option :value="securityRole">SecurityRole</b-form-select-option>
-              <b-form-select-option :value="MSSecurityRole">MSSecurityRole</b-form-select-option>
+            :options="DSRoleModelOptions"
+            v-model="form.defaultSecurityRoleModel"
+            required>
             </b-form-select>
           </b-form-group>
         </b-col>
@@ -92,15 +94,29 @@ export default {
     return {
       form: {
         allowsAutomaticSignup: false,
-        automaticSignUpEmailDomainFilters: [],
-        defaultSecurityRoleModel: '',
+        automaticSignUpEmailDomainFilters: ['b1'],
+        defaultSecurityRoleModel: 'SecurityRole',
         modules: [],
         dbName: '',
         emailDomain: '',
         masterCustomers: [],
         subDomain: ''
       },
-      moduleOptions: ['Receiving', 'Shipping', 'Jobsubmission']
+      moduleOptions: ['Receiving', 'Shipping', 'Jobsubmission'],
+      AASignupOptions:[
+        { value: 'false', text: 'No' },
+        { value: 'true', text: 'Yes' },
+      ],
+      ASUEDomainFiltersOptions:[
+        { value: 'b1', text: 'blah1' },
+        { value: 'b2', text: 'blah2' },
+        { value: 'b3', text: 'blah3' },
+      ],
+      DSRoleModelOptions:[
+        { value: 'SecurityRole', text: 'SecurityRole' },
+        { value: 'MSSecurityRole', text: 'MSSecurityRole' },
+        { value: 'APISecurityRole', text: 'APISecurityRole' },
+      ]
     }
   },
   validations: {

@@ -3,7 +3,7 @@
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand>
         <nuxt-link to="/customers">
-          <img src="/img/sct-logo.png" width="42" />
+          <img src="/img/brynka/sctLogo.png" width="42" />
           <!-- SCT -->
         </nuxt-link>
       </b-navbar-brand>
@@ -48,24 +48,18 @@
             </template>
             <!-- User Location Details -->
             <div class="pl-4">
+              <h6>{{ this.$store.state.managedService.ManagedService.name | capFirstChar}}</h6>
+
               <h6>
               <span>
-                <font-awesome-icon
-                    :icon="['fas', 'map-marker-alt']"
-                    style="font-size:17px; color:#e41b00;"
-                  />
+                <font-awesome-icon :icon="['fas', 'map-marker-alt']" style="color:#e41b00;font-size:12px" />
               </span>
               Langhorne</h6>
               <h6>
-              <span>
-                <font-awesome-icon
-                    :icon="['fas', 'building']"
-                    style="font-size:17px; color:blue;"
-                  />
-              </span>
+              <span> <font-awesome-icon :icon="['fas', 'building']" style="color:blue;font-size:12px" /> </span>
               HQ</h6>
             </div>
-
+            <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
             <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
@@ -80,7 +74,7 @@ export default {
   methods: {
     async logout() {
       await this.$auth.logout()
-      this.$router.push('/')
+      this.$router.push(`/${this.$store.state.managedService.ManagedService.name}`)
     }
   }
 }

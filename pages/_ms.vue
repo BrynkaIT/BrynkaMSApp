@@ -107,7 +107,7 @@ export default {
   options: {
     auth: false
   },
-  created(){
+     created(){
     this.$store.dispatch('managedService/getManagedService', this.$route.params.ms)
   },
   data() {
