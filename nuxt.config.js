@@ -68,7 +68,7 @@ module.exports = {
     baseURL: process.env.BASE_URL || 'http://localhost:8080/'
   },
   /*
-   ** Build configuration
+   *** Build configuration
    */
   build: {
     postcss: {
