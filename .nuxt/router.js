@@ -3,15 +3,15 @@ import Router from 'vue-router'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _f3464016 = () => interopDefault(import('../pages/customers/index.vue' /* webpackChunkName: "pages/customers/index" */))
-const _b4c4072a = () => interopDefault(import('../pages/notAuthorized.vue' /* webpackChunkName: "pages/notAuthorized" */))
-const _285ca2d5 = () => interopDefault(import('../pages/preferences.vue' /* webpackChunkName: "pages/preferences" */))
-const _08864a05 = () => interopDefault(import('../pages/System/index.vue' /* webpackChunkName: "pages/System/index" */))
-const _6cf36969 = () => interopDefault(import('../pages/customers/create.vue' /* webpackChunkName: "pages/customers/create" */))
-const _9fb66fe0 = () => interopDefault(import('../pages/System/securityRoles.vue' /* webpackChunkName: "pages/System/securityRoles" */))
-const _27c748c6 = () => interopDefault(import('../pages/customers/_id.vue' /* webpackChunkName: "pages/customers/_id" */))
-const _7331076f = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
-const _36e246bc = () => interopDefault(import('../pages/_ms.vue' /* webpackChunkName: "pages/_ms" */))
+const _f0140932 = () => interopDefault(import('../pages/customers/index.vue' /* webpackChunkName: "pages/customers/index" */))
+const _45696746 = () => interopDefault(import('../pages/notAuthorized.vue' /* webpackChunkName: "pages/notAuthorized" */))
+const _42bd7172 = () => interopDefault(import('../pages/preferences.vue' /* webpackChunkName: "pages/preferences" */))
+const _1ad633d3 = () => interopDefault(import('../pages/System/index.vue' /* webpackChunkName: "pages/System/index" */))
+const _c3048792 = () => interopDefault(import('../pages/customers/create.vue' /* webpackChunkName: "pages/customers/create" */))
+const _c8e5f844 = () => interopDefault(import('../pages/System/securityRoles.vue' /* webpackChunkName: "pages/System/securityRoles" */))
+const _23c9ab8f = () => interopDefault(import('../pages/customers/_id.vue' /* webpackChunkName: "pages/customers/_id" */))
+const _5dc32d3e = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
+const _15f01314 = () => interopDefault(import('../pages/_ms.vue' /* webpackChunkName: "pages/_ms" */))
 
 // TODO: remove in Nuxt 3
 const emptyFn = () => {}
@@ -31,39 +31,39 @@ export const routerOptions = {
 
   routes: [{
     path: "/customers",
-    component: _f3464016,
+    component: _f0140932,
     name: "customers"
   }, {
     path: "/notAuthorized",
-    component: _b4c4072a,
+    component: _45696746,
     name: "notAuthorized"
   }, {
     path: "/preferences",
-    component: _285ca2d5,
+    component: _42bd7172,
     name: "preferences"
   }, {
     path: "/System",
-    component: _08864a05,
+    component: _1ad633d3,
     name: "System"
   }, {
     path: "/customers/create",
-    component: _6cf36969,
+    component: _c3048792,
     name: "customers-create"
   }, {
     path: "/System/securityRoles",
-    component: _9fb66fe0,
+    component: _c8e5f844,
     name: "System-securityRoles"
   }, {
     path: "/customers/:id",
-    component: _27c748c6,
+    component: _23c9ab8f,
     name: "customers-id"
   }, {
     path: "/",
-    component: _7331076f,
+    component: _5dc32d3e,
     name: "index"
   }, {
     path: "/:ms",
-    component: _36e246bc,
+    component: _15f01314,
     name: "ms"
   }],
 
