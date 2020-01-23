@@ -21,7 +21,7 @@ import _6f6c098b from '../layouts/default.vue'
 const layouts = { "_customer": _7bcfb5d4,"_default": _6f6c098b }
 
 export default {
-  head: {"title":"sct","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"App to manage system configurations for BrynkaWebApp"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"style":[],"script":[]},
+  head: {"title":"brynka-manager","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"App to manage system configurations for BrynkaWebApp"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"style":[],"script":[]},
 
   render (h, props) {
     const loadingEl = h('NuxtLoading', { ref: 'loading' })

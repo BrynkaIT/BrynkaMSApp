@@ -1,5 +1,5 @@
 {
-  "name": "sct",
+  "name": "brynka-manager",
   "version": "1.0.0",
   "description": "App to manage system configurations for BrynkaWebApp",
   "author": "Brynka Software Solutions",
@@ -8,7 +8,8 @@
     "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
     "build": "nuxt build",
     "start": "cross-env NODE_ENV=production node server/index.js",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
