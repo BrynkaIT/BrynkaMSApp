@@ -12,12 +12,12 @@ import { createStore } from './store.js'
 
 /* Plugins */
 
-import nuxt_plugin_bootstrapvue_38acf17e from 'nuxt_plugin_bootstrapvue_38acf17e' // Source: ./bootstrap-vue.js (mode: 'all')
-import nuxt_plugin_templatesplugin20e3fe14_b23cd9de from 'nuxt_plugin_templatesplugin20e3fe14_b23cd9de' // Source: ./templates.plugin.20e3fe14.js (mode: 'all')
-import nuxt_plugin_axios_03e7d24f from 'nuxt_plugin_axios_03e7d24f' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_bootstrapvue_4afcdb4c from 'nuxt_plugin_bootstrapvue_4afcdb4c' // Source: ./bootstrap-vue.js (mode: 'all')
+import nuxt_plugin_templatesplugin05aa5a86_90d7a144 from 'nuxt_plugin_templatesplugin05aa5a86_90d7a144' // Source: ./templates.plugin.05aa5a86.js (mode: 'all')
+import nuxt_plugin_axios_02a52bc6 from 'nuxt_plugin_axios_02a52bc6' // Source: ./axios.js (mode: 'all')
 import nuxt_plugin_vuelidate_4345260a from 'nuxt_plugin_vuelidate_4345260a' // Source: ../plugins/vuelidate (mode: 'all')
 import nuxt_plugin_filters_2dd71012 from 'nuxt_plugin_filters_2dd71012' // Source: ../plugins/filters.js (mode: 'all')
-import nuxt_plugin_plugin_2695a84b from 'nuxt_plugin_plugin_2695a84b' // Source: ./auth/plugin.js (mode: 'all')
+import nuxt_plugin_plugin_d05ca4ce from 'nuxt_plugin_plugin_d05ca4ce' // Source: ./auth/plugin.js (mode: 'all')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -174,16 +174,16 @@ async function createApp (ssrContext) {
 
   // Plugin execution
 
-  if (typeof nuxt_plugin_bootstrapvue_38acf17e === 'function') {
-    await nuxt_plugin_bootstrapvue_38acf17e(app.context, inject)
+  if (typeof nuxt_plugin_bootstrapvue_4afcdb4c === 'function') {
+    await nuxt_plugin_bootstrapvue_4afcdb4c(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_templatesplugin20e3fe14_b23cd9de === 'function') {
-    await nuxt_plugin_templatesplugin20e3fe14_b23cd9de(app.context, inject)
+  if (typeof nuxt_plugin_templatesplugin05aa5a86_90d7a144 === 'function') {
+    await nuxt_plugin_templatesplugin05aa5a86_90d7a144(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_axios_03e7d24f === 'function') {
-    await nuxt_plugin_axios_03e7d24f(app.context, inject)
+  if (typeof nuxt_plugin_axios_02a52bc6 === 'function') {
+    await nuxt_plugin_axios_02a52bc6(app.context, inject)
   }
 
   if (typeof nuxt_plugin_vuelidate_4345260a === 'function') {
@@ -194,8 +194,8 @@ async function createApp (ssrContext) {
     await nuxt_plugin_filters_2dd71012(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_plugin_2695a84b === 'function') {
-    await nuxt_plugin_plugin_2695a84b(app.context, inject)
+  if (typeof nuxt_plugin_plugin_d05ca4ce === 'function') {
+    await nuxt_plugin_plugin_d05ca4ce(app.context, inject)
   }
 
   // If server-side, wait for async component to be resolved first
