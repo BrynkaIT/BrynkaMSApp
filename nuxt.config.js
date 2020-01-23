@@ -30,7 +30,7 @@ module.exports = {
    */
   plugins: [
     { src: '~/plugins/vuelidate' },
-    { src: '~/plugins/filters.js'}
+    { src: '~/plugins/filters.js' }
   ],
   /*
    ** Nuxt.js dev-modules
@@ -65,10 +65,10 @@ module.exports = {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'http://localhost:8080/'
+    baseURL: process.env.BASE_URL || 'http://localhost:8080/'
   },
   /*
-   ** Build configuration
+   *** Build configuration
    */
   build: {
     postcss: {
@@ -81,7 +81,7 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, ctx) { }
   },
   server: {
     port: 4000
