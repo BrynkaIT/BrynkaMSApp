@@ -3,7 +3,7 @@
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand>
         <nuxt-link to="/customers">
-          <img src="/img/brynka/sctLogo.png" width="42" />
+          <img src="/img/brynka/BrynkaManager-logo-sm.png" width="125px"/>
           <!-- SCT -->
         </nuxt-link>
       </b-navbar-brand>

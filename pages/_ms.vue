@@ -5,7 +5,7 @@
         <div class="col-md-12">
           <img :src="this.$store.state.managedService.ManagedService.mainLogo" width="150px" />
           <h4>
-            System Configuration Tool
+            Brynka Manager
           </h4>
           <small>1.0</small>
         </div>

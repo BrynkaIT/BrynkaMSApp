@@ -3,11 +3,11 @@
     <div class="container">
       <div class="row text-center mb-4">
         <div class="col-md-12">
-          <img :src="this.$store.state.managedService.ManagedService.mainLogo" width="150px" />
-          <h4>
-            System Configuration Tool
-          </h4>
-          <small>1.0</small>
+          <div>
+            <img :src="this.$store.state.managedService.ManagedService.mainLogo" />
+          <br>
+            <small>1.0</small>
+          </div>
         </div>
       </div>
       <div class="row text-center">
@@ -174,5 +174,7 @@ html {
   background: #ececec;
   border: 1px solid #03a9f4;
 }
-
+img{
+  width:50%
+}
 </style>
