@@ -81,7 +81,7 @@
                 </form>
               </div>
               <div class="logi-forgot text-right mt-2">
-                <a href="#">Reset Password </a>
+                <a href="#">Reset Password</a>
               </div>
               <div>
                 <p class="mt-4">
