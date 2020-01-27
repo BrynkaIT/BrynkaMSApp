@@ -65,7 +65,8 @@ module.exports = {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: process.env.BASE_URL || 'http://localhost:8080/'
+    baseURL: 'https://brynka-api.herokuapp.com',
+    withCredentials: false
   },
   /*
    *** Build configuration
