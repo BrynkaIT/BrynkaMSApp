@@ -6,7 +6,7 @@
           <div>
             <img :src="this.$store.state.managedService.ManagedService.mainLogo" />
           <br>
-            <small>1.0</small>
+            <p>Verison 1.0</p>
           </div>
         </div>
       </div>
