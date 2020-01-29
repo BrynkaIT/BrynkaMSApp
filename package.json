@@ -7,9 +7,9 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
     "build": "nuxt build",
-    "local-build": "cross-env NODE_ENV=development node -r dotenv/config server/index.js",
+    "local": "cross-env BASE_URL=https://brynka-api.herokuapp.com NODE_ENV=local node -r dotenv/config server/index.js",
     "start": "cross-env NODE_ENV=production node server/index.js",
-    "generate": "nuxt generate" 
+    "generate": "nuxt generate"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
@@ -21,6 +21,7 @@
     "@nuxtjs/bulma": "^1.2.1",
     "bootstrap-vue": "^2.0.4",
     "chart.js": "^2.9.2",
+    "create-nuxt-app": "^2.12.0",
     "cross-env": "^5.2.0",
     "express": "^4.16.4",
     "nuxt": "^2.0.0",

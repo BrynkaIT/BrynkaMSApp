@@ -133,7 +133,7 @@ export async function setContext (app, context) {
       payload: context.payload,
       error: context.error,
       base: '/',
-      env: {"BASE_URL":"https://brynka-api.herokuapp.com","HOST":"0.0.0.0","NODE_ENV":"development","PORT":"4000"}
+      env: {}
     }
     // Only set once
     if (context.req) {
