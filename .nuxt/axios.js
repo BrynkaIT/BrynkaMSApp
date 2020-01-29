@@ -134,8 +134,8 @@ const setupProgress = (axios) => {
 export default (ctx, inject) => {
   // baseURL
   const baseURL = process.browser
-      ? 'http://my.test.com'
-      : (process.env._AXIOS_BASE_URL_ || 'http://my.test.com')
+      ? 'https://brynka-api.herokuapp.com'
+      : (process.env._AXIOS_BASE_URL_ || 'https://brynka-api.herokuapp.com')
 
   // Create fresh objects for all default header scopes
   // Axios creates only one which is shared across SSR requests!

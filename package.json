@@ -5,12 +5,12 @@
   "author": "Brynka Software Solutions",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon -r dotenv/config server/index.js --watch server",
+    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
     "build": "nuxt build",
-    "dev-build": "--exec -r dotenv/config --exec nuxt build --exec node server/index.js",
+    "local-build": "cross-env NODE_ENV=development node -r dotenv/config server/index.js",
     "start": "cross-env NODE_ENV=production node server/index.js",
     "generate": "nuxt generate",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build" 
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
