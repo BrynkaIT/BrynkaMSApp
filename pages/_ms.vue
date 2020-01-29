@@ -2,12 +2,16 @@
   <div class="mt-5">
     <div class="container">
       <div class="row text-center mb-4">
-        <div class="col-md-12">
+        <div class="col-md-12" v-if="this.$store.state.managedService.ManagedService.name != 'brynka'" >
           <img :src="this.$store.state.managedService.ManagedService.mainLogo" width="150px" />
           <h4>
-            System Configuration Tool
+            Brynka Manager
           </h4>
-          <small>1.0</small>
+          <small>version 1.0</small>
+        </div>
+          <div class="col-md-12" v-else>
+          <img :src="this.$store.state.managedService.ManagedService.mainLogo" width="50%"/>
+          <p>version 1.0</p>
         </div>
       </div>
       <div class="row text-center">
@@ -174,5 +178,8 @@ html {
   background: #ececec;
   border: 1px solid #03a9f4;
 }
+/* .b-logo{
+  width:50%
+} */
 
 </style>
