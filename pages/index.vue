@@ -4,7 +4,7 @@
       <div class="row text-center mb-4">
         <div class="col-md-12">
           <div>
-            <img :src="this.$store.state.managedService.ManagedService.mainLogo" />
+            <img src="img/brynka/mainLogo.png" />
           <br>
             <p>Verison 1.0</p>
           </div>
@@ -108,7 +108,7 @@ export default {
     auth: false
   },
   created(){
-    this.$store.dispatch('managedService/getManagedService', this.$route.params.ms)
+    // this.$store.dispatch('managedService/getManagedService', this.$route.params.ms)
   },
   data() {
     return {
@@ -145,17 +145,16 @@ export default {
       if (!this.$v.credentials.$invalid) {
         this.loading.msg = "Loading..."
         this.loading.status = true;
+        debugger
         try {
-          await this.$auth
-            .loginWith('local', {
-              data: this.credentials
-            })
-            .then(() => {
-              this.$router.push('/customers')
-            })
+          const res = await this.$store.dispatch('login', this.credentials)
+          debugger
+          localStorage.setItem('currentUser', JSON.stringify(res.data.user));
+          this.loading.status = false
+          this.$router.push(`/customers`)
         } catch (e) {
-          // this.msg.credentials = e.response.data.message
-           this.loading.msg = "Authentication Failed"
+          this.loading.status = false
+          this.msg.credentials = e.response.data.message
           return false
         }
       }
@@ -172,7 +171,7 @@ html {
 
 .card.shadow{
   background: #ececec;
-  border: 1px solid #03a9f4;
+  border: 1px solid #d7d9d9;
 }
 img{
   width:50%

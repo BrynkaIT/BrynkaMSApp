@@ -32,7 +32,7 @@
 
 
         <!-- User Profile -->
-        <b-navbar-nav class="ml-auto" v-if="$auth.loggedIn">
+        <b-navbar-nav class="ml-auto" >
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
             <template v-slot:button-content>
@@ -43,12 +43,12 @@
                 />
               </span>
               <span class="menu-title">
-                <i>{{ $auth.user.firstName }} {{ $auth.user.lastName }}</i>
+                <i>Kirk Williams</i>
               </span>
             </template>
             <!-- User Location Details -->
             <div class="pl-4">
-              <h6>{{ this.$store.state.managedService.ManagedService.name | capFirstChar}}</h6>
+              <h6>{{ "brynka" | capFirstChar}}</h6>
 
               <h6>
               <span>
@@ -72,9 +72,10 @@
 <script>
 export default {
   methods: {
-    async logout() {
-      await this.$auth.logout()
-      this.$router.push(`/${this.$store.state.managedService.ManagedService.name}`)
+    logout () {
+      this.$store.dispatch('logOut')
+      localStorage.clear()
+      this.$router.push(`/`)
     }
   }
 }

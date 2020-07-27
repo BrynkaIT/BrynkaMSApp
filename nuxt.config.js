@@ -1,4 +1,4 @@
-//require('dotenv').config() 
+//require('dotenv').config()
 
 module.exports = {
   mode: 'universal',
@@ -21,7 +21,11 @@ module.exports = {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: {
+    color: '#2196f3',
+    height: '2.5px',
+    continuous: true
+  },
   /*
    ** Global CSS
    */
@@ -31,7 +35,8 @@ module.exports = {
    */
   plugins: [
     { src: '~/plugins/vuelidate' },
-    { src: '~/plugins/filters.js' }
+    { src: '~/plugins/filters.js' },
+    { src: '~/plugins/axios' }
   ],
   /*
    ** Nuxt.js dev-modules
@@ -45,7 +50,6 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/auth',
     'bootstrap-vue/nuxt',
     [
       'nuxt-fontawesome',
@@ -68,7 +72,7 @@ module.exports = {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: process.env.BASE_URL, //'https://brynka-api.herokuapp.com',
+    baseURL: 'http://localhost:8080', //'https://brynka-api.herokuapp.com',
     withCredentials: false
   },
   /*
@@ -88,27 +92,7 @@ module.exports = {
     extend(config, ctx) { }
   },
   server: {
-    port: 4000
+    port: process.env.PORT || 4000
   },
-  router: {
-    middleware: ['auth']
-  },
-  auth: {
-    redirect: {
-      login: '/',
-      logout: '/',
-      home: '/'
-    },
-    strategies: {
-      local: {
-        endpoints: {
-          login: { url: '/login', method: 'post', propertyName: 'token' },
-          // logout: { url: '/logout', method: 'post'},
-          logout: false,
-          user: { url: '/user/me', method: 'get', propertyName: 'user' },
-        },
-        tokenType: 'bearer'
-      }
-    }
-  }
+
 }

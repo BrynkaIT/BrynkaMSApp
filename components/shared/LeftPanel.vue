@@ -4,7 +4,7 @@
       <div class="sidebar-content">
         <div class="sidebar">
           <div class="sidebar-header mb-4">
-            <img :src="$store.state.managedService.ManagedService.secondaryLogo" width="92px" alt="">
+            <!-- <img :src="$store.state.managedService.ManagedService.secondaryLogo" width="92px" alt=""> -->
           </div>
           <div v-if="!$store.state.managedService.selectedCustomer">
             <b-row>

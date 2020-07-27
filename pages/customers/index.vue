@@ -69,7 +69,7 @@ export default {
       this.items = response.data.customers
       // Set the initial number of items
       this.totalRows = this.items.length
-      this.$store.dispatch('managedService/getSelectedCustomer', null)
+      // this.$store.dispatch('managedService/getSelectedCustomer', null)
     })
   },
   methods: {
