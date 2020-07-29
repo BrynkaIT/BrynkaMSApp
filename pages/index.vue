@@ -15,20 +15,25 @@
           <div class="card shadow">
             <div class="card-body">
               <div class="login-title">
-                <h4>Log In</h4>
+                <h3>Log In</h3>
               </div>
               <div class="login-form mt-4">
                 <form>
                   <div class="form-row">
                     <div class="form-group col-md-12">
-                      <input
+                      <b-input-group class="mb-2">
+                        <b-input-group-prepend is-text>
+                          <b-icon icon="person-fill" scale="1.5" variant="primary"></b-icon>
+                        </b-input-group-prepend>
+                        <b-form-input
+                        type="text"
+                        placeholder="Username/ Email"
                         :class="{ 'form-error': $v.credentials.email.$error }"
-                        class="form-control"
-                        type="email"
-                        placeholder="Email"
                         @blur="$v.credentials.email.$touch()"
                         v-model.trim="credentials.email"
-                      />
+                        ></b-form-input>
+                      </b-input-group>
+
                       <div v-if="$v.credentials.email.$error" class="">
                         <span
                           v-if="!$v.credentials.email.required"
@@ -43,16 +48,20 @@
                       </div>
                     </div>
                     <div class="form-group col-md-12">
-                      <input
-                        :class="{
-                          'form-error': $v.credentials.password.$error
-                        }"
-                        class="form-control"
+                      <b-input-group class="mb-2">
+                        <b-input-group-prepend is-text>
+                          <b-icon icon="lock-fill" scale="1.5" variant="primary"></b-icon>
+                        </b-input-group-prepend>
+                        <b-form-input
                         type="password"
                         placeholder="Password"
                         @blur="$v.credentials.password.$touch()"
                         v-model.trim="credentials.password"
-                      />
+                        :class="{
+                          'form-error': $v.credentials.password.$error
+                        }"
+                        ></b-form-input>
+                      </b-input-group>
                       <div v-if="$v.credentials.password.$error" class="">
                         <span
                           v-if="!$v.credentials.password.required"
@@ -62,26 +71,27 @@
                       </div>
                     </div>
                   </div>
-                  <br />
                   <div class="form-row">
                     <button v-if="!loading.status"
                       type="button"
                       @click.prevent="onLogin"
                       :disabled="$v.credentials.$invalid"
-                      class="btn btn-danger btn-block"
+                      style="background: rgb(255, 152, 0); color: #fff; font-size: 20px; font-weight: bolder;"
+                      class="btn btn-block"
                     >
-                      Login
+                      Submit
                     </button>
                     <button  v-if="loading.status"
                     type="button"
-                    class="btn btn-danger btn-block"
+                    tyle="background: rgb(255, 152, 0); color: #fff; font-size: 20px; font-weight: bolder;"
+                    class="btn btn-block"
                     disabled><b-spinner small type="grow">
                     </b-spinner>{{ loading.msg }}</button>
                   </div>
                 </form>
               </div>
-              <div class="logi-forgot text-right mt-2">
-                <a href="#">Reset Password </a>
+              <div class="logi-forgot text-center mt-2">
+                <a href="#"><small><i>Forgot your password?</i></small></a>
               </div>
               <div>
                 <p class="mt-4">
@@ -151,7 +161,7 @@ export default {
           debugger
           localStorage.setItem('currentUser', JSON.stringify(res.data.user));
           this.loading.status = false
-          this.$router.push(`/customers`)
+          this.$router.push(`/home`)
         } catch (e) {
           this.loading.status = false
           this.msg.credentials = e.response.data.message

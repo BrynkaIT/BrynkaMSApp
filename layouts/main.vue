@@ -1,12 +1,7 @@
 <template>
 <div>
     <top-nav />
-    <div class="content-container">
-      <LeftPanel />
-      <div class="content-right">
-        <nuxt />
-      </div>
-    </div>
+    <nuxt />
   </div>
   <!-- Page Content  -->
 
@@ -14,12 +9,11 @@
 
 <script>
 import TopNav from '@/components/shared/TopNav.vue'
-import LeftPanel from '@/components/shared/LeftPanel.vue'
 
 export default {
   components: {
     TopNav,
-    LeftPanel
+
   },
   head() {
     return {
@@ -34,7 +28,8 @@ export default {
 
   data() {
     return {
-      theme: 'blue'
+      theme: 'blue',
+
     }
   }
 }
@@ -50,5 +45,8 @@ body {
   display: flex;
   width: 100%;
   align-items: stretch;
+}
+.card{
+  margin:12px;
 }
 </style>

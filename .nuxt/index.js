@@ -18,6 +18,12 @@ import nuxt_plugin_axios_7f933e57 from 'nuxt_plugin_axios_7f933e57' // Source: .
 import nuxt_plugin_vuelidate_4345260a from 'nuxt_plugin_vuelidate_4345260a' // Source: ../plugins/vuelidate (mode: 'all')
 import nuxt_plugin_filters_2dd71012 from 'nuxt_plugin_filters_2dd71012' // Source: ../plugins/filters.js (mode: 'all')
 import nuxt_plugin_axios_3566aa80 from 'nuxt_plugin_axios_3566aa80' // Source: ../plugins/axios (mode: 'all')
+import nuxt_plugin_vmask_3801a64e from 'nuxt_plugin_vmask_3801a64e' // Source: ../plugins/v-mask (mode: 'all')
+import nuxt_plugin_toasted_bbce2e60 from 'nuxt_plugin_toasted_bbce2e60' // Source: ../plugins/toasted (mode: 'client')
+import nuxt_plugin_bootstrapIcons_22223e42 from 'nuxt_plugin_bootstrapIcons_22223e42' // Source: ../plugins/bootstrapIcons (mode: 'all')
+import nuxt_plugin_convertToUTC_e0f6eca8 from 'nuxt_plugin_convertToUTC_e0f6eca8' // Source: ../plugins/convertToUTC (mode: 'all')
+import nuxt_plugin_moment_4f74a614 from 'nuxt_plugin_moment_4f74a614' // Source: ../plugins/moment (mode: 'all')
+import nuxt_plugin_easyLightBox_330c1d26 from 'nuxt_plugin_easyLightBox_330c1d26' // Source: ../plugins/easyLightBox (mode: 'client')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -196,6 +202,30 @@ async function createApp (ssrContext) {
 
   if (typeof nuxt_plugin_axios_3566aa80 === 'function') {
     await nuxt_plugin_axios_3566aa80(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_vmask_3801a64e === 'function') {
+    await nuxt_plugin_vmask_3801a64e(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_toasted_bbce2e60 === 'function') {
+    await nuxt_plugin_toasted_bbce2e60(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_bootstrapIcons_22223e42 === 'function') {
+    await nuxt_plugin_bootstrapIcons_22223e42(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_convertToUTC_e0f6eca8 === 'function') {
+    await nuxt_plugin_convertToUTC_e0f6eca8(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_moment_4f74a614 === 'function') {
+    await nuxt_plugin_moment_4f74a614(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_easyLightBox_330c1d26 === 'function') {
+    await nuxt_plugin_easyLightBox_330c1d26(app.context, inject)
   }
 
   // If server-side, wait for async component to be resolved first

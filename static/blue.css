@@ -12,7 +12,7 @@
   align-items: stretch;
 }
 .sidenav-wrapper {
-  background: #2196f3;
+  background: #ff9800;
   position: sticky;
 }
 .content-right {
@@ -39,8 +39,8 @@ padding-left: 30px;
 }
 .nav-link:hover,
 .nav-link:active {
-  color: #000 !important;
-  background: #fff;
+  color:  #fff !important;
+  background:#000 !important;
 }
 .menu-icon {
   margin-right: 1.25rem;
@@ -85,3 +85,4 @@ thead {
   color: #000;
   border: 1px solid #bbb;
 }
+

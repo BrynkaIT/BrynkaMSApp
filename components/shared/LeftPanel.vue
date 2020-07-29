@@ -2,11 +2,11 @@
   <div class="panel-wrapper">
     <div id="sidebar">
       <div class="sidebar-content">
-        <div class="sidebar">
-          <div class="sidebar-header mb-4">
-            <!-- <img :src="$store.state.managedService.ManagedService.secondaryLogo" width="92px" alt=""> -->
-          </div>
-          <div v-if="!$store.state.managedService.selectedCustomer">
+        <!-- <div class="sidebar">
+          <!-- <div class="sidebar-header mb-4">
+           <img :src="$store.state.managedService.ManagedService.secondaryLogo" width="92px" alt="">
+          </div> -->
+       <!--    <div v-if="!$store.state.managedService.selectedCustomer">
             <b-row>
               <b-col class="px-4">
                 <b-input-group size="sm">
@@ -110,7 +110,7 @@
                 </div>
               </li>
             </ul>
-          </div>
+          </div> -->
         </b-row>
       </div>
     </div>
@@ -154,7 +154,7 @@ export default {
 }
 .panel-wrapper {
   width: 250px;
-  background: #fff;
+  background: #ff9800;
   position: sticky;
   border-right: 1px solid #ccc;
 }

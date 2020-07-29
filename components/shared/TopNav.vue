@@ -2,77 +2,107 @@
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand>
-        <nuxt-link to="/customers">
-          <img src="/img/brynka/BrynkaManager-logo-sm.png" width="125px"/>
-          <!-- SCT -->
+        <nuxt-link to="/home">
+          <img src="/img/brynka/BrynkaManager-logo-sm.png" width="125px" />
         </nuxt-link>
       </b-navbar-brand>
 
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-navbar-toggle @click="toogleSideBar"></b-navbar-toggle>
 
-      <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav style="margin-left:10px !important;">
+      <b-collapse id="nav-collapse" is-nav right>
+        <b-navbar-nav class="ml-auto">
           <li>
             <nuxt-link to="/customers" class="nav-link">Customers</nuxt-link>
           </li>
-          <b-nav-item href="#">Settings</b-nav-item>
-          <b-nav-item href="#">Reports</b-nav-item>
+          <li>
+            <nuxt-link to="/sales" class="nav-link">Sales</nuxt-link>
+          </li>
+
           <b-nav-item-dropdown
             id="my-nav-dropdown"
-            text="Tech"
+            text="Operations"
             toggle-class="nav-link-custom"
             left
           >
-            <b-dropdown-item>One</b-dropdown-item>
-            <b-dropdown-item>Two</b-dropdown-item>
-            <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item>Three</b-dropdown-item>
+            <b-dropdown-item to="/operations/tech">Tech</b-dropdown-item>
+            <b-dropdown-item to="/operations/dev">Development</b-dropdown-item>
+            <b-dropdown-divider>Customer Service</b-dropdown-divider>
           </b-nav-item-dropdown>
+          <li>
+            <nuxt-link to="/system" class="nav-link">System Settings</nuxt-link>
+          </li>
         </b-navbar-nav>
 
-
-        <!-- User Profile -->
-        <b-navbar-nav class="ml-auto" >
+        <!-- <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
-            <!-- Using 'button-content' slot -->
             <template v-slot:button-content>
               <span class="menu-icon">
                 <img
+                  v-if="
+                    currentUser.imageUrl == '' || currentUser.imageUrl == null
+                  "
                   style="max-width:32px; border-radius:360px;"
-                  src="https://icon-library.net/images/avatar-icon-images/avatar-icon-images-4.jpg"
+                  src="../../assets/images/avatar-icon-images-4.png"
+                />
+                <img
+                  v-if="currentUser.imageUrl != ''"
+                  style="max-width:32px; border-radius:360px;"
+                  :src="currentUser.imageUrl"
                 />
               </span>
-              <span class="menu-title">
-                <i>Kirk Williams</i>
+              <span class="menu-title" v-if="currentUser">
+                <i>{{ currentUser.firstName }} {{ currentUser.lastName }}</i>
               </span>
             </template>
-            <!-- User Location Details -->
-            <div class="pl-4">
-              <h6>{{ "brynka" | capFirstChar}}</h6>
 
-              <h6>
-              <span>
-                <font-awesome-icon :icon="['fas', 'map-marker-alt']" style="color:#e41b00;font-size:12px" />
-              </span>
-              Langhorne</h6>
-              <h6>
-              <span> <font-awesome-icon :icon="['fas', 'building']" style="color:blue;font-size:12px" /> </span>
-              HQ</h6>
+            <div class="pl-4 pr-4">
+                <span>
+                  <b-icon icon="building" scale="2" variant="primary"></b-icon>
+                </span >
+                <span class="ml-2">{{ customer.name | capFirstChar }}</span>
             </div>
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
+            <b-dropdown-item to="preference">Preferences</b-dropdown-item>
             <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
-        </b-navbar-nav>
+        </b-navbar-nav> -->
       </b-collapse>
     </b-navbar>
   </div>
 </template>
 
 <script>
+const Cookie = process.client ? require('js-cookie') : undefined
+import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
+
 export default {
+  middleware: 'authenticated',
+  props: ['page'],
+  computed: {
+    ...mapState({
+      customer: state => state.managedService,
+      auth: state => state.auth,
+      currentUser: state => state.currentUser
+
+    }),
+    ...mapGetters({
+      isAuth: 'isAuthenticated'
+    })
+  },
+  data(){
+    return{
+      open:false
+    }
+  },
   methods: {
-    logout () {
+    toogleSideBar(){
+      this.open = !this.open
+      this.$store.commit('toggleSideBar', this.open)
+
+
+    },
+    logout() {
       this.$store.dispatch('logOut')
       localStorage.clear()
       this.$router.push(`/`)

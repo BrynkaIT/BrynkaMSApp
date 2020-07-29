@@ -27,7 +27,12 @@
     "js-cookie": "^2.2.1",
     "nuxt": "^2.0.0",
     "nuxt-fontawesome": "^0.4.0",
+    "v-mask": "^2.2.3",
     "vue-chartjs": "^3.5.0",
+    "vue-easy-lightbox": "^0.14.0",
+    "vue-form-wizard": "^0.8.4",
+    "vue-moment": "^4.1.0",
+    "vue-toasted": "^1.1.28",
     "vuelidate": "^0.7.4"
   },
   "devDependencies": {

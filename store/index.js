@@ -5,7 +5,8 @@ export const state = () => {
   return {
     auth: null,
     managedService: null,
-    currentUser:null
+    currentUser:null,
+    sideBarOpen: false
   };
 };
 
@@ -29,7 +30,9 @@ export const mutations = {
   setCurrentUser(state, currentUser) {
     state.currentUser = currentUser
   },
-
+  toggleSideBar(state, event){
+    state.sideBarOpen = event
+  }
 }
 
 // Actions
@@ -63,22 +66,22 @@ export const actions = {
     try {
       const auth = await this.$axios.post('/login', credentials)
       if (!auth) { return Promise.reject(e) }
-      debugger
+
       commit('setAuth', auth.data) // mutating to store for client rendering
       Cookie.set('auth', auth.data) // saving token in cookie for server rendering
-      debugger
+
       const currentuser = await this.$axios.get('/users/me', auth.data.userId) // get current user
       if (!currentuser) { return Promise.reject(e) }
-      debugger
+
       commit('setCurrentUser', currentuser.data.user) // mutating to store for client rendering
       Cookie.set('currentUser', currentuser.data.user) // saving token in cookie for server rendering
-      debugger
+
       const ms = createManagedServiceObj(auth.data.customerSubFolder)
       if (!ms) return Promise.reject(e)
-      debugger
+
       commit('setManagedService', ms) // mutating to store set
       Cookie.set('managedService', auth.data.customerSubFolder) // saving token in cookie for server rendering
-      debugger
+
       return currentuser
     }
     catch (e) {

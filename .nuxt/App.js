@@ -15,10 +15,10 @@ import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css'
 
 import '../node_modules/@fortawesome/fontawesome-svg-core/styles.css'
 
-import _7bcfb5d4 from '../layouts/customer.vue'
 import _6f6c098b from '../layouts/default.vue'
+import _2d26a6af from '../layouts/main.vue'
 
-const layouts = { "_customer": _7bcfb5d4,"_default": _6f6c098b }
+const layouts = { "_default": _6f6c098b,"_main": _2d26a6af }
 
 export default {
   head: {"title":"brynka-manager","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"App to manage system configurations for BrynkaWebApp"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"style":[],"script":[]},

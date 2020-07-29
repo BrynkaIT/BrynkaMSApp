@@ -5,7 +5,6 @@
   background: #ecf0f5;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
-  background: #ecf0f5;
   display: flex;
   width: 100%;
   -webkit-box-align: stretch;
@@ -15,12 +14,14 @@
   background: #222d32;
   position: sticky;
 }
+
 .content-right {
-  padding: 25px;
+  padding: 20px;
   color: #000;
   width:100%;
+  overflow: auto;
 }
-.nav-link {
+.sidebar .nav-link {
   display: -webkit-flex !important;
   display: flex !important;
   -webkit-align-items: center;
@@ -37,10 +38,12 @@
   height: 46px;
   padding-left:30px
 }
-.nav-link:hover, .active{
+/* .sidebar .nav-link:hover, .nav-link.active, .menu-icon:hover{
   color: #fff !important;
-  background: #000;
-}
+  background: #000 !important;
+} */
+
+
 .menu-icon{
   margin-right: 1.25rem;
   font-size: 0.8125rem;
@@ -54,6 +57,9 @@
   justify-content: center;
   color: #ffffff;
 }
+.menu-icon.active, .menu-icon:hover{
+  border: 1px solid #9e9e9e !important;
+}
 .card{
   background:#fff;
 }
@@ -61,15 +67,16 @@
   background: #fff;
   float: left;
   margin-bottom: 1%;
-  padding: 3%;
+  padding: 2%;
   width: 100%;
   max-width: 1250px;
 }
 .form-content {
-  background:rgba(155, 163, 169, 0.67);
+  /* background:rgba(155, 163, 169, 0.67);
   border-top-left-radius: 10% 15%;
   border-bottom-right-radius: 10% 15%;
-  padding: 5%;
+  padding: 5%; */
+  padding:2%;
   width:100%;
 }
 .form-heading {
@@ -83,10 +90,12 @@ thead {
   color: #000;
   border: 1px solid #bbb;
 }
-
-@media (max-width: 992px) {
+.overflow-scroll{
+  overflow: scroll;
+}
+@media (max-width: 1492px) {
   .content-right {
-    padding:0px;
+    padding:40px 10px;
   }
 }
 
@@ -107,4 +116,9 @@ thead {
     width: 100% !important;
   }
 
+}
+@media (min-width:768px) {
+  #not-show-on-large-screens .card-header{
+    display: none !important;
+  }
 }

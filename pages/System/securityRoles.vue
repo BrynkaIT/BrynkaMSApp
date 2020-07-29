@@ -1,6 +1,6 @@
 <template>
   <div class="content-container">
-    <!-- <SideNav page="securityRoles" app="Admin"></SideNav> -->
+    <SideNav page="securityRoles" app="system"></SideNav>
 
     <div class="content-right">
       <b-card header="Security Roles" header-tag="header">
@@ -224,7 +224,7 @@
 </template>
 
 <script>
-// import SideNav from '@/components/SideNav.vue'
+import SideNav from '@/components/shared/SideNav.vue'
 
 export default {
   page: 'admin/securityRoles',

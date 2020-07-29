@@ -1,9 +1,9 @@
 <template>
   <div class="content-container">
-    <SideNav page="system" app="system"></SideNav>
+    <SideNav page="Sales" app="sales"></SideNav>
     <div class="content-right">
 
-      <b-card title="System" class="overflow-scroll">
+      <b-card title="Sales" class="overflow-scroll">
 
       </b-card>
 
@@ -16,7 +16,6 @@ import SideNav from '@/components/shared/SideNav.vue'
 export default {
    layout:'main',
   components: {
-
     SideNav,
   },
   data() {

@@ -1,7 +1,9 @@
 <template>
-    <div>
+  <div class="content-container">
+    <SideNav page="dashboard" app="customers"></SideNav>
+    <div class="content-right">
       <!-- view-all-customers-table -->
-      <b-card title="Your Customers">
+      <b-card title="Your Customers" class="overflow-scroll">
         <b-row align-h="end">
           <b-col sm="5" md="5" class="my-1 mb-2">
             <b-form-group
@@ -27,6 +29,9 @@
           ref="selectableTable"
           selectable
           stacked="md"
+          striped
+          bordered
+          head-variant="dark"
           :items="items"
           :fields="fields"
           :current-page="currentPage"
@@ -47,12 +52,18 @@
         </b-col>
       </b-card>
       <!-- view-all-customers-table -->
+    </div>
   </div>
 </template>
 
 <script>
+import SideNav from '@/components/shared/SideNav.vue'
 export default {
-  layout: 'customer',
+   layout:'main',
+  components: {
+
+    SideNav,
+  },
   data() {
     return {
       totalRows: 1,
@@ -60,8 +71,7 @@ export default {
       perPage: 5,
       pageOptions: [5, 10, 15],
       fields: ['name', 'dbName', 'emailDomain', 'kind'],
-      items: [],
-
+      items: []
     }
   },
   created() {

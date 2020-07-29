@@ -7,9 +7,13 @@ const _5db9c226 = () => interopDefault(import('../pages/customers/index.vue' /* 
 const _3258725a = () => interopDefault(import('../pages/home.vue' /* webpackChunkName: "pages/home" */))
 const _8f50cd3a = () => interopDefault(import('../pages/notAuthorized.vue' /* webpackChunkName: "pages/notAuthorized" */))
 const _f76dc466 = () => interopDefault(import('../pages/preferences.vue' /* webpackChunkName: "pages/preferences" */))
-const _2a292e0d = () => interopDefault(import('../pages/System/index.vue' /* webpackChunkName: "pages/System/index" */))
+const _68e7cd38 = () => interopDefault(import('../pages/sales/index.vue' /* webpackChunkName: "pages/sales/index" */))
+const _5c64e9ed = () => interopDefault(import('../pages/system/index.vue' /* webpackChunkName: "pages/system/index" */))
 const _7af50971 = () => interopDefault(import('../pages/customers/create.vue' /* webpackChunkName: "pages/customers/create" */))
-const _b671b7d0 = () => interopDefault(import('../pages/System/securityRoles.vue' /* webpackChunkName: "pages/System/securityRoles" */))
+const _1fe338e2 = () => interopDefault(import('../pages/operations/customerService.vue' /* webpackChunkName: "pages/operations/customerService" */))
+const _20db7fad = () => interopDefault(import('../pages/operations/dev.vue' /* webpackChunkName: "pages/operations/dev" */))
+const _5b4bceae = () => interopDefault(import('../pages/operations/tech.vue' /* webpackChunkName: "pages/operations/tech" */))
+const _24f8fff8 = () => interopDefault(import('../pages/system/securityRoles.vue' /* webpackChunkName: "pages/system/securityRoles" */))
 const _02540ed6 = () => interopDefault(import('../pages/customers/_id.vue' /* webpackChunkName: "pages/customers/_id" */))
 const _6cf31c67 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 const _817c60cc = () => interopDefault(import('../pages/_ms.vue' /* webpackChunkName: "pages/_ms" */))
@@ -47,17 +51,33 @@ export const routerOptions = {
     component: _f76dc466,
     name: "preferences"
   }, {
-    path: "/System",
-    component: _2a292e0d,
-    name: "System"
+    path: "/sales",
+    component: _68e7cd38,
+    name: "sales"
+  }, {
+    path: "/system",
+    component: _5c64e9ed,
+    name: "system"
   }, {
     path: "/customers/create",
     component: _7af50971,
     name: "customers-create"
   }, {
-    path: "/System/securityRoles",
-    component: _b671b7d0,
-    name: "System-securityRoles"
+    path: "/operations/customerService",
+    component: _1fe338e2,
+    name: "operations-customerService"
+  }, {
+    path: "/operations/dev",
+    component: _20db7fad,
+    name: "operations-dev"
+  }, {
+    path: "/operations/tech",
+    component: _5b4bceae,
+    name: "operations-tech"
+  }, {
+    path: "/system/securityRoles",
+    component: _24f8fff8,
+    name: "system-securityRoles"
   }, {
     path: "/customers/:id",
     component: _02540ed6,

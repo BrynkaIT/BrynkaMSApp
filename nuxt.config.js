@@ -36,7 +36,13 @@ module.exports = {
   plugins: [
     { src: '~/plugins/vuelidate' },
     { src: '~/plugins/filters.js' },
-    { src: '~/plugins/axios' }
+    { src: '~/plugins/axios' },
+    { src: '~/plugins/v-mask' },
+    { src: '~/plugins/toasted', ssr: false },
+    { src: '~/plugins/bootstrapIcons' },
+    { src: '~/plugins/convertToUTC' },
+    { src: '~/plugins/moment' },
+    { src: '~/plugins/easyLightBox', ssr: false},
   ],
   /*
    ** Nuxt.js dev-modules
