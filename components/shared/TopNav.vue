@@ -2,32 +2,24 @@
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand>
-        <nuxt-link to="/home">
+        <a href="/dashboard">
           <img src="/img/brynka/BrynkaManager-logo-sm.png" width="125px" />
-        </nuxt-link>
+        </a>
       </b-navbar-brand>
 
-      <b-navbar-toggle @click="toogleSideBar"></b-navbar-toggle>
+      <b-navbar-toggle target="collapse" @click="toogleSideBar"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav right>
         <b-navbar-nav class="ml-auto">
           <li>
-            <nuxt-link to="/customers" class="nav-link">Customers</nuxt-link>
+            <nuxt-link to="/dashboard" class="nav-link" >Dashboard</nuxt-link>
           </li>
           <li>
-            <nuxt-link to="/sales" class="nav-link">Sales</nuxt-link>
+            <nuxt-link to="/customers" class="nav-link" >Customers</nuxt-link>
           </li>
-
-          <b-nav-item-dropdown
-            id="my-nav-dropdown"
-            text="Operations"
-            toggle-class="nav-link-custom"
-            left
-          >
-            <b-dropdown-item to="/operations/tech">Tech</b-dropdown-item>
-            <b-dropdown-item to="/operations/dev">Development</b-dropdown-item>
-            <b-dropdown-divider>Customer Service</b-dropdown-divider>
-          </b-nav-item-dropdown>
+          <li>
+            <nuxt-link to="/sales" class="nav-link">Internal</nuxt-link>
+          </li>
           <li>
             <nuxt-link to="/system" class="nav-link">System Settings</nuxt-link>
           </li>
@@ -71,14 +63,13 @@
   </div>
 </template>
 
-<script>
+<script scoped>
 const Cookie = process.client ? require('js-cookie') : undefined
 import { mapGetters } from 'vuex'
 import { mapState } from 'vuex'
 
 export default {
   middleware: 'authenticated',
-  props: ['page'],
   computed: {
     ...mapState({
       customer: state => state.managedService,
@@ -111,7 +102,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .bg-dark {
   padding-left: 55px !important;
   padding-right: 55px !important;
@@ -131,4 +122,33 @@ export default {
 #nav-collapse {
   margin-top: 3px;
 }
+.nav-link{
+      display: -webkit-flex !important;
+    display: flex !important;
+    -webkit-align-items: center;
+    align-items: center;
+    white-space: nowrap;
+    padding: 0.8rem 1.188rem;
+    color: #fff !important;
+    -webkit-transition-duration: 0.45s;
+    -moz-transition-duration: 0.45s;
+    -o-transition-duration: 0.45s;
+    transition-duration: 0.45s;
+    transition-property: color;
+    -webkit-transition-property: color;
+    height: 46px;
+    padding-left: 30px;
+    /* border-radius: 12px; */
+}
+.nav-link:hover{
+    color: #fff !important;
+    background:none !important;
+    border-bottom: 4px solid#606162
+
+}
+.nuxt-link-active{
+  color: #fff !important;
+  /* background: #d08c28 !important; */
+  border-bottom: 4px solid
+ #ff9800}
 </style>

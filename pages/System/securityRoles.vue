@@ -228,6 +228,7 @@ import SideNav from '@/components/shared/SideNav.vue'
 
 export default {
   page: 'admin/securityRoles',
+   middleware: ['authenticated'],
    app:'admin',
   components: {
     // SideNav

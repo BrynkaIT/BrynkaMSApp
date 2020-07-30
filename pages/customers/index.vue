@@ -1,6 +1,6 @@
 <template>
   <div class="content-container">
-    <SideNav page="dashboard" app="customers"></SideNav>
+    <SideNav page="customers" app="customers"></SideNav>
     <div class="content-right">
       <!-- view-all-customers-table -->
       <b-card title="Your Customers" class="overflow-scroll">
@@ -60,6 +60,7 @@
 import SideNav from '@/components/shared/SideNav.vue'
 export default {
    layout:'main',
+   middleware: ['authenticated'],
   components: {
 
     SideNav,

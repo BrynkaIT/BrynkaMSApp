@@ -14,7 +14,8 @@
 <script>
 import SideNav from '@/components/shared/SideNav.vue'
 export default {
-   layout:'main',
+  layout:'main',
+  middleware: ['authenticated'],
   components: {
     SideNav,
   },

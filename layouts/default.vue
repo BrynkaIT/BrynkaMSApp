@@ -15,7 +15,7 @@ export default {
       ]
     }
   },
- 
+
   data() {
     return {
       theme: 'blue'
@@ -29,6 +29,7 @@ export default {
 
 body {
   font-family: 'Assistant', sans-serif;
+  background:#343a40
 }
 .wrapper {
   display: flex;

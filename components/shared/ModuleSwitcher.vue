@@ -21,20 +21,20 @@
       class="mx-auto"
     >
       <div>
-        <b-nav-item to="/home" class="sub-link">
+        <b-nav-item to="/dashboard" class="sub-link">
          <span class="menu-icon">
           <font-awesome-icon
-            :icon="['fas', 'home']"
+            :icon="['fas', 'tachometer-alt']"
             style="font-size:17px; color:#5bc0de;"
           />
 
         </span>
-        <span class="menu-title">Home</span>
+        <span class="menu-title">Dashboard</span>
        </b-nav-item >
        <b-nav-item to="/customers" class="sub-link" >
           <span class="menu-icon">
           <font-awesome-icon
-            :icon="['fas', 'user-lock']"
+            :icon="['fas', 'project-diagram']"
             style="font-size:15px; "
           />
         </span>
@@ -43,21 +43,19 @@
         <b-nav-item to="/sales" class="sub-link" >
           <span class="menu-icon">
           <font-awesome-icon
-            :icon="['fas', 'user-lock']"
+            :icon="['fas', 'building']"
             style="font-size:15px; "
           />
         </span>
-        <span class="menu-title">Sales</span>
+        <span class="menu-title">Internal</span>
         </b-nav-item >
-        <b-nav-item to="/operations" class="sub-link" >
-          <span class="menu-icon">
-          <b-icon icon="upc-scan"></b-icon>
-        </span>
-        <span class="menu-title">Operations</span>
-         </b-nav-item >
+       
         <b-nav-item to="/system" class="sub-link" >
           <span class="menu-icon">
-            <b-icon icon="box-seam"></b-icon>
+           <font-awesome-icon
+            :icon="['fas', 'network-wired']"
+            style="font-size:15px; "
+          />
           </span>
          <span class="menu-title"> System</span>
          </b-nav-item >

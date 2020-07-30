@@ -24,7 +24,7 @@
           <div>
             <li v-for="nestedLink in nestedLinks" :key="nestedLink.navigateToText">
               <nuxt-link
-                :to="`${customer.path}${nestedLink.navigateToPage}`" class="nav-link"
+                :to="`/${nestedLink.navigateToPage}`" class="nav-link"
 
               >
                 <span class="menu-title">{{ nestedLink.navigateToText }}</span>

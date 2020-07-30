@@ -18,6 +18,20 @@
           <!-- Module links/tabs -->
 
           <ul class="list-unstyled components">
+            <!-- Home -->
+            <li>
+              <nuxt-link to="/dashboard" class="nav-link"  :class="{ active: page == 'dashboard' }">
+                <span class="menu-icon" :class="{ active: page == 'dashboard' }">
+                  <font-awesome-icon
+                    :icon="['fas', 'tachometer-alt']"
+                    style="font-size: 17px; color:#5bc0de;"
+                  />
+                </span>
+                <span class="menu-title">Dashboard</span>
+              </nuxt-link>
+            </li>
+            <!-- end Home -->
+            <!-- Customer Links -->
             <div v-if="app == 'customers'">
               <NavLink
                 v-if="navLink.appModule == 'customers'"
@@ -43,8 +57,35 @@
                 :nestedLinks="dropdownNav.nestedLinks"
               ></DropdownNav>
             </div>
+            <!-- End Customer Links -->
+            <!-- Sales Links -->
+            <div v-if="app == 'sales'">
+              <NavLink
+                v-if="navLink.appModule == 'sales'"
+                v-for="navLink in navLinks"
+                :key="navLink.navigateToPage"
+                :activeLink="navLink.navigateToText.toLowerCase()"
+                :page="page"
+                :appModule="navLink.appModule"
+                :navigateToPage="navLink.navigateToPage"
+                :navigateToText="navLink.navigateToText"
+                :fontAwesomeIcon="navLink.fontAwesomeIcon"
+                :fontAwesomeStyle="navLink.fontAwesomeStyle"
+              ></NavLink>
 
-            <!-- Receiving -->
+              <DropdownNav
+                v-if="dropdownNavs.length > 0"
+                :appModule="dropdownNav.appModule"
+                v-for="dropdownNav in dropdownNavs"
+                :key="dropdownNav.dropdownText"
+                :dropdownText="dropdownNav.dropdownText"
+                :dropdownIcon="dropdownNav.dropdownIcon"
+                :dropdownIconStyle="dropdownNav.dropdownIconStyle"
+                :nestedLinks="dropdownNav.nestedLinks"
+              ></DropdownNav>
+            </div>
+            <!-- End Sales Links -->
+            <!-- Operations -->
             <div v-if="app == 'operations'">
               <NavLink
                 v-if="navLink.appModule == 'operations'"
@@ -59,7 +100,7 @@
                 :fontAwesomeStyle="navLink.fontAwesomeStyle"
               ></NavLink>
             </div>
-            <!-- End Receiving -->
+            <!-- End -->
 
             <!-- <li>
               <nuxt-link to="/" class="nav-link">
@@ -129,25 +170,25 @@ export default {
       navLinks: [
         {
           appModule: 'home',
-          navigateToPage: 'dashboard',
+          navigateToPage: 'home',
           navigateToText: 'Dashboard',
           fontAwesomeIcon: ['fas', 'tachometer-alt'],
           fontAwesomeStyle: { color: '#5bc0de' }
         },
-        // {
-        //   appModule: 'admin',
-        //   navigateToPage: 'admin/reports',
-        //   navigateToText: 'Reports',
-        //   fontAwesomeIcon: ['fas', 'list'],
-        //   fontAwesomeStyle: { color: '#28a745' }
-        // },
-        // {
-        //   appModule: 'admin',
-        //   navigateToPage: 'admin/history',
-        //   navigateToText: 'History',
-        //   fontAwesomeIcon: ['fas', 'history'],
-        //   fontAwesomeStyle: { color: '#e91e63' }
-        // },
+        {
+          appModule: 'sales',
+          navigateToPage: 'sales',
+          navigateToText: 'Contacts',
+          fontAwesomeIcon: ['fas', 'list'],
+          fontAwesomeStyle: { color: '#28a745' }
+        },
+        {
+          appModule: 'admin',
+          navigateToPage: 'admin/history',
+          navigateToText: 'History',
+          fontAwesomeIcon: ['fas', 'history'],
+          fontAwesomeStyle: { color: '#e91e63' }
+        },
 
         {
           appModule: 'customers',
@@ -187,7 +228,7 @@ export default {
       ],
       dropdownNavs: [
         {
-          appModule: 'admin',
+          appModule: 'customers',
           dropdownText: 'Settings',
           dropdownIcon: ['fas', 'cogs'],
           dropdownIconStyle: { color: '#9c27b0' },
@@ -237,7 +278,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style >
 @import url('https://fonts.googleapis.com/css?family=Assistant&display=swap');
 .small-screens-only{
   display:none
@@ -338,13 +379,20 @@ a[data-toggle='collapse'] {
     display:none;
   }
 }
-.sidebar .nav-link:hover, .nav-link.active, .menu-icon:hover{
+.sidebar .nav-link:hover, .menu-icon:hover{
+  color: #fff !important;
+  background: #d38005 !important;
+  border-radius: 12px;
+}
+.sidebar .nav-link.active{
   color: #fff !important;
   background: #000 !important;
+  border-radius: 12px;
 }
 @media(max-width:992px){
   .small-screens-only{
     display:block
   }
 }
+
 </style>

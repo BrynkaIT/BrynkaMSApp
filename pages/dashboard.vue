@@ -1,6 +1,6 @@
 <template>
   <div class="content-container">
-    <SideNav page="dashboard" app="home"></SideNav>
+    <SideNav page="dashboard" app="dashboard"></SideNav>
     <div class="content-right">
       <div class="row">
         <div class="col summary">
@@ -122,10 +122,8 @@ import BarChart from '@/components/BarChart'
 import BubbleChart from '@/components/BubbleChart'
 
 export default {
-  //  middleware: ['authenticated', 'permissions'],
+  middleware: ['authenticated'],
   // transition: "tile",
-  // page:'admin',
-  // app:'admin',
   layout:'main',
   components: {
     LineChart,
@@ -133,6 +131,11 @@ export default {
     BubbleChart,
     SideNav,
   },
+  data(){
+    return{
+
+    }
+  }
 }
 </script>
 

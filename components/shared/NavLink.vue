@@ -1,6 +1,6 @@
 <template>
   <li :appModule="appModule">
-    <nuxt-link :to="`${customer.path}${navigateToPage}`" class="nav-link"
+    <nuxt-link :to="`/${navigateToPage}`" class="nav-link"
     :class="{ active: page == activeLink }"
     >
       <span class="menu-icon"

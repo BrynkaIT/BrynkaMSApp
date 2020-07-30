@@ -6,7 +6,7 @@
           <div>
             <img src="img/brynka/mainLogo.png" />
           <br>
-            <p>Verison 1.0</p>
+            <p style="color:#fff">Verison 1.0</p>
           </div>
         </div>
       </div>
@@ -111,12 +111,8 @@ import { required, email, sameAs, minLength } from 'vuelidate/lib/validators'
 
 
 export default {
-  layout: 'admin',
-  middleware: ['auth'],
-
-  options: {
-    auth: false
-  },
+   middleware: 'notAuthenticated',
+ 
   created(){
     // this.$store.dispatch('managedService/getManagedService', this.$route.params.ms)
   },
@@ -155,13 +151,12 @@ export default {
       if (!this.$v.credentials.$invalid) {
         this.loading.msg = "Loading..."
         this.loading.status = true;
-        debugger
+
         try {
           const res = await this.$store.dispatch('login', this.credentials)
-          debugger
           localStorage.setItem('currentUser', JSON.stringify(res.data.user));
           this.loading.status = false
-          this.$router.push(`/home`)
+          this.$router.push(`/dashboard`)
         } catch (e) {
           this.loading.status = false
           this.msg.credentials = e.response.data.message

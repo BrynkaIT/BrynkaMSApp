@@ -4,7 +4,7 @@ import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
 const _5db9c226 = () => interopDefault(import('../pages/customers/index.vue' /* webpackChunkName: "pages/customers/index" */))
-const _3258725a = () => interopDefault(import('../pages/home.vue' /* webpackChunkName: "pages/home" */))
+const _1bb0e6a9 = () => interopDefault(import('../pages/dashboard.vue' /* webpackChunkName: "pages/dashboard" */))
 const _8f50cd3a = () => interopDefault(import('../pages/notAuthorized.vue' /* webpackChunkName: "pages/notAuthorized" */))
 const _f76dc466 = () => interopDefault(import('../pages/preferences.vue' /* webpackChunkName: "pages/preferences" */))
 const _68e7cd38 = () => interopDefault(import('../pages/sales/index.vue' /* webpackChunkName: "pages/sales/index" */))
@@ -16,7 +16,6 @@ const _5b4bceae = () => interopDefault(import('../pages/operations/tech.vue' /* 
 const _24f8fff8 = () => interopDefault(import('../pages/system/securityRoles.vue' /* webpackChunkName: "pages/system/securityRoles" */))
 const _02540ed6 = () => interopDefault(import('../pages/customers/_id.vue' /* webpackChunkName: "pages/customers/_id" */))
 const _6cf31c67 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
-const _817c60cc = () => interopDefault(import('../pages/_ms.vue' /* webpackChunkName: "pages/_ms" */))
 
 // TODO: remove in Nuxt 3
 const emptyFn = () => {}
@@ -39,9 +38,9 @@ export const routerOptions = {
     component: _5db9c226,
     name: "customers"
   }, {
-    path: "/home",
-    component: _3258725a,
-    name: "home"
+    path: "/dashboard",
+    component: _1bb0e6a9,
+    name: "dashboard"
   }, {
     path: "/notAuthorized",
     component: _8f50cd3a,
@@ -86,10 +85,6 @@ export const routerOptions = {
     path: "/",
     component: _6cf31c67,
     name: "index"
-  }, {
-    path: "/:ms",
-    component: _817c60cc,
-    name: "ms"
   }],
 
   fallback: false
