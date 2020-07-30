@@ -60,6 +60,7 @@
         </b-navbar-nav> -->
       </b-collapse>
     </b-navbar>
+    <div :class="{ overlay: sideBarOpen }" @click="overlayOff"></div>
   </div>
 </template>
 
@@ -74,7 +75,7 @@ export default {
     ...mapState({
       customer: state => state.managedService,
       auth: state => state.auth,
-      currentUser: state => state.currentUser
+      sideBarOpen: state => state.sideBarOpen
 
     }),
     ...mapGetters({
@@ -90,8 +91,9 @@ export default {
     toogleSideBar(){
       this.open = !this.open
       this.$store.commit('toggleSideBar', this.open)
-
-
+    },
+    overlayOff(){
+      this.$store.commit('toggleSideBar', false)
     },
     logout() {
       this.$store.dispatch('logOut')
@@ -149,6 +151,19 @@ export default {
 .nuxt-link-active{
   color: #fff !important;
   /* background: #d08c28 !important; */
-  border-bottom: 4px solid
- #ff9800}
+  border-bottom: 4px solid #ff9800
+  }
+.overlay {
+  position: fixed; /* Sit on top of the page content */
+  display: block; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}
 </style>

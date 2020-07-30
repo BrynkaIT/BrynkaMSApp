@@ -71,7 +71,7 @@ export default {
       currentPage: 1,
       perPage: 5,
       pageOptions: [5, 10, 15],
-      fields: ['name', 'dbName', 'emailDomain', 'kind'],
+      fields: ['name', 'modules', 'emailDomain', 'kind'],
       items: []
     }
   },
