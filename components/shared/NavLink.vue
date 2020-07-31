@@ -1,6 +1,6 @@
 <template>
   <li :appModule="appModule">
-    <nuxt-link :to="`/${navigateToPage}`" class="nav-link"
+    <button @click="goTo(`${navigateToPage}`)" class="nav-link"
     :class="{ active: page == activeLink }"
     >
       <span class="menu-icon"
@@ -12,7 +12,7 @@
         />
       </span>
       <span class="menu-title">{{ navigateToText }}</span>
-    </nuxt-link>
+    </button>
   </li>
 </template>
 
@@ -50,6 +50,12 @@ export default {
     },
     page:{
       type:String
+    }
+  },
+   methods: {
+    goTo(page) {
+      this.$router.push(`/${page}`)
+      this.$store.commit('toggleSideBar', false)
     }
   }
 }

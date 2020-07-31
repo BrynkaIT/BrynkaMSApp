@@ -80,6 +80,7 @@ import { mapState } from 'vuex'
 export default {
    layout:'main',
    middleware: ['authenticated'],
+   transition: "tile",
   components: {
     SideNav,
     FullWidthModal,

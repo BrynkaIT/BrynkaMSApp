@@ -21,7 +21,7 @@
       class="mx-auto"
     >
       <div>
-        <b-nav-item to="/dashboard" class="sub-link">
+        <b-nav-item @click="goTo('dashboard')" class="sub-link">
          <span class="menu-icon">
           <font-awesome-icon
             :icon="['fas', 'tachometer-alt']"
@@ -31,7 +31,7 @@
         </span>
         <span class="menu-title">Dashboard</span>
        </b-nav-item >
-       <b-nav-item to="/customers" class="sub-link" >
+       <b-nav-item @click="goTo('customers')" class="sub-link" >
           <span class="menu-icon">
           <font-awesome-icon
             :icon="['fas', 'project-diagram']"
@@ -40,7 +40,7 @@
         </span>
         <span class="menu-title">Customers</span>
         </b-nav-item >
-        <b-nav-item to="/sales" class="sub-link" >
+        <b-nav-item @click="goTo('sales')" class="sub-link" >
           <span class="menu-icon">
           <font-awesome-icon
             :icon="['fas', 'building']"
@@ -49,8 +49,8 @@
         </span>
         <span class="menu-title">Internal</span>
         </b-nav-item >
-       
-        <b-nav-item to="/system" class="sub-link" >
+
+        <b-nav-item @click="goTo('system')" class="sub-link" >
           <span class="menu-icon">
            <font-awesome-icon
             :icon="['fas', 'network-wired']"
@@ -84,6 +84,12 @@ export default {
   data(){
     return{
       securityRole:null
+    }
+  },
+  methods:{
+     goTo(page) {
+      this.$router.push(`/${page}`)
+      this.$store.commit('toggleSideBar', false)
     }
   }
 }

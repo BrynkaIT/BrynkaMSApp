@@ -16,6 +16,7 @@ import SideNav from '@/components/shared/SideNav.vue'
 export default {
   layout:'main',
   middleware: ['authenticated'],
+  transition: "tile",
   components: {
     SideNav,
   },

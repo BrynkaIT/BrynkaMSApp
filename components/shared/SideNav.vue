@@ -270,11 +270,7 @@ export default {
       ]
     }
   },
-  // methods: {
-  //   openSidebar() {
-  //     this.isOpen = !this.isOpen
-  //   }
-  // }
+ 
 }
 </script>
 
