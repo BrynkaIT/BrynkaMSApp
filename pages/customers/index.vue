@@ -4,14 +4,15 @@
     <div class="content-right">
       <!-- view-all-customers-table -->
       <b-card title="Your Customers" class="overflow-scroll">
-        <b-row align-h="end">
+        <b-row align-h="between">
+
           <b-col sm="5" md="5" class="my-1 mb-2">
             <b-form-group
               label="Per page"
-              label-cols-sm="4"
-              label-cols-md="4"
-              label-cols-lg="3"
-              label-align-sm="right"
+              label-cols-sm="2"
+              label-cols-md="2"
+              label-cols-lg="2"
+
               label-size="sm"
               label-for="perPageSelect"
               class="mb-0"
@@ -23,6 +24,15 @@
                 :options="pageOptions"
               ></b-form-select>
             </b-form-group>
+          </b-col>
+          <b-col md="2" class="my-1">
+            <b-button size="sm"
+              variant="primary"
+              style="float:right"
+               @click="$store.commit('switchForm',{ title:'Add Customer'})"
+               >
+                New Customer</b-button
+              >
           </b-col>
         </b-row>
         <b-table
@@ -53,17 +63,32 @@
       </b-card>
       <!-- view-all-customers-table -->
     </div>
+    <FullWidthModal :show="this.formToOpen.showModal">
+      <CustomerForm
+        @hideModal="onHide"
+
+      ></CustomerForm>
+    </FullWidthModal>
   </div>
 </template>
 
 <script>
 import SideNav from '@/components/shared/SideNav.vue'
+import CustomerForm from '@/components/AddEditCustomer.vue'
+import FullWidthModal from '@/components/shared/FullWidthModal.vue'
+import { mapState } from 'vuex'
 export default {
    layout:'main',
    middleware: ['authenticated'],
   components: {
-
     SideNav,
+    FullWidthModal,
+    CustomerForm
+  },
+  computed:{
+    ...mapState({
+      formToOpen: state => state.formToOpen
+    }),
   },
   data() {
     return {
@@ -78,9 +103,7 @@ export default {
   created() {
     this.$axios.get('/customers').then(response => {
       this.items = response.data.customers
-      // Set the initial number of items
       this.totalRows = this.items.length
-      // this.$store.dispatch('managedService/getSelectedCustomer', null)
     })
   },
   methods: {

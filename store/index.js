@@ -6,7 +6,8 @@ export const state = () => {
     auth: null,
     managedService: null,
     currentUser:null,
-    sideBarOpen: false
+    sideBarOpen: false,
+    formToOpen: {}
   };
 };
 
@@ -32,6 +33,13 @@ export const mutations = {
   },
   toggleSideBar(state, event){
     state.sideBarOpen = event
+  },
+  switchForm(state, form) {
+    //Bundle form data into a object and save to state
+    state.formToOpen = this.$openForm(form)
+  },
+  closeModal(state) {
+    state.formToOpen.showModal = false
   }
 }
 
