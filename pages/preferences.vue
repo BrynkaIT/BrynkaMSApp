@@ -492,17 +492,18 @@ import vueMask from 'v-mask'
 import { required, sameAs, minLength, email } from 'vuelidate/lib/validators'
 
 export default {
+  layout:'main',
   middleware: ['authenticated'],
   components: {
     SideNav
   },
   computed: {
     ...mapState({
-      locations: state => state.locations.locations,
-      buildings: state => state.buildings.buildings,
-      floors: state => state.floors.floors,
-      departments: state => state.departments.departments,
-      securityRoles: state => state.securityRoles.securityRoles,
+      // locations: state => state.locations.locations,
+      // buildings: state => state.buildings.buildings,
+      // floors: state => state.floors.floors,
+      // departments: state => state.departments.departments,
+      // securityRoles: state => state.securityRoles.securityRoles,
 
     })
   },
@@ -569,9 +570,9 @@ export default {
     }
   },
   created() {
-    this.getLocations()
-    this.getSecurityRoles()
-    this.getCurrentUser(this.$store.state.currentUser)
+    // this.getLocations()
+    // this.getSecurityRoles()
+    // this.getCurrentUser(this.$store.state.currentUser)
 
   },
   methods: {
@@ -734,7 +735,7 @@ export default {
 }
 
 .nav-link {
-  color: #4a5568;
+  color: #4a5568 !important;
 }
 .nav-link.active {
   color: white !important;
@@ -824,4 +825,16 @@ input[type='file'] {
   /* Microsoft Edge */
   color: red;
 }
+.nav-link:hover, .nav-link:active {
+  color: #000 !important;
+  background: #ccc !important;
+}
+
+#not-show-on-large-screens .card-header ul a.nav-link:active {
+    color: #495057 !important;
+    background-color: #000 !important;
+}
+
+
+
 </style>

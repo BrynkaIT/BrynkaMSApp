@@ -12,7 +12,7 @@
   align-items: stretch;
 }
 .sidenav-wrapper {
-  background: #ff9800;
+  background: #e48800;
   position: sticky;
 }
 .content-right {
@@ -55,6 +55,9 @@ padding-left: 30px;
   justify-content: center;
   color: #ffffff;
 }
+.menu-icon:active ,.menu-icon.active {
+  border: 1px solid #fff;
+}
 .card {
   background: #fff;
 }
@@ -85,5 +88,11 @@ thead {
   color: #000;
   border: 1px solid #bbb;
 }
-
-
+.card-header {
+  background-color: #FF9800 !important;
+  border-bottom: 1px solid #9E9E9E !important;
+}
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  color: #fff !important;
+  background-color: rgb(191, 83, 0) !important;
+}

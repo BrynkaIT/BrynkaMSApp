@@ -1,5 +1,5 @@
 <template>
-  <li :appModule="appModule">
+  <li :appModule="appModule" >
     <button @click="goTo(`${navigateToPage}`)" class="nav-link"
     :class="{ active: page == activeLink }"
     >

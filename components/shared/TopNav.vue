@@ -18,7 +18,7 @@
             <nuxt-link to="/customers" class="nav-link" >Customers</nuxt-link>
           </li>
           <li>
-            <nuxt-link to="/sales" class="nav-link">Internal</nuxt-link>
+            <nuxt-link to="/internal" class="nav-link">Internal</nuxt-link>
           </li>
           <li>
             <nuxt-link to="/system" class="nav-link">System Settings</nuxt-link>

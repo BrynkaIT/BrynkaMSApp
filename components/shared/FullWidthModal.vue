@@ -60,7 +60,7 @@ export default {
 }
 
 .close {
-  color: #000;
+  color: #fff;
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -68,7 +68,7 @@ export default {
 
 .close:hover,
 .close:focus {
-  color: rgb(242, 4, 4);
+  color: #ff9800;
   text-decoration: none;
   cursor: pointer;
   transform: scale(1.3);

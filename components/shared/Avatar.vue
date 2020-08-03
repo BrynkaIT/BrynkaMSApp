@@ -3,11 +3,11 @@
     <a class="nav-link" href="#" v-b-toggle.accordion-user>
       <span class="menu-icon">
         <img v-if="currentUser.imageUrl == '' || currentUser.imageUrl == null"
-          style="max-width:32px; border-radius:360px;"
+          style="max-width:32px; border-radius:360px;border:1px solid #000"
           src="../../assets/images/avatar-icon-images-4.png"
         />
         <img v-if="currentUser.imageUrl !=''"
-          style="max-width:32px; border-radius:360px;"
+          style="max-width:32px; border-radius:360px;360px;border:1px solid #000"
           :src="currentUser.imageUrl"
         />
       </span>

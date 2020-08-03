@@ -1,6 +1,6 @@
 <template>
   <div class="content-container">
-    <SideNav page="Sales" app="sales"></SideNav>
+    <SideNav page="Sales" app="Internal Stuff"></SideNav>
     <div class="content-right">
 
       <b-card title="Sales" class="overflow-scroll">

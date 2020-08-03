@@ -59,9 +59,9 @@
             </div>
             <!-- End Customer Links -->
             <!-- Sales Links -->
-            <div v-if="app == 'sales'">
+            <div v-if="app == 'customer'">
               <NavLink
-                v-if="navLink.appModule == 'sales'"
+                v-if="navLink.appModule == 'customer'"
                 v-for="navLink in navLinks"
                 :key="navLink.navigateToPage"
                 :activeLink="navLink.navigateToText.toLowerCase()"
@@ -86,9 +86,9 @@
             </div>
             <!-- End Sales Links -->
             <!-- Operations -->
-            <div v-if="app == 'operations'">
+            <!-- <div v-if="app == 'system'">
               <NavLink
-                v-if="navLink.appModule == 'operations'"
+                v-if="navLink.appModule == 'system'"
                 v-for="navLink in navLinks"
                 :key="navLink.navigateToPage"
                 :activeLink="navLink.navigateToText.toLowerCase()"
@@ -99,7 +99,7 @@
                 :fontAwesomeIcon="navLink.fontAwesomeIcon"
                 :fontAwesomeStyle="navLink.fontAwesomeStyle"
               ></NavLink>
-            </div>
+            </div> -->
             <!-- End -->
 
             <!-- <li>
@@ -176,59 +176,32 @@ export default {
           fontAwesomeStyle: { color: '#5bc0de' }
         },
         {
-          appModule: 'sales',
-          navigateToPage: 'sales',
-          navigateToText: 'Contacts',
+          appModule: 'internal',
+          navigateToPage: 'internal',
+          navigateToText: 'Internal',
           fontAwesomeIcon: ['fas', 'list'],
           fontAwesomeStyle: { color: '#28a745' }
-        },
-        {
-          appModule: 'admin',
-          navigateToPage: 'admin/history',
-          navigateToText: 'History',
-          fontAwesomeIcon: ['fas', 'history'],
-          fontAwesomeStyle: { color: '#e91e63' }
         },
 
         {
           appModule: 'customers',
           navigateToPage: 'customers',
           navigateToText: 'Customers',
-          fontAwesomeIcon: ['fas', 'barcode'],
+          fontAwesomeIcon: ['fas', 'project-diagram'],
           fontAwesomeStyle: { color: '#76ef04;' }
         },
         {
-          appModule: 'receiving',
-          navigateToPage: 'receiving/verify',
-          navigateToText: 'Verify',
-          fontAwesomeIcon: ['fas', 'list'],
-          fontAwesomeStyle: { color: '#ed9c28' }
+          appModule: 'system',
+          navigateToPage: 'system',
+          navigateToText: 'System',
+          fontAwesomeIcon: ['fas', 'barcode'],
+          fontAwesomeStyle: { color: '#76ef04;' }
         },
-        {
-          appModule: 'receiving',
-          navigateToPage: 'receiving/deliver',
-          navigateToText: 'Deliver',
-          fontAwesomeIcon: ['fas', 'dolly'],
-          fontAwesomeStyle: { color: '#d53f3a' }
-        },
-        {
-          appModule: 'receiving',
-          navigateToPage: 'receiving/outbound',
-          navigateToText: 'Outbound',
-          fontAwesomeIcon: ['fas', 'shipping-fast'],
-          fontAwesomeStyle: { color: '#5392dc' }
-        },
-        {
-          appModule: 'receiving',
-          navigateToPage: 'receiving/history',
-          navigateToText: 'History',
-          fontAwesomeIcon: ['fas', 'history'],
-          fontAwesomeStyle: { color: '#ffd647' }
-        }
+
       ],
       dropdownNavs: [
         {
-          appModule: 'customers',
+          appModule: 'system',
           dropdownText: 'Settings',
           dropdownIcon: ['fas', 'cogs'],
           dropdownIconStyle: { color: '#9c27b0' },
@@ -270,11 +243,11 @@ export default {
       ]
     }
   },
- 
+
 }
 </script>
 
-<style >
+<style>
 @import url('https://fonts.googleapis.com/css?family=Assistant&display=swap');
 .small-screens-only{
   display:none
@@ -324,6 +297,7 @@ a[data-toggle='collapse'] {
   width: 100%;
   text-align: center;
 }
+
 /* .footer p {
   color:#fff;
   text-align:center
@@ -375,20 +349,22 @@ a[data-toggle='collapse'] {
     display:none;
   }
 }
-.sidebar .nav-link:hover, .menu-icon:hover{
-  color: #fff !important;
-  background: #d38005 !important;
-  border-radius: 12px;
-}
-.sidebar .nav-link.active{
-  color: #fff !important;
-  background: #000 !important;
-  border-radius: 12px;
-}
+
 @media(max-width:992px){
   .small-screens-only{
     display:block
   }
 }
+.sidebar .nav-link:hover, .menu-icon:hover{
+  color: #fff !important;
+  background: #d38005 !important;
+  border-radius: 12px;
 
+}
+.sidebar .nav-link.active{
+  color: #fff !important;
+  background: #000 !important;
+  border-radius: 12px;
+  border:none;
+}
 </style>

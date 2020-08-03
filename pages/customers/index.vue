@@ -65,8 +65,6 @@
     </div>
     <FullWidthModal :show="this.formToOpen.showModal">
       <CustomerForm
-        @hideModal="onHide"
-
       ></CustomerForm>
     </FullWidthModal>
   </div>
@@ -95,8 +93,8 @@ export default {
     return {
       totalRows: 1,
       currentPage: 1,
-      perPage: 5,
-      pageOptions: [5, 10, 15],
+      perPage: 25,
+      pageOptions: [25, 50, 100],
       fields: ['name', 'modules', 'emailDomain', 'kind'],
       items: []
     }

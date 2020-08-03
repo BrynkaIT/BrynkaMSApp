@@ -40,7 +40,7 @@
         </span>
         <span class="menu-title">Customers</span>
         </b-nav-item >
-        <b-nav-item @click="goTo('sales')" class="sub-link" >
+        <b-nav-item @click="goTo('internal')" class="sub-link" >
           <span class="menu-icon">
           <font-awesome-icon
             :icon="['fas', 'building']"

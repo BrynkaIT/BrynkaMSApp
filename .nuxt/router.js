@@ -5,9 +5,9 @@ import scrollBehavior from './router.scrollBehavior.js'
 
 const _5db9c226 = () => interopDefault(import('../pages/customers/index.vue' /* webpackChunkName: "pages/customers/index" */))
 const _1bb0e6a9 = () => interopDefault(import('../pages/dashboard.vue' /* webpackChunkName: "pages/dashboard" */))
+const _c08fcf8a = () => interopDefault(import('../pages/internal/index.vue' /* webpackChunkName: "pages/internal/index" */))
 const _8f50cd3a = () => interopDefault(import('../pages/notAuthorized.vue' /* webpackChunkName: "pages/notAuthorized" */))
 const _f76dc466 = () => interopDefault(import('../pages/preferences.vue' /* webpackChunkName: "pages/preferences" */))
-const _68e7cd38 = () => interopDefault(import('../pages/sales/index.vue' /* webpackChunkName: "pages/sales/index" */))
 const _5c64e9ed = () => interopDefault(import('../pages/system/index.vue' /* webpackChunkName: "pages/system/index" */))
 const _7af50971 = () => interopDefault(import('../pages/customers/create.vue' /* webpackChunkName: "pages/customers/create" */))
 const _24f8fff8 = () => interopDefault(import('../pages/system/securityRoles.vue' /* webpackChunkName: "pages/system/securityRoles" */))
@@ -39,6 +39,10 @@ export const routerOptions = {
     component: _1bb0e6a9,
     name: "dashboard"
   }, {
+    path: "/internal",
+    component: _c08fcf8a,
+    name: "internal"
+  }, {
     path: "/notAuthorized",
     component: _8f50cd3a,
     name: "notAuthorized"
@@ -46,10 +50,6 @@ export const routerOptions = {
     path: "/preferences",
     component: _f76dc466,
     name: "preferences"
-  }, {
-    path: "/sales",
-    component: _68e7cd38,
-    name: "sales"
   }, {
     path: "/system",
     component: _5c64e9ed,
