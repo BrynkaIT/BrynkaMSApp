@@ -124,7 +124,6 @@ import BubbleChart from '@/components/BubbleChart'
 export default {
   middleware: ['authenticated'],
   // transition: "tile",
-  layout:'main',
   components: {
     LineChart,
     BarChart,

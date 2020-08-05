@@ -53,7 +53,7 @@ import Users from '@/components/customer/Users.vue'
 
 
 export default {
-  layout: 'customer',
+
   components: {
     Location,
     Users,

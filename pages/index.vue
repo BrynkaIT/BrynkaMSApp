@@ -1,6 +1,6 @@
 <template>
-  <div class="mt-5">
-    <div class="container">
+  <div>
+    <div class="container mt-5">
       <div class="row text-center mb-4">
         <div class="col-md-12">
           <div>
@@ -33,7 +33,6 @@
                         v-model.trim="credentials.email"
                         ></b-form-input>
                       </b-input-group>
-
                       <div v-if="$v.credentials.email.$error" class="">
                         <span
                           v-if="!$v.credentials.email.required"
@@ -111,16 +110,17 @@ import { required, email, sameAs, minLength } from 'vuelidate/lib/validators'
 
 
 export default {
+   layout:'login',
    middleware: 'notAuthenticated',
- 
+
   created(){
     // this.$store.dispatch('managedService/getManagedService', this.$route.params.ms)
   },
   data() {
     return {
       credentials: {
-        email: 'kirk.williams@brynka.com',
-        password: 'bryn2010'
+        email: 'it@brynka.com',
+        password: '4APIsRunning'
       },
       msg: {
         credentials: ''
@@ -169,7 +169,7 @@ export default {
 </script>
 
 <style scoped>
-@charset "UTF-8";
+
 html {
   font-size: 62.5%;
 }

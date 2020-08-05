@@ -492,7 +492,6 @@ import vueMask from 'v-mask'
 import { required, sameAs, minLength, email } from 'vuelidate/lib/validators'
 
 export default {
-  layout:'main',
   middleware: ['authenticated'],
   components: {
     SideNav

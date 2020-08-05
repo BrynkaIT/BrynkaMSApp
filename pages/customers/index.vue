@@ -64,7 +64,7 @@
       <!-- view-all-customers-table -->
     </div>
     <FullWidthModal :show="this.formToOpen.showModal">
-      <CustomerForm
+      <CustomerForm @refreshCustomers="fetchCustomers"
       ></CustomerForm>
     </FullWidthModal>
   </div>
@@ -76,7 +76,7 @@ import CustomerForm from '@/components/AddEditCustomer.vue'
 import FullWidthModal from '@/components/shared/FullWidthModal.vue'
 import { mapState } from 'vuex'
 export default {
-   layout:'main',
+
    middleware: ['authenticated'],
    transition: "tile",
   components: {
@@ -100,14 +100,16 @@ export default {
     }
   },
   created() {
-    this.$axios.get('/customers').then(response => {
-      this.items = response.data.customers
-      this.totalRows = this.items.length
-    })
+   this.fetchCustomers()
   },
   methods: {
     onRowSelected(items) {
       this.$router.push(`/customers/${items[0]._id}`)
+    },
+    async fetchCustomers(){
+      const { customers } = await this.$store.dispatch('customers/getCustomers')
+    this.items = customers
+    this.totalRows = this.items.length
     }
   }
 }

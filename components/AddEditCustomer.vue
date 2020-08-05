@@ -6,12 +6,15 @@
       class="mt-2"
       color="#e67e22"
       subtitle="Create or Edit a Customer"
+      @on-complete="onSubmit"
+      :startIndex="startIndex"
     >
-  <tab-content title="Basic Information" >
+  <tab-content title="Basic Information" :before-change="validateTab1">
    <div class="container">
      <b-form-group label="Name" label-for="input-1">
         <b-form-input
           v-model="form.name"
+          :class="{ 'validation-error': $v.form.name.$error }"
           type="text"
           required
           placeholder="Customer / Account Name"
@@ -20,104 +23,43 @@
       <b-form-group label="Possessive Name" label-for="input-2">
         <b-form-input
         v-model="form.possessiveName"
+        :class="{ 'validation-error': $v.form.possessiveName.$error }"
          type="text"
         >
         </b-form-input>
       </b-form-group>
-      <b-form-group label="Parent Customer" label-for="input-3">
+      <b-form-group label="Sub-Folder">
+            <b-form-input
+              v-model="form.subFolder"
+              :class="{ 'validation-error': $v.form.subFolder.$error }"
+              required
+              placeholder="Enter Sub-Folder Name"
+            ></b-form-input>
+          </b-form-group>
+      <b-form-group>
+        <label for="">Parent Customer(s): <b-badge variant="primary" class="mx-1" pill v-for="(parent, index) in parents" :key="index">{{ parent }} <b-icon href="#" variant="light" scale="1.2" icon="x-circle-fill" @click="deletePC(index)"></b-icon></b-badge></label>
         <b-form-select
-          v-model="form.parentCustomers"
-          :options="parent"
-          :value="'Brynka'"
+          v-model="c"
+          :options="customers"
+          value-field="_id"
+          text-field="name"
+          multiple
+          :select-size="3"
+          @input="displaySelectedCustomerParents($event)"
         ></b-form-select>
+
       </b-form-group>
-      <b-form-group label="Contact" label-for="input-3">
-        <b-form-input
-          v-model="form.contact"
-          required
-          placeholder="Enter Contact Rep"
-        ></b-form-input>
-      </b-form-group>
+
    </div>
   </tab-content>
-  <tab-content title="Location">
-     <b-form-group
-        label-cols-lg="3"
-        label="Main Location Address"
-        label-size="lg"
-        label-class="font-weight-bold pt-0"
-        class="mb-0"
-      >
-        <b-form-group
-          label-cols-sm="3"
-          label="Street:"
-          label-align-sm="right"
-          label-for="nested-street"
-        >
-          <b-form-input
-           ></b-form-input>
-        </b-form-group>
 
-        <b-form-group
-          label-cols-sm="3"
-          label=""
-          label-align-sm="right"
-          label-for="nested-street"
-        >
-          <b-form-input
-            placeholder="Apt/Suite"
-          ></b-form-input>
-        </b-form-group>
-        <!-- -->
-        <b-form-group
-          label-cols-sm="3"
-          label=""
-          label-align-sm="right"
-          label-for=""
-        >
-          <b-row>
-            <b-col sm="4">
-              <b-form-input
-              placeholder="City"
-              class="m-1">
-              </b-form-input>
-            </b-col>
-            <b-col sm="4">
-               <b-form-select class="m-1" >
-                 <template v-slot:first>
-                  <b-form-select-option :value="null" disabled>State</b-form-select-option>
-                </template>
-               </b-form-select>
-            </b-col>
-            <b-col sm="4">
-              <b-form-input
-
-              placeholder="Zip"
-              class="m-1">
-              </b-form-input>
-            </b-col>
-          </b-row>
-        </b-form-group>
-        <!-- -->
-
-        <b-form-group
-          label-cols-sm="3"
-          label="Country:"
-          label-align-sm="right"
-          label-for="country"
-        >
-          <b-form-input
-           class="m-1">
-          ></b-form-input>
-        </b-form-group>
-      </b-form-group>
-   </tab-content>
-   <tab-content title="Technical Settings">
+  <tab-content title="Technical Settings" :before-change="validateTab2">
      <b-row>
         <b-col>
           <b-form-group label="DbName:" label-for="input-2">
             <b-form-input
               v-model="form.dbName"
+              :class="{ 'validation-error': $v.form.dbName.$error }"
               required
               placeholder="Enter Database Name"
             >
@@ -127,21 +69,14 @@
         <b-col>
           <b-form-group label="Email-Domain">
             <b-form-input
-
+              v-model="form.emailDomain"
+              :class="{ 'validation-error': $v.form.emailDomain.$error }"
               required
               placeholder="Enter Email Domain"
             ></b-form-input>
           </b-form-group>
         </b-col>
-        <b-col>
-          <b-form-group label="Sub-Domain">
-            <b-form-input
 
-              required
-              placeholder="Enter Sub-Domain Name"
-            ></b-form-input>
-          </b-form-group>
-        </b-col>
       </b-row>
       <b-row>
         <b-col>
@@ -156,20 +91,36 @@
         </b-col>
         <b-col>
           <b-form-group label="Automatic Signup Email Domain Filters">
-            <b-form-select
-
-            multiple :select-size="3"
-            :options="ASUEDomainFiltersOptions"
+            <b-form-tags
             v-model="form.automaticSignUpEmailDomainFilters"
-            required
             >
-            </b-form-select>
+            </b-form-tags>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <b-form-group label="Image Folder">
+            <b-form-input
+            v-model="form.imageFolder"
+            :class="{ 'validation-error': $v.form.imageFolder.$error }"
+            ></b-form-input>
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group label="Logo Path">
+            <b-form-input
+            v-model="form.logoPath"
+            >
+            </b-form-input>
           </b-form-group>
         </b-col>
       </b-row>
 
-      <b-row>
-        <b-col>
+  </tab-content>
+
+   <tab-content title="Security Settings">
+
           <b-form-group label="Modules">
             <b-form-checkbox-group
             :options="moduleOptions"
@@ -179,18 +130,16 @@
               stacked
             ></b-form-checkbox-group>
           </b-form-group>
-        </b-col>
-        <b-col>
+
           <b-form-group label="Default Security Role Model">
             <b-form-select
-
+            :class="{ 'validation-error': $v.form.defaultSecurityRoleModel.$error }"
             :options="DSRoleModelOptions"
-            v-model="form.defaultSecurityRoleModel"
-            required>
+            v-model="form.defaultSecurityRoleModel">
             </b-form-select>
           </b-form-group>
-        </b-col>
-      </b-row>
+
+
    </tab-content>
 </form-wizard>
   </div>
@@ -200,6 +149,7 @@
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import { mapState } from 'vuex'
+import { required } from 'vuelidate/lib/validators'
 export default {
 components: {
     FormWizard,
@@ -207,22 +157,46 @@ components: {
   },
   computed: {
     ...mapState({
-      // locations: state => state.locations.locations,
-      // buildings: state => state.buildings.buildings,
-      // floors: state => state.floors.floors,
-      // departments: state => state.departments.departments,
-      // securityRoles: state => state.securityRoles.securityRoles,
+      customers: state => state.customers.customers,
+      securityRoles: state => state.securityRoles.securityRoles,
+      USAStates: state =>state.usStates.usaStates,
       formToOpen: state => state.formToOpen
     })
   },
+  validations: {
+    form: {
+      name: {
+        required
+      },
+      subFolder: {
+        required
+      },
+      possessiveName:{
+         required
+      },
+      dbName: {
+        required
+      },
+      emailDomain: {
+        required
+      },
+      imageFolder: {
+        required
+      },
+      defaultSecurityRoleModel: {
+        required
+      },
+    }
+  },
   data(){
     return {
+      startIndex: 0,
       form:{
         allowsAutomaticSignup: false,
-        automaticSignUpEmailDomainFilters:'',
+        automaticSignUpEmailDomainFilters:[],
         dbName:'',
-        defaultSecurityRole: '',
-        defaultSecurityRoleModel:'',
+        defaultSecurityRole: null,
+        defaultSecurityRoleModel:'SecurityRole',
         emailDomain:'',
         imageFolder: '',
         logoPath: '',
@@ -230,25 +204,80 @@ components: {
         modules: [],
         name: '',
         possessiveName: '',
-        subFolder: '',
-        contact:''
+        subFolder: ',
+
       },
-       moduleOptions: ['Receiving', 'Shipping', 'Jobsubmission'],
-      AASignupOptions:[
-        { value: 'false', text: 'No' },
-        { value: 'true', text: 'Yes' },
-      ],
-      ASUEDomainFiltersOptions:[
-        { value: 'b1', text: 'blah1' },
-        { value: 'b2', text: 'blah2' },
-        { value: 'b3', text: 'blah3' },
-      ],
+      moduleOptions: ['Receiving', 'Shipping', 'Jobsubmission'],
+      AASignupOptions:[{ value: 'false', text: 'No' }, { value: 'true', text: 'Yes' }],
       DSRoleModelOptions:[
+        // { value: null, text: 'Please select an option' },
         { value: 'SecurityRole', text: 'SecurityRole' },
-        { value: 'MSSecurityRole', text: 'MSSecurityRole' },
+        { value: 'AdvancedSecurityRole', text: 'AdvancedSecurityRole' },
         { value: 'APISecurityRole', text: 'APISecurityRole' },
       ],
-      parent:["TMG", "Prudential", "Cushman-Wakefield", "Brynka"]
+      c:[],
+      parents:[]
+    }
+
+  },
+  methods: {
+    async displaySelectedCustomerParents(id) {
+         const { customers } = await this.$axios.$get(`/customers?id=${id[0]}`)
+          if(this.parents.some(parent => parent == customers[0].name)){
+            return alert('Customer already selected')
+          }
+          this.parents.push(customers[0].name)
+          this.form.parentCustomers.push(customers[0]._id)
+
+    },
+    deletePC(index){
+      if (index > -1) {
+        this.parents.splice(index, 1);
+        this.form.parentCustomers.splice(index, 1);
+      }
+    },
+    validateTab1(){
+      this.$v.form.name.$touch()
+      this.$v.form.subFolder.$touch()
+      this.$v.form.possessiveName.$touch()
+      if (!this.$v.form.name.$invalid && !this.$v.form.subFolder.$invalid && !this.$v.form.possessiveName.$invalid) {
+        return true
+      } else {
+        return false
+      }
+    },
+     validateTab2(){
+      this.$v.form.dbName.$touch()
+      this.$v.form.emailDomain.$touch()
+      this.$v.form.imageFolder.$touch()
+
+      if (!this.$v.form.dbName.$invalid &&
+      !this.$v.form.emailDomain.$invalid &&
+      !this.$v.form.imageFolder.$invalid) {
+        return true
+      } else {
+        return false
+      }
+    },
+    async onSubmit(){
+      this.$v.form.defaultSecurityRoleModel.$touch()
+      if(!this.$v.form.$invalid){
+        const res = await this.$store.dispatch('customers/postCustomer', this.form)
+          debugger
+        if(res != undefined){
+          this.$emit('refreshCustomers')
+          this.$store.commit('closeModal')
+          this.$toasted.success(res.message, {
+            position: "top-center",
+            duration : 5000
+            })
+        }else{
+          this.$toasted.error("Something went wrong! Please try again", {
+            position: "top-center",
+            duration : 5000
+          })
+        }
+      }
     }
   }
 }
@@ -294,5 +323,30 @@ components: {
   background: #eee;
   padding: 15px;
 }
+.validation-error {
+  border: 1px solid #f44336;
+  color: red;
+}
+.validation-error::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: red;
+  opacity: 1; /* Firefox */
+}
 
+.validation-error:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: red;
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: red;
+}
+
+@media(min-width:1200px){
+  .vue-form-wizard{
+    width: 80%;
+    margin: auto;
+  }
+}
 </style>

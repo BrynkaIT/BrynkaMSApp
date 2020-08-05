@@ -3,7 +3,7 @@
     <ErrorView
       :title="'Ooooops, you are not authorized to visit this page.'"
       :status="'401'"
-      :navigateToPage="'/logout'"
+      :navigateToPage="'/'"
       :navigateToText="'Navigate to Home Page'"
     />
   </div>
@@ -12,6 +12,7 @@
 <script>
 import ErrorView from '@/components/shared/ErrorView'
 export default {
+  layout:'login',
   components: {
     ErrorView
   }
