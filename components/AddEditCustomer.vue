@@ -204,7 +204,7 @@ components: {
         modules: [],
         name: '',
         possessiveName: '',
-        subFolder: ',
+        subFolder: '',
 
       },
       moduleOptions: ['Receiving', 'Shipping', 'Jobsubmission'],
