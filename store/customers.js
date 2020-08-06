@@ -1,6 +1,7 @@
 export const state = () => {
 	return {
-		customers: [{ name: 'Please select customer(s)', _id: null, disabled: true }],
+    customers: [{ name: 'Please select customer(s)', _id: null, disabled: true }],
+    customerInContext:''
 	}
 }
 
@@ -13,7 +14,10 @@ export const mutations = {
 				state.customers.push(customers)
 			})
 		}
-	},
+  },
+  setCustomerInContext(state, customer){
+    state.customerInContext = customer
+  }
 
 }
 
@@ -32,6 +36,7 @@ export const actions = {
 	getCustomer({ commit }, customerId) {
 		return this.$axios.$get(`/customers/${customerId}`)
 			.then(res => {
+        commit('setCustomerInContext', res.customer)
 				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response));

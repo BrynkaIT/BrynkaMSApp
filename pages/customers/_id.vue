@@ -1,79 +1,63 @@
 <template>
-  <div>
-    <div>
-      <div>
-        <b-tabs
-          small
-          active-nav-item-class="text-danger"
-          title-item-class="text-danger"
-          content-class="mt-3 p-3"
-        >
-          <b-tab title-link-class="text-secondary" title="Location" active>
-            <div>
-              <b-card title="Location" sub-title="Panel">
-                <location />
-
-              </b-card>
-            </div>
+  <div class="content-container">
+    <SideNav page="Customer" app="customer"></SideNav>
+    <div class="content-right">
+      <b-card :title="`${customer.name}`">
+        <b-tabs v-model="tabIndex" small card>
+          <b-tab title="Carriers">
+            <Carriers />
           </b-tab>
-          <b-tab title-link-class="text-secondary" title="Users" lazy>
-            <div>
-              <b-card title="Users" sub-title="Panel">
-                <users />
-              </b-card>
-            </div>
-            </b-tab
-          >
-          <b-tab title-link-class="text-secondary" title="etc"
-            lazy>
-             <div>
-              <b-card title="..." sub-title="...">
-                <b-card-text>
-                  Some quick example text to build on the
-                  <em>card title</em> and make up the bulk of the card's
-                  content.
-                </b-card-text>
-
-                <b-card-text
-                  >A second paragraph of text in the card.</b-card-text
-                >
-              </b-card>
-            </div>
-            </b-tab
-          >
+          <!-- <b-tab title="Departments">
+            <Departments />
+          </b-tab> -->
+          <b-tab title="Locations">
+            <Locations />
+          </b-tab>
+          <b-tab title="Security Roles">I'm the second tab</b-tab>
+          <b-tab title="Users">I'm the second tab</b-tab>
         </b-tabs>
-      </div>
+      </b-card>
     </div>
+    <FullWidthModal :show="this.formToOpen.showModal">
+      <component :is="this.formToOpen.to"/>
+    </FullWidthModal>
   </div>
 </template>
 
 <script>
-import Location from '@/components/customer/Location.vue'
-import Users from '@/components/customer/Users.vue'
-
-
+import SideNav from '@/components/shared/SideNav.vue'
+import FullWidthModal from '@/components/shared/FullWidthModal.vue'
+import Carriers from '@/components/customer/Carriers'
+import Departments from '@/components/customer/Departments'
+import Locations from '@/components/customer/Locations'
+import LocationDetails from '@/components/LocationDetails'
+import AddEditLocation from '@/components/AddEditLocation'
+import { mapState } from 'vuex'
 export default {
-
+   middleware: ['authenticated'],
   components: {
-    Location,
-    Users,
+    SideNav,
+    Carriers,
+    Departments,
+    Locations,
+    FullWidthModal,
+    LocationDetails,
+    AddEditLocation
+  },
+  computed: {
+    ...mapState({
+      customer: state => state.customers.customerInContext,
+      formToOpen: state => state.formToOpen,
+    }),
+
   },
   data() {
     return {
-      customer: null
+      tabIndex: 0
     }
   },
-  created() {
-    this.$axios
-      .get(`/customer/${this.$route.params.id}`)
-      .then(response => {
-        this.$store.dispatch(
-          'managedService/getSelectedCustomer',
-          response.data.customer
-        )
-        this.customer = response.data.customer
-      })
-      .catch(e => console.log(e))
+  async created() {
+    await this.$store.dispatch('customers/getCustomer', this.$route.params.id)
   }
 }
 </script>

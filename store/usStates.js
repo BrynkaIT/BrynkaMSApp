@@ -2,240 +2,240 @@ export const state = () => {
   return {
     usaStates:[
       {
-          "value": "Alabama",
-          "text": "AL"
+          "name": "Alabama",
+          "abbreviation": "AL"
       },
       {
-          "value": "Alaska",
-          "text": "AK"
+          "name": "Alaska",
+          "abbreviation": "AK"
       },
       {
-          "value": "American Samoa",
-          "text": "AS"
+          "name": "American Samoa",
+          "abbreviation": "AS"
       },
       {
-          "value": "Arizona",
-          "text": "AZ"
+          "name": "Arizona",
+          "abbreviation": "AZ"
       },
       {
-          "value": "Arkansas",
-          "text": "AR"
+          "name": "Arkansas",
+          "abbreviation": "AR"
       },
       {
-          "value": "California",
-          "text": "CA"
+          "name": "California",
+          "abbreviation": "CA"
       },
       {
-          "value": "Colorado",
-          "text": "CO"
+          "name": "Colorado",
+          "abbreviation": "CO"
       },
       {
-          "value": "Connecticut",
-          "text": "CT"
+          "name": "Connecticut",
+          "abbreviation": "CT"
       },
       {
-          "value": "Delaware",
-          "text": "DE"
+          "name": "Delaware",
+          "abbreviation": "DE"
       },
       {
-          "value": "District Of Columbia",
-          "text": "DC"
+          "name": "District Of Columbia",
+          "abbreviation": "DC"
       },
       {
-          "value": "Federated States Of Micronesia",
-          "text": "FM"
+          "name": "Federated States Of Micronesia",
+          "abbreviation": "FM"
       },
       {
-          "value": "Florida",
-          "text": "FL"
+          "name": "Florida",
+          "abbreviation": "FL"
       },
       {
-          "value": "Georgia",
-          "text": "GA"
+          "name": "Georgia",
+          "abbreviation": "GA"
       },
       {
-          "value": "Guam",
-          "text": "GU"
+          "name": "Guam",
+          "abbreviation": "GU"
       },
       {
-          "value": "Hawaii",
-          "text": "HI"
+          "name": "Hawaii",
+          "abbreviation": "HI"
       },
       {
-          "value": "Idaho",
-          "text": "ID"
+          "name": "Idaho",
+          "abbreviation": "ID"
       },
       {
-          "value": "Illinois",
-          "text": "IL"
+          "name": "Illinois",
+          "abbreviation": "IL"
       },
       {
-          "value": "Indiana",
-          "text": "IN"
+          "name": "Indiana",
+          "abbreviation": "IN"
       },
       {
-          "value": "Iowa",
-          "text": "IA"
+          "name": "Iowa",
+          "abbreviation": "IA"
       },
       {
-          "value": "Kansas",
-          "text": "KS"
+          "name": "Kansas",
+          "abbreviation": "KS"
       },
       {
-          "value": "Kentucky",
-          "text": "KY"
+          "name": "Kentucky",
+          "abbreviation": "KY"
       },
       {
-          "value": "Louisiana",
-          "text": "LA"
+          "name": "Louisiana",
+          "abbreviation": "LA"
       },
       {
-          "value": "Maine",
-          "text": "ME"
+          "name": "Maine",
+          "abbreviation": "ME"
       },
       {
-          "value": "Marshall Islands",
-          "text": "MH"
+          "name": "Marshall Islands",
+          "abbreviation": "MH"
       },
       {
-          "value": "Maryland",
-          "text": "MD"
+          "name": "Maryland",
+          "abbreviation": "MD"
       },
       {
-          "value": "Massachusetts",
-          "text": "MA"
+          "name": "Massachusetts",
+          "abbreviation": "MA"
       },
       {
-          "value": "Michigan",
-          "text": "MI"
+          "name": "Michigan",
+          "abbreviation": "MI"
       },
       {
-          "value": "Minnesota",
-          "text": "MN"
+          "name": "Minnesota",
+          "abbreviation": "MN"
       },
       {
-          "value": "Mississippi",
-          "text": "MS"
+          "name": "Mississippi",
+          "abbreviation": "MS"
       },
       {
-          "value": "Missouri",
-          "text": "MO"
+          "name": "Missouri",
+          "abbreviation": "MO"
       },
       {
-          "value": "Montana",
-          "text": "MT"
+          "name": "Montana",
+          "abbreviation": "MT"
       },
       {
-          "value": "Nebraska",
-          "text": "NE"
+          "name": "Nebraska",
+          "abbreviation": "NE"
       },
       {
-          "value": "Nevada",
-          "text": "NV"
+          "name": "Nevada",
+          "abbreviation": "NV"
       },
       {
-          "value": "New Hampshire",
-          "text": "NH"
+          "name": "New Hampshire",
+          "abbreviation": "NH"
       },
       {
-          "value": "New Jersey",
-          "text": "NJ"
+          "name": "New Jersey",
+          "abbreviation": "NJ"
       },
       {
-          "value": "New Mexico",
-          "text": "NM"
+          "name": "New Mexico",
+          "abbreviation": "NM"
       },
       {
-          "value": "New York",
-          "text": "NY"
+          "name": "New York",
+          "abbreviation": "NY"
       },
       {
-          "value": "North Carolina",
-          "text": "NC"
+          "name": "North Carolina",
+          "abbreviation": "NC"
       },
       {
-          "value": "North Dakota",
-          "text": "ND"
+          "name": "North Dakota",
+          "abbreviation": "ND"
       },
       {
-          "value": "Northern Mariana Islands",
-          "text": "MP"
+          "name": "Northern Mariana Islands",
+          "abbreviation": "MP"
       },
       {
-          "value": "Ohio",
-          "text": "OH"
+          "name": "Ohio",
+          "abbreviation": "OH"
       },
       {
-          "value": "Oklahoma",
-          "text": "OK"
+          "name": "Oklahoma",
+          "abbreviation": "OK"
       },
       {
-          "value": "Oregon",
-          "text": "OR"
+          "name": "Oregon",
+          "abbreviation": "OR"
       },
       {
-          "value": "Palau",
-          "text": "PW"
+          "name": "Palau",
+          "abbreviation": "PW"
       },
       {
-          "value": "Pennsylvania",
-          "text": "PA"
+          "name": "Pennsylvania",
+          "abbreviation": "PA"
       },
       {
-          "value": "Puerto Rico",
-          "text": "PR"
+          "name": "Puerto Rico",
+          "abbreviation": "PR"
       },
       {
-          "value": "Rhode Island",
-          "text": "RI"
+          "name": "Rhode Island",
+          "abbreviation": "RI"
       },
       {
-          "value": "South Carolina",
-          "text": "SC"
+          "name": "South Carolina",
+          "abbreviation": "SC"
       },
       {
-          "value": "South Dakota",
-          "text": "SD"
+          "name": "South Dakota",
+          "abbreviation": "SD"
       },
       {
-          "value": "Tennessee",
-          "text": "TN"
+          "name": "Tennessee",
+          "abbreviation": "TN"
       },
       {
-          "value": "Texas",
-          "text": "TX"
+          "name": "Texas",
+          "abbreviation": "TX"
       },
       {
-          "value": "Utah",
-          "text": "UT"
+          "name": "Utah",
+          "abbreviation": "UT"
       },
       {
-          "value": "Vermont",
-          "text": "VT"
+          "name": "Vermont",
+          "abbreviation": "VT"
       },
       {
-          "value": "Virgin Islands",
-          "text": "VI"
+          "name": "Virgin Islands",
+          "abbreviation": "VI"
       },
       {
-          "value": "Virginia",
-          "text": "VA"
+          "name": "Virginia",
+          "abbreviation": "VA"
       },
       {
-          "value": "Washington",
-          "text": "WA"
+          "name": "Washington",
+          "abbreviation": "WA"
       },
       {
-          "value": "West Virginia",
-          "text": "WV"
+          "name": "West Virginia",
+          "abbreviation": "WV"
       },
       {
-          "value": "Wisconsin",
-          "text": "WI"
+          "name": "Wisconsin",
+          "abbreviation": "WI"
       },
       {
-          "value": "Wyoming",
-          "text": "WY"
+          "name": "Wyoming",
+          "abbreviation": "WY"
       }
     ]
 

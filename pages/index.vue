@@ -119,8 +119,8 @@ export default {
   data() {
     return {
       credentials: {
-        email: '',
-        password: ''
+        email: 'it@brynka.com',
+        password: '4APIsRunning'
       },
       msg: {
         credentials: ''
