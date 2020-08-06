@@ -6,15 +6,13 @@
         <div style="font-size: 3rem;">
           <b-icon icon="flag" class="rounded-circle border p-2" variant="dark"></b-icon>
         </div>
-        <h3 class="mt-3 ml-1">Cushman - 101 6thAve</h3>
+        <h3 class="mt-3 ml-1">{{customer.name}} - {{ location.name }}</h3>
       </div>
       </div>
     </div>
 
     <div class="content-container">
-
         <div class="side-panel">
-
               <nav class="nav flex-column nav-pills nav-gap-y-1">
                   <a
                     href="#"
@@ -54,7 +52,11 @@
       <div class="content-right">
         <div class="container">
           <b-tabs v-model="tabIndex" small >
-          <b-tab title="Departments">I'm the first fading tab</b-tab>
+          <b-tab title="Departments">
+            <b-card  class="text-center" v-for="(dep, index) in departments" >
+              <b-card-text>{{ dep}}</b-card-text>
+            </b-card>
+          </b-tab>
           <b-tab title="Buildings">
             I'm the second tab
             <b-card>I'm the card in tab</b-card>
@@ -62,9 +64,7 @@
           <b-tab title="Floors">I'm the last tab</b-tab>
       </b-tabs>
         </div>
-
       </div>
-
     </div>
   </div>
 </template>
@@ -74,11 +74,14 @@ import { mapState } from 'vuex'
 export default {
 computed: {
     ...mapState({
-      locations: state => state.locations.locations,
+      // locations: state => state.locations.locations,
       formToOpen: state => state.formToOpen,
+      customer: state => state.formToOpen.data.customer,
+      location: state => state.formToOpen.data,
+      departments: state => state.formToOpen.data.departments,
+      building: state => state.formToOpen.data.building,
       usaStates: state =>state.usStates.usaStates
     })
-
   },
    data() {
       return {
