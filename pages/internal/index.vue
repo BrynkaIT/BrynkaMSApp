@@ -1,9 +1,9 @@
 <template>
   <div class="content-container">
-    <SideNav page="Sales" app="Internal Stuff"></SideNav>
+    <SideNav page="internal" app="Internal Stuff"></SideNav>
     <div class="content-right">
 
-      <b-card title="Sales" class="overflow-scroll">
+      <b-card title="Internal" class="overflow-scroll">
 
       </b-card>
 

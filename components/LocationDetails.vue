@@ -32,7 +32,7 @@
                     <b-icon icon="building" font-scale="1.5" class="mr-2"></b-icon
                     >Buildings
                   </a>
-                  <a
+                  <!-- <a
                     href="#"
                     @click="tabIndex = 2"
                     class="nav-item nav-link has-icon nav-link-faded"
@@ -44,24 +44,61 @@
                       class="mr-2"
                     ></b-icon
                     >Floors
-                  </a>
+                  </a> -->
 
                 </nav>
 
         </div>
       <div class="content-right">
         <div class="container">
-          <b-tabs v-model="tabIndex" small >
+          <b-tabs v-model="tabIndex" small id="not-show-on-large-screens">
           <b-tab title="Departments">
-            <b-card  class="text-center" v-for="(dep, index) in departments" >
-              <b-card-text>{{ dep}}</b-card-text>
-            </b-card>
+            <br />
+            <b-list-group v-for="department in departmentsInContext" :key="department._id">
+            <b-list-group-item href="#" class="flex-column align-items-start m-2">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ department.name }}</h5>
+                <b-button size="sm" variant="outline-secondary" class="mb-2">
+      <b-icon icon="gear-fill" aria-hidden="true"></b-icon>
+    </b-button>
+              </div>
+
+              <p class="mb-1">
+                Last Update : {{ department.updatedAt }}
+              </p>
+
+              <small>Department ID: {{ department._id }}</small>
+            </b-list-group-item>
+
+          </b-list-group>
           </b-tab>
           <b-tab title="Buildings">
-            I'm the second tab
-            <b-card>I'm the card in tab</b-card>
+            <br />
+            <b-list-group v-for="building in buildings" :key="building._id">
+            <b-list-group-item class="flex-column align-items-start m-2">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ building.name }}</h5>
+                <b-button size="sm" variant="outline-secondary" class="mb-2">
+                  <b-icon icon="gear-fill" aria-hidden="true"></b-icon>
+                </b-button>
+              </div>
+
+              <div>Floors:</div>
+              <b-list-group horizontal="md">
+                <b-list-group-item class="d-flex justify-content-between align-items-center">1st Floor <b-button size="sm" variant="outline-info" class="m-2"><b-icon icon="pencil" aria-hidden="true"></b-icon>
+                </b-button></b-list-group-item>
+                <b-list-group-item class="d-flex justify-content-between align-items-center">2st Floor <b-button size="sm" variant="outline-info" class="m-2"><b-icon icon="pencil" aria-hidden="true"></b-icon>
+                </b-button></b-list-group-item>
+                <b-list-group-item class="d-flex justify-content-between align-items-center">3st Floor <b-button size="sm" variant="outline-info" class="m-2"><b-icon icon="pencil" aria-hidden="true"></b-icon>
+                </b-button></b-list-group-item>
+              </b-list-group>
+
+              <small>building ID: {{ building.updatedAt }}</small>
+            </b-list-group-item>
+
+          </b-list-group>
           </b-tab >
-          <b-tab title="Floors">I'm the last tab</b-tab>
+          <!-- <b-tab title="Floors">I'm the last tab</b-tab> -->
       </b-tabs>
         </div>
       </div>
@@ -79,15 +116,39 @@ computed: {
       customer: state => state.formToOpen.data.customer,
       location: state => state.formToOpen.data,
       departments: state => state.formToOpen.data.departments,
-      building: state => state.formToOpen.data.building,
+      buildings: state => state.formToOpen.data.buildings,
       usaStates: state =>state.usStates.usaStates
     })
   },
+  created(){
+    this.getDepartments()
+    this.getAllFloors()
+  },
    data() {
       return {
-        tabIndex: 0
+        tabIndex: 0,
+        departmentsInContext: [],
+        floors:[]
       }
+    },
+    methods: {
+    getDepartments(){
+     this.departments.forEach(departmentId =>{
+      this.$store.dispatch('departments/getDepartment', departmentId)
+      .then(res =>{
+          this.departmentsInContext.push(res.department)
+      })
+      .catch(e =>console.log(e))
+
+      })
+    },
+    getAllFloors(){
+      this.floors = [];
+     this.buildings.forEach(building =>{
+        this.floors.push(building.floors)
+      })
     }
+  }
 }
 </script>
 
@@ -118,11 +179,18 @@ color:#000 !important;
 }
 .side-panel .nav-link.active {
     color: #ecf0f5 !important;
-    background:  #343a40 !important;
+    background:  #2196F3 !important;
+}
+.content-right .nav-tabs .nav-link{
+  color:#000 !important;
 }
 .content-right .nav-tabs .nav-link.active, .content-right .nav-link:active,.content-right .nav-tabs .nav-item.show .nav-link {
     color: #fff !important;
-    background-color: #343a40 !important;
+    background-color: #2196F3 !important;
+}
+.content-right .nav-tabs .nav-link:hover{
+    color: #fff !important;
+    background: #d5d4d4 !important;
 }
 
 @media (max-width: 1000px) {

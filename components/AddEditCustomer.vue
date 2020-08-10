@@ -9,13 +9,14 @@
       @on-complete="onSubmit"
       :startIndex="startIndex"
     >
-  <tab-content title="Basic Information" :before-change="validateTab1">
+  <tab-content title="Basics" :before-change="validateTab1">
    <div class="container">
      <b-form-group label="Name" label-for="input-1">
         <b-form-input
           v-model="form.name"
           :class="{ 'validation-error': $v.form.name.$error }"
           type="text"
+          @input="proccessCustomerName()"
           required
           placeholder="Customer / Account Name"
         ></b-form-input>
@@ -52,6 +53,67 @@
 
    </div>
   </tab-content>
+
+   <tab-content title="Contact Info">
+     <h5 class="font-weight-bolder text-primary">Main Location</h5>
+
+     <div class="form-group">
+    <label for="inputAddress">Street</label>
+    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+  </div>
+  <div class="form-group">
+    <label for="inputAddress2">Street 2</label>
+    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputCity">City</label>
+      <input type="text" class="form-control" id="inputCity">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="inputState">State</label>
+      <select id="inputState" class="form-control">
+        <option selected>Choose...</option>
+        <option>...</option>
+      </select>
+    </div>
+    <div class="form-group col-md-2">
+      <label for="inputZip">Zip</label>
+      <input type="text" class="form-control" id="inputZip">
+    </div>
+  </div>
+  <h5 class="font-weight-bolder text-primary">Contacts</h5>
+
+  <div class="mb-2">
+    <span>Sales Contact</span>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <input type="text" class="form-control" placeholder="name">
+        </div>
+        <div class="form-group col-md-4">
+          <input type="text" class="form-control" placeholder="Phone">
+        </div>
+        <div class="form-group col-md-2">
+          <input type="text" class="form-control" placeholder="email">
+        </div>
+      </div>
+  </div>
+  <div class="mb-2">
+    <span >IT Contact</span>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <input type="text" class="form-control" placeholder="name">
+        </div>
+        <div class="form-group col-md-4">
+          <input type="text" class="form-control" placeholder="Phone">
+        </div>
+        <div class="form-group col-md-2">
+          <input type="text" class="form-control" placeholder="email">
+        </div>
+      </div>
+  </div>
+
+   </tab-content>
 
   <tab-content title="Technical Settings" :before-change="validateTab2">
      <b-row>
@@ -108,20 +170,17 @@
           </b-form-group>
         </b-col>
         <b-col>
-          <b-form-group label="Logo Path">
-            <b-form-input
-            v-model="form.logoPath"
-            >
-            </b-form-input>
+          <b-form-group label="Logo">
+            <b-form-file
+              v-model="form.logoPath"
+              :state="Boolean(form.logoPath)"
+              placeholder="Choose a file or drop it here..."
+              drop-placeholder="Drop file here..."
+    ></b-form-file>
           </b-form-group>
         </b-col>
       </b-row>
-
-  </tab-content>
-
-   <tab-content title="Security Settings">
-
-          <b-form-group label="Modules">
+      <b-form-group label="Modules">
             <b-form-checkbox-group
             :options="moduleOptions"
 
@@ -131,16 +190,8 @@
             ></b-form-checkbox-group>
           </b-form-group>
 
-          <b-form-group label="Default Security Role Model">
-            <b-form-select
-            :class="{ 'validation-error': $v.form.defaultSecurityRoleModel.$error }"
-            :options="DSRoleModelOptions"
-            v-model="form.defaultSecurityRoleModel">
-            </b-form-select>
-          </b-form-group>
+  </tab-content>
 
-
-   </tab-content>
 </form-wizard>
   </div>
 </template>
@@ -196,7 +247,7 @@ components: {
         automaticSignUpEmailDomainFilters:[],
         dbName:'',
         defaultSecurityRole: null,
-        defaultSecurityRoleModel:'SecurityRole',
+        defaultSecurityRoleModel:'none',
         emailDomain:'',
         imageFolder: '',
         logoPath: '',
@@ -209,18 +260,24 @@ components: {
       },
       moduleOptions: ['Receiving', 'Shipping', 'Jobsubmission'],
       AASignupOptions:[{ value: 'false', text: 'No' }, { value: 'true', text: 'Yes' }],
-      DSRoleModelOptions:[
-        // { value: null, text: 'Please select an option' },
-        { value: 'SecurityRole', text: 'SecurityRole' },
-        { value: 'AdvancedSecurityRole', text: 'AdvancedSecurityRole' },
-        { value: 'APISecurityRole', text: 'APISecurityRole' },
-      ],
+      // DSRoleModelOptions:[
+      //   // { value: null, text: 'Please select an option' },
+      //   { value: 'SecurityRole', text: 'SecurityRole' },
+      //   { value: 'AdvancedSecurityRole', text: 'AdvancedSecurityRole' },
+      //   { value: 'APISecurityRole', text: 'APISecurityRole' },
+      // ],
       c:[],
       parents:[]
     }
 
   },
   methods: {
+    proccessCustomerName(){
+      this.form.dbName = this.form.name.toLowerCase().replace(/\s/g, '')
+      this.form.imageFolder = this.form.name.toLowerCase().replace(/\s/g, '')
+      this.form.possessiveName = this.form.name.toLowerCase().concat("'s")
+      this.form.subFolder = this.form.name.toLowerCase().replace(/\s/g, '')
+    },
     async displaySelectedCustomerParents(id) {
          const { customers } = await this.$axios.$get(`/customers?id=${id[0]}`)
           if(this.parents.some(parent => parent == customers[0].name)){
@@ -260,7 +317,7 @@ components: {
       }
     },
     async onSubmit(){
-      this.$v.form.defaultSecurityRoleModel.$touch()
+      this.$v.form.$touch()
       if(!this.$v.form.$invalid){
         const res = await this.$store.dispatch('customers/postCustomer', this.form)
           debugger

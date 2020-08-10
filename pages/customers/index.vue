@@ -26,7 +26,8 @@
             </b-form-group>
           </b-col>
           <b-col md="2" class="my-1">
-            <b-button size="sm"
+            <b-button
+            size="sm"
               variant="primary"
               style="float:right"
                @click="$store.commit('switchForm',{ title:'Add Customer'})"
@@ -36,8 +37,6 @@
           </b-col>
         </b-row>
         <b-table
-          ref="selectableTable"
-          selectable
           stacked="md"
           striped
           bordered
@@ -46,9 +45,35 @@
           :fields="fields"
           :current-page="currentPage"
           :per-page="perPage"
-          @row-selected="onRowSelected"
           responsive="sm"
         >
+        <template v-slot:cell(actions)="row" >
+          <div class="action-buttons">
+             <b-icon
+            icon="info"
+            class="bg-primary rounded p-1 "
+            variant="light"
+             @click="onRowSelected(row.item)"
+            ></b-icon>
+            <b-icon
+            icon="pencil"
+            class="bg-warning rounded p-1"
+            variant="dark"
+             @click="
+                $store.commit('switchForm', {
+                  title:'Edit Customer',
+                  data: row.item
+                })
+              "
+            ></b-icon>
+             <b-icon
+             icon="trash"
+             class="rounded bg-danger p-1"
+             variant="light"
+             @click="onDelete(row.item)"
+             ></b-icon>
+          </div>
+          </template>
         </b-table>
         <b-col sm="7" md="6" class="mx-auto">
           <b-pagination
@@ -95,7 +120,9 @@ export default {
       currentPage: 1,
       perPage: 25,
       pageOptions: [25, 50, 100],
-      fields: ['name', 'modules', 'emailDomain', 'kind'],
+      fields: ['name', 'modules', 'emailDomain', 'kind',
+      { key: 'actions', label: 'Actions' }
+      ],
       items: []
     }
   },
@@ -103,8 +130,8 @@ export default {
    this.fetchCustomers()
   },
   methods: {
-    onRowSelected(items) {
-      this.$router.push(`/customers/${items[0]._id}`)
+    onRowSelected(item) {
+      this.$router.push(`/customers/${item._id}`)
     },
     async fetchCustomers(){
       const { customers } = await this.$store.dispatch('customers/getCustomers')
@@ -115,7 +142,15 @@ export default {
 }
 </script>
 <style scoped>
-.card {
-  margin: 15px;
+.action-buttons {
+  font-size: 1.7rem;
+  text-align:center
+}
+@media(max-width:992px){
+  .action-buttons {
+    min-width:120px;
+  font-size: 1.5rem;
+  text-align:left
+  }
 }
 </style>

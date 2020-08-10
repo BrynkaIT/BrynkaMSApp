@@ -74,25 +74,26 @@
     >
 
       <template v-slot:cell(actions)="row">
-        <b-icon
-        icon="pencil"
-        class="rounded-circle bg-primary p-1"
-        font-scale="1.5"
-        variant="light"
-          @click="
-            $store.commit('switchForm', {
-              title:'Edit Carrier',
-              data: row.item
-            })
-          "
-        ></b-icon>
-          <b-icon
-          icon="trash"
-          class="rounded-circle bg-danger p-1"
-          font-scale="1.5"
-          variant="light"
-          @click="onDelete(row.item)"
-          ></b-icon>
+        <div class="action-buttons">
+
+            <b-icon
+            icon="pencil"
+            class="bg-warning rounded p-1"
+            variant="dark"
+             @click="
+                $store.commit('switchForm', {
+                  title:'Edit Carrier',
+                  data: row.item
+                })
+              "
+            ></b-icon>
+             <b-icon
+             icon="trash"
+             class="rounded bg-danger p-1"
+             variant="light"
+             @click="onDelete(row.item)"
+             ></b-icon>
+          </div>
       </template>
 
       <template v-slot:row-details="row">
@@ -207,11 +208,15 @@
     }
   </script>
   <style scoped>
-    .b-icon:hover {
-      -webkit-box-shadow: 0px 7px 10px 1px rgba(0, 0, 0, 0.75);
-      -moz-box-shadow: 0px 7px 10px 1px rgba(0, 0, 0, 0.75);
-      box-shadow: 0px 7px 10px 1px rgba(0, 0, 0, 0.75);
-      transform: scale(1.2);
-    }
+  .action-buttons {
+  font-size: 1.7rem;
+  text-align:center
+}
+@media(max-width:992px){
+  .action-buttons {
+    min-width:120px;
+  font-size: 1.5rem;
+  text-align:left
+  }
+}
   </style>
-</template>

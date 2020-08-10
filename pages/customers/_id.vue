@@ -13,8 +13,12 @@
           <b-tab title="Locations">
             <Locations />
           </b-tab>
-          <b-tab title="Security Roles">I'm the second tab</b-tab>
-          <b-tab title="Users">I'm the second tab</b-tab>
+          <b-tab title="Security Roles">
+            <SecurityRole/>
+          </b-tab>
+          <b-tab title="Users">
+            <Users />
+          </b-tab>
         </b-tabs>
       </b-card>
     </div>
@@ -30,6 +34,8 @@ import FullWidthModal from '@/components/shared/FullWidthModal.vue'
 import Carriers from '@/components/customer/Carriers'
 import Departments from '@/components/customer/Departments'
 import Locations from '@/components/customer/Locations'
+import SecurityRole from '@/components/customer/SecurityRole'
+import Users from '@/components/customer/Users'
 import LocationDetails from '@/components/LocationDetails'
 import AddEditLocation from '@/components/AddEditLocation'
 import { mapState } from 'vuex'
@@ -42,7 +48,9 @@ export default {
     Locations,
     FullWidthModal,
     LocationDetails,
-    AddEditLocation
+    AddEditLocation,
+    SecurityRole,
+    Users
   },
   computed: {
     ...mapState({
