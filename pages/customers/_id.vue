@@ -2,7 +2,18 @@
   <div class="content-container">
     <SideNav page="Customer" app="customer"></SideNav>
     <div class="content-right">
-      <b-card :title="`${customer.name}`">
+      <b-card >
+        <div class="d-flex align-items-center">
+                        <img
+                          :src="`${customer.imageFolder}`"
+                          width="70px"
+                          class="mr-3"
+                        />
+                        <div>
+                          <h5 class="mb-1">{{ customer.name }}</h5>
+                      
+                        </div>
+                      </div>
         <b-tabs v-model="tabIndex" small card>
           <b-tab title="Carriers">
             <Carriers />

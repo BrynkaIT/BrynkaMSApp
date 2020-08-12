@@ -12,7 +12,7 @@
             <a
               href="#"
               @click="$store.commit('switchForm', { title: 'Add Customer' })"
-              class="float-right"
+              class="float-right align-items-center"
               ><b-icon
                 icon="plus-circle-fill"
                 scale="2"
@@ -22,89 +22,90 @@
             ></a>
           </b-col>
         </b-row>
-        <b-row align-h="between">
-          <b-col sm="5" md="5" class="my-1 mb-2">
-            <b-input-group size="sm">
-              <b-form-input
-                v-model="searchCriteria"
-                type="search"
-                id="filterInput"
-                @input="fetchCustomers"
-                placeholder="Type to Search"
-              ></b-form-input>
-              <b-input-group-append>
-                <b-button :disabled="!searchCriteria" @click="clearSearch"
-                  >Clear</b-button
-                >
-              </b-input-group-append>
-            </b-input-group>
-          </b-col>
-        </b-row>
+
         <br />
         <div class="row">
-          <div style="width:95%">
-            <b-list-group>
-              <b-list-group-item
-                href="#"
-                v-for="item in pageOfItems"
-                :key="item.id"
-              >
-                <b-row>
-                  <b-col md="4">
-                    <div class="d-flex align-items-center">
-                      <img
-                        :src="`${item.imageFolder}`"
-                        width="70px"
-                        class="mr-3"
-                      />
-                      <!-- <b-avatar rounded class="mr-3" :src="`${item.imageFolder}`"></b-avatar> -->
-                      <div>
-                        <h5 class="mb-1">{{ item.name }}</h5>
-                        <small class="text-muted">{{ item.emailDomain }}</small>
+          <div class="list-group-wrapper">
+
+              <b-input-group size="sm" class="mb-3">
+                <b-form-input
+                  v-model="searchCriteria"
+                  type="search"
+                  id="filterInput"
+                  @input="fetchCustomers"
+                  placeholder="Type to Search"
+                ></b-form-input>
+                <b-input-group-append>
+                  <b-button :disabled="!searchCriteria" @click="clearSearch"
+                    >Clear</b-button
+                  >
+                </b-input-group-append>
+              </b-input-group>
+              <b-list-group>
+                <b-list-group-item
+                  href="#"
+                  v-for="item in pageOfItems"
+                  :key="item.id"
+                >
+                  <b-row>
+                    <b-col md="4">
+                      <div class="d-flex align-items-center">
+                        <img
+                          :src="`${item.imageFolder}`"
+                          width="70px"
+                          class="mr-3"
+                        />
+                        <div>
+                          <h5 class="mb-1">{{ item.name }}</h5>
+                          <small class="text-muted">{{
+                            item.emailDomain
+                          }}</small>
+                        </div>
                       </div>
-                    </div>
-                  </b-col>
-                  <b-col md="4">
-                    <p class="text-center">
-                      21 Main Street,<br />
-                      Wallingford, PA 19086
-                    </p>
-                  </b-col>
-                  <b-col md="4">
-                    <b-button-toolbar style="float:right;">
-                      <b-button-group class="mr-1">
-                        <b-button title="Info">
-                          <b-icon
-                            icon="info-circle"
-                            @click="onRowSelected(item)"
-                            aria-hidden="true"
-                          ></b-icon>
-                        </b-button>
-                        <b-button title="Edit">
-                          <b-icon
-                            icon="pencil"
-                            @click="
-                              $store.commit('switchForm', {
-                                title: 'Edit Customer',
-                                data: item
-                              })
-                            "
-                            aria-hidden="true"
-                          ></b-icon>
-                        </b-button>
-                        <b-button title="Delete">
-                          <b-icon
-                            icon="trash"
-                            @click="onDelete(item)"
-                            aria-hidden="true"
-                          ></b-icon>
-                        </b-button>
-                      </b-button-group>
-                    </b-button-toolbar>
-                  </b-col>
-                </b-row>
-              </b-list-group-item>
-            </b-list-group>
+                    </b-col>
+                    <b-col md="4">
+                      <p class="middle">
+                        21 Main Street,<br />
+                        Wallingford, PA 19086
+                      </p>
+                    </b-col>
+                    <b-col md="4">
+                      <b-button-toolbar class="right">
+                        <b-button-group class="mr-1">
+                          <b-button title="Info">
+                            <b-icon
+                              icon="info-circle"
+                              @click="onRowSelected(item)"
+                              aria-hidden="true"
+                            ></b-icon>
+                          </b-button>
+                          <b-button title="Edit">
+                            <b-icon
+                              icon="pencil"
+                              @click="
+                                $store.commit('switchForm', {
+                                  title: 'Edit Customer',
+                                  data: item
+                                })
+                              "
+                              aria-hidden="true"
+                            ></b-icon>
+                          </b-button>
+                          <b-button title="Delete">
+                            <b-icon
+                              icon="trash"
+                              @click="onDelete(item)"
+                              aria-hidden="true"
+                            ></b-icon>
+                          </b-button>
+                        </b-button-group>
+                      </b-button-toolbar>
+                    </b-col>
+                  </b-row>
+                </b-list-group-item>
+              </b-list-group>
+
+
             <div class="text-center mt-3">
               <jw-pagination
                 :items="items"
@@ -114,23 +115,221 @@
             </div>
           </div>
           <div class="right-side-nav">
-          <ul>
-             <li class="">
-              <a href="#" @click="fetchCustomers()">Reset</a>
-            </li>
-            <li class="">
-              <a href="#" @click="fetchCustomersByLetter('a')">A</a>
-            </li>
-            <li class=""><a href="">B</a></li>
-            <li class=""><a href="">C</a></li>
-            <li class=""><a href="">D</a></li>
-            <li class=""><a href="">E</a></li>
-            <li class=""><a href="">F</a></li>
-          </ul>
+            <ul>
+              <li class="">
+                <a href="#" @click="fetchCustomers()">Reset</a>
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('a')"
+                  >A</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('b')"
+                  >B</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('c')"
+                  >C</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('d')"
+                  >D</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('e')"
+                  >E</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('f')"
+                  >F</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('g')"
+                  >G</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('h')"
+                  >H</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('i')"
+                  >I</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('j')"
+                  >J</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('k')"
+                  >K</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('l')"
+                  >L</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('m')"
+                  >M</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('n')"
+                  >N</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('o')"
+                  >O</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('p')"
+                  >P</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('q')"
+                  >Q</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('r')"
+                  >R</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('s')"
+                  >S</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('t')"
+                  >T</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('u')"
+                  >U</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('v')"
+                  >V</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('w')"
+                  >W</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('x')"
+                  >X</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('y')"
+                  >Y</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#"
+                  class="search-link"
+                  @click="fetchCustomersByLetter('z')"
+                  >Z</a
+                >
+              </li>
+            </ul>
+          </div>
         </div>
-        </div>
-
-
       </b-card>
       <!-- view-all-customers-table -->
     </div>
@@ -223,26 +422,42 @@ export default {
 }
 </script>
 <style scoped>
-.action-buttons {
-  font-size: 1.7rem;
+.list-group-wrapper{
+  width:95%
+}
+.middle {
   text-align: center;
 }
+.right{
+  float: right
+}
+@media (max-width: 1222px) {
+  .list-group-wrapper{
+  width:85%
+}
+}
 @media (max-width: 992px) {
-  .action-buttons {
-    min-width: 120px;
-    font-size: 1.5rem;
+  .middle{
     text-align: left;
   }
-}
-.right-side-nav ul{
-    list-style: none;
-    padding: 5px;
-    text-align:center;
-}
-/* .right-side-nav ul li a:hover{
+  .right{
+  float: left
+  }
 
- font-size: 40px;
+}
+.right-side-nav  {
+  padding: 5px;
+  text-align: center;
+  position: absolute;
+  right: 12px;
+}
+.right-side-nav ul {
+  list-style: none;
+  text-align: center;
+}
+.search-link:hover {
+  font-size: 40px;
   font-family: sans-serif;
   font-weight: 900;
-} */
+}
 </style>
