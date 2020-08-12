@@ -42,6 +42,7 @@ module.exports = {
     { src: '~/plugins/bootstrapIcons' },
     { src: '~/plugins/formHandler' },
     { src: '~/plugins/convertToUTC' },
+    { src: '~/plugins/jwPagination' },
     { src: '~/plugins/moment' },
     { src: '~/plugins/easyLightBox', ssr: false},
   ],

@@ -46,7 +46,7 @@
                 :fontAwesomeStyle="navLink.fontAwesomeStyle"
               ></NavLink>
 
-              <DropdownNav
+              <!-- <DropdownNav
                 v-if="dropdownNavs.length > 0"
                 :appModule="dropdownNav.appModule"
                 v-for="dropdownNav in dropdownNavs"
@@ -55,7 +55,7 @@
                 :dropdownIcon="dropdownNav.dropdownIcon"
                 :dropdownIconStyle="dropdownNav.dropdownIconStyle"
                 :nestedLinks="dropdownNav.nestedLinks"
-              ></DropdownNav>
+              ></DropdownNav> -->
             </div>
             <!-- End Customer Links -->
             <!-- Sales Links -->

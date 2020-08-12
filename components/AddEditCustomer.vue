@@ -59,7 +59,7 @@
 
      <div class="form-group">
     <label for="inputAddress">Street</label>
-    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+    <input type="text" class="form-control" placeholder="1234 Main St">
   </div>
   <div class="form-group">
     <label for="inputAddress2">Street 2</label>
@@ -72,9 +72,12 @@
     </div>
     <div class="form-group col-md-4">
       <label for="inputState">State</label>
-      <select id="inputState" class="form-control">
-        <option selected>Choose...</option>
-        <option>...</option>
+      <select
+      :options="states"
+      v-model="form.address.state"
+      text-field="name"
+      value-field="abbreviation"
+      class="form-control">
       </select>
     </div>
     <div class="form-group col-md-2">
@@ -144,7 +147,6 @@
         <b-col>
           <b-form-group label="Automatic Signup">
             <b-form-select
-
             :options="AASignupOptions"
             v-model="form.allowsAutomaticSignup"
             required>
@@ -210,7 +212,7 @@ components: {
     ...mapState({
       customers: state => state.customers.customers,
       securityRoles: state => state.securityRoles.securityRoles,
-      USAStates: state =>state.usStates.usaStates,
+      usaStates: state =>state.usStates.usaStates,
       formToOpen: state => state.formToOpen
     })
   },
@@ -239,9 +241,14 @@ components: {
       },
     }
   },
+   created() {
+    this.fetchUSAStates()
+
+  },
   data(){
     return {
       startIndex: 0,
+      states: [{ name: 'State' }],
       form:{
         allowsAutomaticSignup: false,
         automaticSignUpEmailDomainFilters:[],
@@ -256,6 +263,12 @@ components: {
         name: '',
         possessiveName: '',
         subFolder: '',
+        address:{
+          street1:'',
+          street2:'',
+          city: '',
+          state:'',
+          postalCode: ''        }
 
       },
       moduleOptions: ['Receiving', 'Shipping', 'Jobsubmission'],
@@ -335,7 +348,12 @@ components: {
           })
         }
       }
-    }
+    },
+     fetchUSAStates() {
+      this.usaStates.forEach(state => {
+        this.states.push(state)
+      })
+    },
   }
 }
 </script>
