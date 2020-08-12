@@ -116,7 +116,7 @@
           <div class="right-side-nav">
           <ul>
              <li class="">
-              <a href="#" @click="fetchCustomers('a')">Reset</a>
+              <a href="#" @click="fetchCustomers()">Reset</a>
             </li>
             <li class="">
               <a href="#" @click="fetchCustomersByLetter('a')">A</a>
@@ -237,12 +237,12 @@ export default {
 .right-side-nav ul{
     list-style: none;
     padding: 5px;
-    /* width:5% */
+    text-align:center;
 }
-.right-side-nav ul li a:hover{
+/* .right-side-nav ul li a:hover{
 
  font-size: 40px;
   font-family: sans-serif;
   font-weight: 900;
-}
+} */
 </style>
