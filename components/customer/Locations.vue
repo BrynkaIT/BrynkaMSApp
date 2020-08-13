@@ -59,9 +59,8 @@
         <br />
         <!-- Main table element -->
         <b-table
-         striped
-          bordered
-          head-variant="dark"
+
+          head-variant="light"
           stacked="md"
           :items="items"
           :fields="fields"
@@ -173,7 +172,8 @@ export default {
   },
   computed: {
      ...mapState({
-      formToOpen: state => state.formToOpen
+      formToOpen: state => state.formToOpen,
+      customerInContext: state => state.customers.customerInContext
     }),
     sortOptions() {
       // Create an options list from our fields
@@ -189,7 +189,7 @@ export default {
   },
   methods: {
     fetchLocations() {
-      this.$store.dispatch('locations/getLocations', '?deep=true')
+      this.$store.dispatch('locations/getLocations', `?deep=true`)
         .then(response => {
           this.items = response.locations
           // Set the initial number of items

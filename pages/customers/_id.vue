@@ -3,18 +3,137 @@
     <SideNav page="Customer" app="customer"></SideNav>
     <div class="content-right">
       <b-card >
-        <div class="d-flex align-items-center">
-                        <img
-                          :src="`${customer.imageFolder}`"
-                          width="70px"
-                          class="mr-3"
-                        />
-                        <div>
-                          <h5 class="mb-1">{{ customer.name }}</h5>
-                      
-                        </div>
-                      </div>
+        <div><h5 class="mb-1">{{ customer.name }}</h5></div>
         <b-tabs v-model="tabIndex" small card>
+          <b-tab title="Overview">
+            <div class="emp-profile">
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="profile-img">
+                            <img :src="customer.imageFolder" alt=""/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="profile-head">
+                        <h5>{{ customer.name }}</h5>
+                        <h6>{{ customer.emailDomain}}</h6>
+                        <p class="proile-rating"></span></p>
+                        <b-tabs content-class="mt-3">
+                          <b-tab title="Basic Info" active>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Customer Id</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ customer._id}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Name</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ customer.name }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Email Domain</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ customer.emailDomain}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Possessive Name</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ customer.possessiveName}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Parent(s)</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <span v-for=" (parent, index) in customer.parentCustomers" :key="index">{{ parent }}, </span>
+                                </div>
+                            </div>
+                          </b-tab>
+                          <b-tab title="Techinial Settings">
+                             <div class="row">
+                                <div class="col-md-6">
+                                    <label>Image Folder</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ customer.imageFolder}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Sub-Folder</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ customer.subFolder}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Default Security Role</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ customer.defaultSecurityRoleModel}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Allow Auto Signup</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ customer.allowsAutomaticSignup}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Domain Filters</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <span v-for="(ASE, index) in customer.automaticSignUpEmailDomainFilters" :key="index">{{ ASE }}, </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                  <label>Last Updated</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ customer.updatedAt}}</p>
+                                </div>
+                            </div>
+                          </b-tab>
+
+                        </b-tabs>
+
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <b-button pill
+                      variant="outline-secondary"
+                       @click="
+                        $store.commit('switchForm', {
+                          title: 'Edit Customer',
+                          to:'CustomerForm',
+                          data: customer
+                        })
+                      "
+                      >Edit</b-button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+          </b-tab>
           <b-tab title="Carriers">
             <Carriers />
           </b-tab>
@@ -48,6 +167,7 @@ import Locations from '@/components/customer/Locations'
 import SecurityRole from '@/components/customer/SecurityRole'
 import Users from '@/components/customer/Users'
 import LocationDetails from '@/components/LocationDetails'
+import CustomerForm from '@/components/AddEditCustomer.vue'
 import AddEditLocation from '@/components/AddEditLocation'
 import { mapState } from 'vuex'
 export default {
@@ -61,6 +181,7 @@ export default {
     LocationDetails,
     AddEditLocation,
     SecurityRole,
+    CustomerForm,
     Users
   },
   computed: {
@@ -75,22 +196,93 @@ export default {
       tabIndex: 0
     }
   },
+
   async created() {
-    await this.$store.dispatch('customers/getCustomer', this.$route.params.id)
+    try {
+       await this.$store.dispatch('customers/getCustomer', this.$route.params.id)
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 </script>
 
 <style scoped>
-/* .customer-nav {
-  height: 200px;
-  background: #fff;
-} */
-/* .nav-link {
-  color: #565656 !important;
-  font-size: 13px;
+.emp-profile{
+    /* padding: 3%; */
+    margin-top: 3%;
+    margin-bottom: 3%;
+    border-radius: 0.5rem;
+    background: #fff;
 }
-.navbar {
-  padding: 0px;
-} */
+.profile-img{
+    text-align: center;
+}
+.profile-img img{
+    width: 70%;
+    height: 100%;
+}
+
+.profile-head h5{
+    color: #333;
+}
+.profile-head h6{
+    color: #0062cc;
+}
+.profile-edit-btn{
+    border: none;
+    border-radius: 1.5rem;
+    width: 70%;
+    padding: 2%;
+    font-weight: 600;
+    color: #6c757d;
+    cursor: pointer;
+}
+.proile-rating{
+    font-size: 12px;
+    color: #818182;
+    margin-top: 5%;
+}
+.proile-rating span{
+    color: #495057;
+    font-size: 15px;
+    font-weight: 600;
+}
+.profile-head .nav-tabs{
+    margin-bottom:5%;
+}
+.profile-head .nav-tabs .nav-link{
+    font-weight:600;
+    border: none;
+}
+.profile-head .nav-tabs .nav-link.active{
+    border: none;
+    border-bottom:2px solid #0062cc;
+}
+.profile-work{
+    padding: 14%;
+    margin-top: -15%;
+}
+.profile-work p{
+    font-size: 12px;
+    color: #818182;
+    font-weight: 600;
+    margin-top: 10%;
+}
+.profile-work a{
+    text-decoration: none;
+    color: #495057;
+    font-weight: 600;
+    font-size: 14px;
+}
+.profile-work ul{
+    list-style: none;
+}
+.profile-tab label{
+    font-weight: 600;
+}
+.profile-tab p{
+    font-weight: 600;
+    color: #0062cc;
+}
 </style>

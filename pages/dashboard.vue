@@ -3,20 +3,16 @@
     <SideNav page="dashboard" app="dashboard"></SideNav>
     <div class="content-right">
       <div class="row">
-        <div class="col summary">
+        <div class="col">
           <div class="card ">
             <div class="card-body">
               <div class="row">
                 <div class="col-md-4">
-                  <font-awesome-icon
-                    :icon="['fas', 'dolly-flatbed']"
-                    style="font-size:30px;
-                  color:#07c5fd;position: relative; top: 10px;"
-                  />
+                 <b-icon icon="people" scale="3" variant="primary" aria-hidden="true" class="" style="margin:20px"></b-icon>
                 </div>
                 <div class="col">
-                  <h5 >Post</h5>
-                  <p >2,345</p>
+                  <h5 class="summary-heading">Users</h5>
+                  <p class="summary-text">2,345</p>
                 </div>
               </div>
             </div>
@@ -27,15 +23,12 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-md-4">
-                  <font-awesome-icon
-                    :icon="['fas', 'mail-bulk']"
-                    style="font-size:30px;
-                  color:#ff9800;position: relative; top:10px;"
-                  />
+                  <b-icon icon="bezier" scale="3" variant="primary" aria-hidden="true" class="" style="margin:20px"></b-icon>
+
                 </div>
                 <div class="col">
-                  <h5 >Mail Center</h5>
-                  <p >4,061</p>
+                  <h5 >Customers</h5>
+                  <p >861</p>
                 </div>
               </div>
             </div>
@@ -46,15 +39,11 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-md-4">
-                  <font-awesome-icon
-                    :icon="['fas', 'running']"
-                    style="font-size:30px;
-                  color:#d7ec05;position: relative;  top: 10px;"
-                  />
+                  <b-icon icon="box" scale="3" variant="primary" aria-hidden="true" class="" style="margin:20px"></b-icon>
                 </div>
                 <div class="col">
-                  <h5 >Mail Run</h5>
-                  <p >26</p>
+                  <h5 >Packages</h5>
+                  <p >26,203</p>
                 </div>
               </div>
             </div>
@@ -65,24 +54,19 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-md-4">
-                  <font-awesome-icon
-                    :icon="['fas', 'hand-holding']"
-                    style="font-size:30px;
-                  color:#e91e63;position: relative;top:10px;"
-                  />
+                  <b-icon icon="graph-up" scale="3" variant="primary" aria-hidden="true" class="" style="margin:20px"></b-icon>
                 </div>
                 <div class="col">
-                  <h5>Delivered</h5>
-                  <p>40</p>
+                  <h5>Sales</h5>
+                  <p>540</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <br />
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Received - 2019</h5>
@@ -90,8 +74,15 @@
             </div>
           </div>
         </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Received - 2019</h5>
+              <DoughnutChart></DoughnutChart>
+            </div>
+          </div>
+        </div>
       </div>
-      <br />
       <div class="row">
         <div class="col-md-6">
           <div class="card">
@@ -120,6 +111,7 @@ import SideNav from '@/components/shared/SideNav.vue'
 import LineChart from '@/components/LineChart'
 import BarChart from '@/components/BarChart'
 import BubbleChart from '@/components/BubbleChart'
+import DoughnutChart from '@/components/DoughnutChart'
 
 export default {
   middleware: ['authenticated'],
@@ -128,6 +120,7 @@ export default {
     LineChart,
     BarChart,
     BubbleChart,
+    DoughnutChart,
     SideNav,
   },
   data(){
@@ -140,53 +133,41 @@ export default {
 
 <style scoped>
 
-.section-label {
-  font-size: 13px;
-  font-weight: 600;
+.card{
+  box-shadow: 0 4px 20px 1px rgba(0,0,0,.06), 0 1px 4px rgba(0,0,0,.08);
+  border: 0;
 }
 
-.custom-control-input:checked ~ .custom-control-label::before {
-  color: #fff;
-  border-color: #ffeb3b !important;
-  background-color: #4caf50 !important;
-}
 @media (max-width: 992px) {
-  /* .content-right{
-    margin-top:50px;
-  } */
-  .row{
+
+  /* .row{
     padding-left:20px;
     padding-right:20px;
   }
   .col {
    padding:0px;
    text-align:center;
-  }
-  .col.summary h5{
+  } */
+  .summary-heading {
     font-size: 1rem !important;
-    margin-bottom: 0 !important
+    font-weight:200!important;
+    margin-bottom: 0 !important;
+    color:#818182 !important;
   }
 
-  .col.summary p{
+  .summary-text{
+    font-weight:200!important;
     font-size: .85rem !important;
+    color:#818182 !important;
   }
-  svg{
+  /* svg{
     font-size: 1.5rem !important;
-  }
+  } */
 
 }
 
 @media (max-width: 768px) {
-  .form {
-    width: 100% !important;
-  }
-  svg{
-    font-size: 1.25rem !important;
-    margin-bottom: 5px !important;
-  }
-  .summary .card-body{
-    padding: 0rem !important;
-  }
+
 
 }
 

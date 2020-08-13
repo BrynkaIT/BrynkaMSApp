@@ -178,19 +178,31 @@
               :state="Boolean(form.logoPath)"
               placeholder="Choose a file or drop it here..."
               drop-placeholder="Drop file here..."
+              ref="image"
+              accept="image/*"
+              @change="previewImage($event)"
     ></b-form-file>
           </b-form-group>
         </b-col>
       </b-row>
-      <b-form-group label="Modules">
+      <b-row>
+        <b-col>
+          <b-form-group label="Modules">
             <b-form-checkbox-group
             :options="moduleOptions"
-
             v-model="form.modules"
               switches
               stacked
             ></b-form-checkbox-group>
           </b-form-group>
+        </b-col>
+        <b-col>
+          <div>
+            <b-img :src="imagePlaceholder" fluid alt="Responsive image"></b-img>
+          </div>
+        </b-col>
+      </b-row>
+
 
   </tab-content>
 
@@ -243,7 +255,11 @@ components: {
   },
    created() {
     this.fetchUSAStates()
+      if (this.formToOpen.data) {
 
+      this.isCustomerToEdit = true
+      this.populateCustomer(this.formToOpen.data)
+    }
   },
   data(){
     return {
@@ -268,23 +284,43 @@ components: {
           street2:'',
           city: '',
           state:'',
-          postalCode: ''        }
-
+          postalCode: ''
+        }
       },
       moduleOptions: ['Receiving', 'Shipping', 'Jobsubmission'],
       AASignupOptions:[{ value: 'false', text: 'No' }, { value: 'true', text: 'Yes' }],
-      // DSRoleModelOptions:[
-      //   // { value: null, text: 'Please select an option' },
-      //   { value: 'SecurityRole', text: 'SecurityRole' },
-      //   { value: 'AdvancedSecurityRole', text: 'AdvancedSecurityRole' },
-      //   { value: 'APISecurityRole', text: 'APISecurityRole' },
-      // ],
+      isCustomerToEdit:false,
       c:[],
-      parents:[]
+      parents:[],
+      imagePlaceholder:''
     }
 
   },
   methods: {
+   async populateCustomer(customer){
+       this.form.allowsAutomaticSignup = customer.allowsAutomaticSignup;
+        this.form.automaticSignUpEmailDomainFilters = customer.automaticSignUpEmailDomainFilters;
+        // this.form.dbName  = customer.dbName;
+        // this.form.defaultSecurityRole  = customer.defaultSecurityRole;
+        this.form.defaultSecurityRoleModel  = customer.defaultSecurityRoleModel;
+        this.form.emailDomain = customer.emailDomain;
+        this.form.imageFolder = customer.imageFolder;
+        this.imagePlaceholder = customer.imageFolder;
+        // this.form.logoPath = customer.logoPath;
+
+        // this.form.parentCustomers = customer.parentCustomers;
+        await this.$store.dispatch(`customers/getCustomers`)
+        this.displaySelectedCustomerParents(customer.parentCustomers)
+        this.form.modules  = customer.modules;
+        this.form.name  = customer.name;
+        this.form.possessiveName = customer.possessiveName;
+        this.form.subFolder = customer.subFolder;
+        // this.form.address.street1 = customer.address.street1;
+        // this.form.address.street2 = customer.address.street2;
+        // this.form.address.city  = customer.address.city;
+        // this.form.address.state  = customer.address.state;
+        // this.form.address.postalCode = customer.address.postalCode
+    },
     proccessCustomerName(){
       this.form.dbName = this.form.name.toLowerCase().replace(/\s/g, '')
       this.form.imageFolder = this.form.name.toLowerCase().replace(/\s/g, '')
@@ -292,6 +328,7 @@ components: {
       this.form.subFolder = this.form.name.toLowerCase().replace(/\s/g, '')
     },
     async displaySelectedCustomerParents(id) {
+
          const { customers } = await this.$axios.$get(`/customers?id=${id[0]}`)
           if(this.parents.some(parent => parent == customers[0].name)){
             return alert('Customer already selected')
@@ -305,6 +342,19 @@ components: {
         this.parents.splice(index, 1);
         this.form.parentCustomers.splice(index, 1);
       }
+    },
+    previewImage(e) {
+
+      const files = e.target.files
+      if (files && files[0]) {
+        const reader = new FileReader()
+        reader.onload = e => {
+          this.imagePlaceholder = e.target.result
+        }
+        reader.readAsDataURL(files[0])
+        this.imagePlaceholder = files[0]
+      }
+      // this.user.image = files[0]
     },
     validateTab1(){
       this.$v.form.name.$touch()

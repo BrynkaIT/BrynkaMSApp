@@ -59,9 +59,9 @@
     <br />
     <!-- Main table element -->
     <b-table
-      striped
-      bordered
-      head-variant="dark"
+
+
+      head-variant="light"
       stacked="md"
       :items="items"
       :fields="fields"
