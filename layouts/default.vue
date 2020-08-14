@@ -36,12 +36,13 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Assistant&display=swap');
+/* @import url('https://fonts.googleapis.com/css?family=Assistant&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
 
 body {
   /* font-family: 'Assistant', sans-serif; */
   font-family: 'Nunito Sans', sans-serif;
+  
 }
 .wrapper {
   display: flex;
