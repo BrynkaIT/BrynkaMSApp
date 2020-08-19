@@ -51,7 +51,7 @@
                     <b-col md="4">
                       <div class="d-flex align-items-center">
                         <img
-                          :src="`${item.imageFolder}`"
+                          :src="`${item.logoUrl}`"
                           width="70px"
                           class="mr-3"
                         />
@@ -333,7 +333,7 @@ import JwPagination from 'jw-vue-pagination'
 import { mapState } from 'vuex'
 export default {
   middleware: ['authenticated'],
-  transition: 'tile',
+  // transition: 'tile',
   components: {
     SideNav,
     FullWidthModal,

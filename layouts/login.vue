@@ -24,7 +24,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style >
 @import url('https://fonts.googleapis.com/css?family=Assistant&display=swap');
 
 body {

@@ -174,8 +174,8 @@
         <b-col>
           <b-form-group label="Logo">
             <b-form-file
-              v-model="form.logoPath"
-              :state="Boolean(form.logoPath)"
+              v-model="form.image"
+              :state="Boolean(form.image)"
               placeholder="Choose a file or drop it here..."
               drop-placeholder="Drop file here..."
               ref="image"
@@ -273,7 +273,7 @@ components: {
         defaultSecurityRoleModel:'none',
         emailDomain:'',
         imageFolder: '',
-        logoPath: '',
+        image: '',
         parentCustomers: [],
         modules: [],
         name: '',
@@ -306,7 +306,7 @@ components: {
         this.form.emailDomain = customer.emailDomain;
         this.form.imageFolder = customer.imageFolder;
         this.imagePlaceholder = customer.imageFolder;
-        // this.form.logoPath = customer.logoPath;
+        // this.form.image = customer.image;
 
         // this.form.parentCustomers = customer.parentCustomers;
         await this.$store.dispatch(`customers/getCustomers`)
@@ -329,7 +329,7 @@ components: {
     },
     async displaySelectedCustomerParents(id) {
 
-         const { customers } = await this.$axios.$get(`/customers?id=${id[0]}`)
+         const { customers } = await this.$axios.$get(`/manage/customers?id=${id[0]}`)
           if(this.parents.some(parent => parent == customers[0].name)){
             return alert('Customer already selected')
           }

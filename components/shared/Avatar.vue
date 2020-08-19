@@ -3,7 +3,7 @@
     <a class="nav-link" href="#" v-b-toggle.accordion-user>
       <span class="menu-icon">
         <b-avatar v-if="currentUser.imageUrl == '' || currentUser.imageUrl == null"></b-avatar>
-        <b-avatar v-if="currentUser.imageUrl !=''" variant="info" :src="currentUser.imageUrl"></b-avatar>
+        <b-avatar v-if="currentUser.imageUrl !=''" variant="primary" :src="currentUser.imageUrl"></b-avatar>
       </span>
       <span class="menu-title" v-if="currentUser">
         <i>{{ currentUser.firstName }} {{ currentUser.lastName }}</i>
