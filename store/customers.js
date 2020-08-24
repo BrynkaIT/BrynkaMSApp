@@ -44,10 +44,17 @@ export const actions = {
 	},
 
 	async postCustomer({ dispatch }, customer) {
+
     try {
-      const data = await dispatch('createFormData', customer)
-			const res = await this.$axios.$post(`/manage/customers`, data, config)
-			return res
+      if(customer.image != null){
+        let data = await dispatch('createFormData', customer)
+        const res = await this.$axios.$post(`/manage/customers`, data, config)
+        return res
+      }else{
+        const res = await this.$axios.$post(`/manage/customers`, customer)
+        return res
+      }
+
 		} catch (error) {
 			console.log(error)
 		}
@@ -55,10 +62,19 @@ export const actions = {
 	},
 
 	async putCustomer({ dispatch }, customerToEdit) {
+
     try {
-			// const customerToEdit = await dispatch('createFormData', data)
-			const res = await this.$axios.$put(`/manage/customers/${ customerToEdit.id }`, customerToEdit, config)
-			return res
+      if(customerToEdit.image != null ){
+        debugger
+        let data = await dispatch('createFormData', customerToEdit)
+        const res = await this.$axios.$put(`/manage/customers/${ customerToEdit.id }`, data, config)
+        return res
+      }else{
+        debugger
+        const res = await this.$axios.$put(`/manage/customers/${ customerToEdit.id }`, customerToEdit)
+        return res
+      }
+
 		} catch (error) {
 			console.log(error)
 		}
@@ -79,13 +95,18 @@ export const actions = {
 		formData.append('defaultSecurityRole', c.defaultSecurityRole)
 		formData.append('defaultSecurityRoleModel', c.defaultSecurityRoleModel)
 		formData.append('emailDomain', c.emailDomain)
-		formData.append('imageFolder', c.imageFolder)
+		formData.append('mediaFolder', c.mediaFolder)
 		formData.append('name', c.name)
 		formData.append('possessiveName', c.possessiveName)
 		formData.append('subFolder', c.subFolder)
 
 		if (c.image != null) formData.append('image', c.image)
-		if (c.address != null) formData.append('address', c.address)
+    if (c.address != null) formData.append('address', c.address)
+    if (c.shipToAddress != null) formData.append('shipToAddress', c.shipToAddress)
+    if (c.billToAddress != null) formData.append('billToAddress', c.billToAddress)
+    if (c.billToContact != null) formData.append('billToContact', c.billToContact)
+    if (c.salesContact != null) formData.append('salesContact', c.salesContact)
+    if (c.technicalContact != null) formData.append('technicalContact', c.technicalContact)
 
     if (c.automaticSignUpEmailDomainFilters != null) {
 			for (var i = 0; i < c.automaticSignUpEmailDomainFilters.length; i++) {

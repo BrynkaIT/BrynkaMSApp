@@ -37,6 +37,19 @@
                                     <p>{{ customer.name }}</p>
                                 </div>
                             </div>
+                            <div class="row" v-if="customer.address">
+                                <div class="col-md-6">
+                                    <label>Address</label>
+                                </div>
+                                <div class="col-md-6">
+                                  <p >
+                                    <span v-if="customer.address.street1">{{ customer.address.street1 }}</span> <span v-if="customer.address.street2">{{ customer.address.street2 }}</span>,<br>
+                                    <span v-if="customer.address.city">{{ customer.address.city }}</span>,
+                                    <span v-if="customer.address.state">{{ customer.address.state }}</span>,
+                                    <span v-if="customer.address.postalCode">{{ customer.address.postalCode }}</span><br>
+                                  </p>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Email Domain</label>
@@ -62,13 +75,51 @@
                                 </div>
                             </div>
                           </b-tab>
+                          <b-tab title="Billing">
+                            <div class="row" v-if="customer.billToContact">
+                                <div class="col-md-6">
+                                    <label>Billing Contact</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                      <span>{{ customer.billToContact.firstName}} {{ customer.billToContact.lastName}}</span><br>
+                                      <span>Title: {{ customer.billToContact.title }}</span><br>
+                                      <span>Phone: {{ customer.billToContact.phone }}</span><br>
+                                      <span>Email: {{ customer.billToContact.email}}</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row" v-if="customer.billToAddress">
+                                <div class="col-md-6">
+                                    <label>Billing Address</label>
+                                </div>
+                                <div class="col-md-6">
+                                  <p >
+                                    <span v-if="customer.billToAddress.street1">{{ customer.billToAddress.street1 }}</span> <span v-if="customer.billToAddress.street2">{{ customer.billToAddress.street2 }}</span>,<br>
+                                    <span v-if="customer.billToAddress.city">{{ customer.billToAddress.city }}</span>,
+                                    <span v-if="customer.billToAddress.state">{{ customer.billToAddress.state }}</span>,
+                                    <span v-if="customer.billToAddress.postalCode">{{ customer.billToAddress.postalCode }}</span><br>
+                                  </p>
+                                </div>
+                            </div>
+
+                          </b-tab>
                           <b-tab title="Techinial Settings">
                              <div class="row">
                                 <div class="col-md-6">
-                                    <label>Image Folder</label>
+                                    <label>Database Name</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>{{ customer.imageFolder}}</p>
+                                    <p>{{ customer.dbName}}</p>
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-md-6">
+                                    <label>Media Folder</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ customer.mediaFolder}}</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -112,7 +163,35 @@
                                 </div>
                             </div>
                           </b-tab>
+                          <b-tab title="Other">
+                            <div class="row" v-if="customer.salesContact">
+                                <div class="col-md-6">
+                                    <label>Billing Contact</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                      <span>{{ customer.salesContact.firstName}} {{ customer.salesContact.lastName}}</span><br>
+                                      <span>Title: {{ customer.salesContact.title }}</span><br>
+                                      <span>Phone: {{ customer.salesContact.phone }}</span><br>
+                                      <span>Email: {{ customer.salesContact.email}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row" v-if="customer.technicalContact">
+                                <div class="col-md-6">
+                                    <label>Billing Contact</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                      <span>{{ customer.technicalContact.firstName}} {{ customer.technicalContact.lastName}}</span><br>
+                                      <span>Title: {{ customer.technicalContact.title }}</span><br>
+                                      <span>Phone: {{ customer.technicalContact.phone }}</span><br>
+                                      <span>Email: {{ customer.technicalContact.email}}</span>
+                                    </p>
+                                </div>
+                            </div>
 
+                          </b-tab>
                         </b-tabs>
 
                       </div>
