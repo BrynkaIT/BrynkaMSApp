@@ -54,10 +54,10 @@ export const actions = {
 
 	},
 
-	async putCustomer({ dispatch }, data) {
+	async putCustomer({ dispatch }, customerToEdit) {
     try {
-			const customerToEdit = await dispatch('createFormData', data)
-			const res = await this.$axios.$put(`/manage/customer/${ customerToEdit.id }`, customerToEdit, config)
+			// const customerToEdit = await dispatch('createFormData', data)
+			const res = await this.$axios.$put(`/manage/customers/${ customerToEdit.id }`, customerToEdit, config)
 			return res
 		} catch (error) {
 			console.log(error)

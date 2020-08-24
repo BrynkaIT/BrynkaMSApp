@@ -1,4 +1,5 @@
-//require('dotenv').config()
+const env = require('dotenv').config()
+const config = require('./config')
 
 module.exports = {
   mode: 'universal',
@@ -80,7 +81,7 @@ module.exports = {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'http://localhost:8080', //'https://brynka-api.herokuapp.com',
+    baseURL:config.baseURL,
     withCredentials: false
   },
   /*

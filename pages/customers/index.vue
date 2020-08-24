@@ -332,7 +332,7 @@ import FullWidthModal from '@/components/shared/FullWidthModal.vue'
 import JwPagination from 'jw-vue-pagination'
 import { mapState } from 'vuex'
 export default {
-  middleware: ['authenticated'],
+  middleware: ['authenticated', 'is-manager'],
   // transition: 'tile',
   components: {
     SideNav,

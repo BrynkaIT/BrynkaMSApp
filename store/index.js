@@ -74,9 +74,6 @@ export const actions = {
     try {
       const auth = await this.$axios.post('/login', credentials)
       if (!auth)  return Promise.reject(e)
-      // if(auth.userType !== 'ManagedService' && req.userType !== 'API'){
-      //   return res.status(403)
-      // }
 
       commit('setAuth', auth.data) // mutating to store for client rendering
       Cookie.set('auth', auth.data) // saving token in cookie for server rendering

@@ -1,0 +1,72 @@
+[
+  {
+    "name": "customers",
+    "path": "/customers",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/customers/index.vue",
+    "chunkName": "pages/customers/index",
+    "_name": "_5db9c226"
+  },
+  {
+    "name": "dashboard",
+    "path": "/dashboard",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/dashboard.vue",
+    "chunkName": "pages/dashboard",
+    "_name": "_1bb0e6a9"
+  },
+  {
+    "name": "internal",
+    "path": "/internal",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/internal/index.vue",
+    "chunkName": "pages/internal/index",
+    "_name": "_c08fcf8a"
+  },
+  {
+    "name": "notAuthorized",
+    "path": "/notAuthorized",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/notAuthorized.vue",
+    "chunkName": "pages/notAuthorized",
+    "_name": "_8f50cd3a"
+  },
+  {
+    "name": "preferences",
+    "path": "/preferences",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/preferences.vue",
+    "chunkName": "pages/preferences",
+    "_name": "_f76dc466"
+  },
+  {
+    "name": "system",
+    "path": "/system",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/system/index.vue",
+    "chunkName": "pages/system/index",
+    "_name": "_5c64e9ed"
+  },
+  {
+    "name": "customers-test",
+    "path": "/customers/test",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/customers/test.vue",
+    "chunkName": "pages/customers/test",
+    "_name": "_a9c97572"
+  },
+  {
+    "name": "system-securityRoles",
+    "path": "/system/securityRoles",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/system/securityRoles.vue",
+    "chunkName": "pages/system/securityRoles",
+    "_name": "_24f8fff8"
+  },
+  {
+    "name": "customers-id",
+    "path": "/customers/:id",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/customers/_id.vue",
+    "chunkName": "pages/customers/_id",
+    "_name": "_02540ed6"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_6cf31c67"
+  }
+]

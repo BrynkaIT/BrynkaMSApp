@@ -189,7 +189,7 @@ export default {
   },
   methods: {
     fetchLocations() {
-      this.$store.dispatch('locations/getLocations', `?cid.eq=${this.$route.params.id}&deep=true`)
+      this.$store.dispatch('locations/getLocations', `?cid=${this.$route.params.id}&deep=true`)
         .then(response => {
           this.items = response.locations
           // Set the initial number of items

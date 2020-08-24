@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img">
-                            <img :src="customer.imageFolder" alt=""/>
+                            <img :src="customer.logoUrl" alt=""/>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -171,7 +171,7 @@ import CustomerForm from '@/components/AddEditCustomer.vue'
 import AddEditLocation from '@/components/AddEditLocation'
 import { mapState } from 'vuex'
 export default {
-   middleware: ['authenticated'],
+   middleware: ['authenticated', 'is-manager'],
   components: {
     SideNav,
     Carriers,

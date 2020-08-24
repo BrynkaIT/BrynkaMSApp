@@ -305,7 +305,7 @@ components: {
         this.form.defaultSecurityRoleModel  = customer.defaultSecurityRoleModel;
         this.form.emailDomain = customer.emailDomain;
         this.form.imageFolder = customer.imageFolder;
-        this.imagePlaceholder = customer.imageFolder;
+        this.imagePlaceholder = customer.logoUrl;
         // this.form.image = customer.image;
 
         // this.form.parentCustomers = customer.parentCustomers;

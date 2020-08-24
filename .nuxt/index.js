@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
 import Meta from 'vue-meta'
 import ClientOnly from 'vue-client-only'
 import NoSsr from 'vue-no-ssr'
@@ -56,7 +57,14 @@ Vue.use(Meta, {"keyName":"head","attribute":"data-n-head","ssrAttribute":"data-n
 
 const defaultTransition = {"name":"page","mode":"out-in","appear":false,"appearClass":"appear","appearActiveClass":"appear-active","appearToClass":"appear-to"}
 
-async function createApp (ssrContext) {
+const originalRegisterModule = Vuex.Store.prototype.registerModule
+const baseStoreOptions = { preserveState: process.client }
+
+function registerModule (path, rawModule, options = {}) {
+  return originalRegisterModule.call(this, path, rawModule, { ...baseStoreOptions, ...options })
+}
+
+async function createApp(ssrContext, config = {}) {
   const router = await createRouter(ssrContext)
 
   const store = createStore(ssrContext)
@@ -64,14 +72,15 @@ async function createApp (ssrContext) {
   store.$router = router
 
   // Fix SSR caveat https://github.com/nuxt/nuxt.js/issues/3757#issuecomment-414689141
-  const registerModule = store.registerModule
-  store.registerModule = (path, rawModule, options) => registerModule.call(store, path, rawModule, Object.assign({ preserveState: process.client }, options))
+  store.registerModule = registerModule
 
   // Create Root instance
 
   // here we inject the router and store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
+    head: {"title":"brynka-manager","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"App to manage system configurations for BrynkaWebApp"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"style":[],"script":[]},
+
     store,
     router,
     nuxt: {
@@ -101,7 +110,10 @@ async function createApp (ssrContext) {
         err = err || null
         app.context._errored = Boolean(err)
         err = err ? normalizeError(err) : null
-        const nuxt = this.nuxt || this.$options.nuxt
+        let nuxt = app.nuxt // to work with @vue/composition-api, see https://github.com/nuxt/nuxt.js/issues/6517#issuecomment-573280207
+        if (this) {
+          nuxt = this.nuxt || this.$options.nuxt
+        }
         nuxt.dateErr = Date.now()
         nuxt.err = err
         // Used in src/server.js
@@ -140,17 +152,21 @@ async function createApp (ssrContext) {
     ssrContext
   })
 
-  const inject = function (key, value) {
+  function inject(key, value) {
     if (!key) {
       throw new Error('inject(key, value) has no key provided')
     }
     if (value === undefined) {
-      throw new Error('inject(key, value) has no value provided')
+      throw new Error(`inject('${key}', value) has no value provided`)
     }
 
     key = '$' + key
     // Add into app
     app[key] = value
+    // Add into context
+    if (!app.context[key]) {
+      app.context[key] = value
+    }
 
     // Add into store
     store[key] = app[key]
@@ -163,7 +179,7 @@ async function createApp (ssrContext) {
     Vue[installKey] = true
     // Call Vue.use() to install the plugin into vm
     Vue.use(() => {
-      if (!Object.prototype.hasOwnProperty.call(Vue, key)) {
+      if (!Object.prototype.hasOwnProperty.call(Vue.prototype, key)) {
         Object.defineProperty(Vue.prototype, key, {
           get () {
             return this.$root.$options[key]
@@ -173,6 +189,9 @@ async function createApp (ssrContext) {
     })
   }
 
+  // Inject runtime config as $config
+  inject('config', config)
+
   if (process.client) {
     // Replace store state before plugins execution
     if (window.__NUXT__ && window.__NUXT__.state) {
@@ -180,6 +199,13 @@ async function createApp (ssrContext) {
     }
   }
 
+  // Add enablePreview(previewData = {}) in context for plugins
+  if (process.static && process.client) {
+    app.context.enablePreview = function (previewData = {}) {
+      app.previewData = Object.assign({}, previewData)
+      inject('preview', previewData)
+    }
+  }
   // Plugin execution
 
   if (typeof nuxt_plugin_bootstrapvue_5a4fd586 === 'function') {
@@ -238,12 +264,23 @@ async function createApp (ssrContext) {
     await nuxt_plugin_easyLightBox_330c1d26(app.context, inject)
   }
 
+  // Lock enablePreview in context
+  if (process.static && process.client) {
+    app.context.enablePreview = function () {
+      console.warn('You cannot call enablePreview() outside a plugin.')
+    }
+  }
+
   // If server-side, wait for async component to be resolved first
   if (process.server && ssrContext && ssrContext.url) {
     await new Promise((resolve, reject) => {
-      router.push(ssrContext.url, resolve, () => {
+      router.push(ssrContext.url, resolve, (err) => {
+        // https://github.com/vuejs/vue-router/blob/v3.4.3/src/util/errors.js
+        if (!err._isRouter) return reject(err)
+        if (err.type !== 2 /* NavigationFailureType.redirected */) return resolve()
+
         // navigated to a different route in router guard
-        const unregister = router.afterEach(async (to, from, next) => {
+        const unregister = router.afterEach(async (to, from) => {
           ssrContext.url = to.fullPath
           app.context.route = await getRouteData(to)
           app.context.params = to.params || {}

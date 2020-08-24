@@ -114,7 +114,7 @@ import BubbleChart from '@/components/BubbleChart'
 import DoughnutChart from '@/components/DoughnutChart'
 
 export default {
-  middleware: ['authenticated'],
+  middleware: ['authenticated', 'is-manager'],
   // transition: "tile",
   components: {
     LineChart,
