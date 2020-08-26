@@ -363,7 +363,7 @@ a[data-toggle='collapse'] {
 }
 .sidebar .nav-link.active{
   color: #fff !important;
-  background: #000 !important;
+  background: none !important;
   border-radius: 12px;
   border:none;
 }

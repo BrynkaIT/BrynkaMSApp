@@ -622,10 +622,11 @@ export default {
   },
   methods: {
     async populateCustomer(customer) {
+
+      this.customerToEdit = true
       this.form.id = customer._id
       this.form.allowsAutomaticSignup = customer.allowsAutomaticSignup
-      this.form.automaticSignUpEmailDomainFilters =
-        customer.automaticSignUpEmailDomainFilters
+      this.form.automaticSignUpEmailDomainFilters = customer.automaticSignUpEmailDomainFilters
       // this.form.dbName  = customer.dbName;
       // this.form.defaultSecurityRole  = customer.defaultSecurityRole;
       this.form.defaultSecurityRoleModel = customer.defaultSecurityRoleModel
@@ -653,17 +654,20 @@ export default {
       this.form.billToAddress.city = customer.billToAddress.city || ''
       this.form.billToAddress.state = customer.billToAddress.state || ''
       this.form.billToAddress.postalCode =  customer.billToAddress.postalCode || ''
+
       this.form.billToContact.title = customer.billToContact.title || "";
       this.form.billToContact.email= customer.billToContact.email || "";
       this.form.billToContact.firstName= customer.billToContact.firstName || "";
       this.form.billToContact.lastName= customer.billToContact.lastName || "";
       this.form.billToContact.middleName= customer.billToContact.middleName || "";
       this.form.billToContact.phone= customer.billToContact.phone || "";
-      this.form.shipToAddress.street1 = customer.address.street1 || ''
-      this.form.shipToAddress.street2 = customer.address.street2 || ''
-      this.form.shipToAddress.city = customer.address.city || ''
-      this.form.shipToAddress.state = customer.address.state || ''
-      this.form.shipToAddress.postalCode = customer.address.postalCode || ''
+
+      this.form.shipToAddress.street1 = customer.shipToAddress.street1 || ''
+      this.form.shipToAddress.street2 = customer.shipToAddress.street2 || ''
+      this.form.shipToAddress.city = customer.shipToAddress.city || ''
+      this.form.shipToAddress.state = customer.shipToAddress.state || ''
+      this.form.shipToAddress.postalCode = customer.shipToAddress.postalCode || ''
+
       this.form.salesContact.title = customer.salesContact.title || ''
       this.form.salesContact.email = customer.salesContact.email || ''
       this.form.salesContact.firstName = customer.salesContact.firstName || ''
@@ -677,7 +681,7 @@ export default {
       this.form.technicalContact.lastName= customer.technicalContact.lastName || "";
       this.form.technicalContact.middleName= customer.technicalContact.middleName || "";
       this.form.technicalContact.phone= customer.technicalContact.phone || "";
-      this.customerToEdit = true
+
     },
     proccessCustomerName() {
       this.form.dbName = this.form.name.toLowerCase().replace(/\s/g, '')
