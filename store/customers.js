@@ -25,26 +25,37 @@ export const mutations = {
 
 // Actions
 export const actions = {
-	getCustomers({ commit }, query) {
-		query = query || ''
-		return this.$axios.$get(`/manage/customers${query}`)
-			.then(res => {
-				commit('setCustomers', res.customers )
-				return Promise.resolve(res)
-			})
-			.catch(e => {Promise.reject(e.response)});
+async	getCustomers({rootState, commit}, query) {
+
+let URL = "/manage/customers"
+  // if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+  //    URL= "/manage/brynka/customers"
+  // }else{
+  //   URL = "/manage/customers"
+  // }
+    query = query || ''
+
+    try {
+
+      const res = await this.$axios.$get(`${URL}${query}`)
+      commit('setCustomers', res.customers )
+      return res
+
+    } catch (error) {
+      console.log(error)
+    }
 	},
-	getCustomer({ commit }, customerId) {
-		return this.$axios.$get(`manage/customers/${customerId}`)
-			.then(res => {
-        commit('setCustomerInContext', res.customer)
-				return Promise.resolve(res)
-			})
-			.catch(e => Promise.reject(e.response));
+  async	getCustomer({ commit }, customerId) {
+      try {
+      const res = await this.$axios.$get(`manage/customers/${customerId}`)
+      commit('setCustomerInContext', res.customer)
+      return res
+      } catch (error) {
+        console.log(error)
+      }
 	},
 
 	async postCustomer({ dispatch }, customer) {
-
     try {
       if(customer.image != null){
         let data = await dispatch('createFormData', customer)

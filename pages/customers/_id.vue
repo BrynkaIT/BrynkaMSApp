@@ -71,7 +71,7 @@
                                     <label>Parent(s)</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <span v-for=" (parent, index) in customer.parentCustomers" :key="index">{{ parent }}, </span>
+                                    <span v-for=" (parent, index) in parentCustomers" :key="index">{{ parent }}, </span>
                                 </div>
                             </div>
                           </b-tab>
@@ -272,16 +272,28 @@ export default {
   },
   data() {
     return {
-      tabIndex: 0
+      tabIndex: 0,
+      parentCustomers: [],
     }
   },
 
   async created() {
     try {
-       await this.$store.dispatch('customers/getCustomer', this.$route.params.id)
+       const res = await this.$store.dispatch('customers/getCustomer', this.$route.params.id)
+      this.getCustomerParentName(res.customer.parentCustomers)
     } catch (error) {
       console.log(error)
     }
+  },
+  methods:{
+    async getCustomerParentName(ids) {
+        ids.forEach(async (id) => {
+          let { customers } = await this.$axios.$get(`/manage/customers?id=${id}`)
+          if(customers.length > 0){
+          this.parentCustomers.push(customers[0].name)
+          }
+        })
+    },
   }
 }
 </script>

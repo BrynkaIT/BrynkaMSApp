@@ -628,7 +628,7 @@ export default {
       this.form.allowsAutomaticSignup = customer.allowsAutomaticSignup
       this.form.automaticSignUpEmailDomainFilters = customer.automaticSignUpEmailDomainFilters
       // this.form.dbName  = customer.dbName;
-      // this.form.defaultSecurityRole  = customer.defaultSecurityRole;
+      this.form.defaultSecurityRole  = customer.defaultSecurityRole;
       this.form.defaultSecurityRoleModel = customer.defaultSecurityRoleModel
       this.form.emailDomain = customer.emailDomain
       this.form.mediaFolder = customer.mediaFolder
@@ -689,15 +689,18 @@ export default {
       this.form.possessiveName = this.form.name.toLowerCase().concat("'s")
       this.form.subFolder = this.form.name.toLowerCase().replace(/\s/g, '')
     },
-    async displaySelectedCustomerParents(id) {
-      const { customers } = await this.$axios.$get(
-        `/manage/customers?id=${id[0]}`
-      )
-      if (this.parents.some(parent => parent == customers[0].name)) {
-        return alert('Customer already selected')
-      }
-      this.parents.push(customers[0].name)
-      this.form.parentCustomers.push(customers[0]._id)
+    async displaySelectedCustomerParents(ids) {
+      ids.forEach(async (id) => {
+        let { customers } = await this.$axios.$get(`/manage/customers?id=${id}`)
+
+        if(customers.length > 0){
+          if (this.parents.some(parent => parent == customers[0].name)) {
+            return alert('Customer already selected')
+          }
+          this.parents.push(customers[0].name)
+          this.form.parentCustomers.push(customers[0]._id)
+        }
+      })
     },
     deletePC(index) {
       if (index > -1) {
@@ -715,7 +718,6 @@ export default {
         reader.readAsDataURL(files[0])
         this.imagePlaceholder = files[0]
       }
-      // this.user.image = files[0]
     },
     validateTab1() {
       this.$v.form.name.$touch()
@@ -752,11 +754,7 @@ export default {
         if (this.customerToEdit) {
           return this.onUpdate(this.form)
         }
-        const res = await this.$store.dispatch(
-          'customers/postCustomer',
-          this.form
-        )
-        debugger
+        const res = await this.$store.dispatch('customers/postCustomer',this.form)
         if (res != undefined) {
           this.$emit('refreshCustomers')
           this.$store.commit('closeModal')
@@ -773,9 +771,8 @@ export default {
       }
     },
     async onUpdate(customer) {
-      debugger
+
       const res = await this.$store.dispatch('customers/putCustomer', customer)
-      debugger
       if (res != undefined) {
         this.$emit('refreshCustomers')
         this.$store.commit('closeModal')

@@ -199,48 +199,48 @@ export default {
         },
 
       ],
-      // dropdownNavs: [
-      //   {
-      //     appModule: 'system',
-      //     dropdownText: 'Settings',
-      //     dropdownIcon: ['fas', 'cogs'],
-      //     dropdownIconStyle: { color: '#9c27b0' },
-      //     nestedLinks: [
-      //       {
-      //         navigateToPage: 'admin/buildings',
-      //         navigateToText: 'Buildings'
-      //       },
-      //       {
-      //         navigateToPage: 'admin/carriers',
-      //         navigateToText: 'Carriers'
-      //       },
-      //       {
-      //         navigateToPage: 'admin/contacts',
-      //         navigateToText: 'Contacts'
-      //       },
-      //       {
-      //         navigateToPage: 'admin/departments',
-      //         navigateToText: 'Departments'
-      //       },
-      //       {
-      //         navigateToPage: 'admin/floors',
-      //         navigateToText: 'Floors'
-      //       },
-      //       {
-      //         navigateToPage: 'admin/locations',
-      //         navigateToText: 'Locations'
-      //       },
-      //       {
-      //         navigateToPage: 'admin/securityRoles',
-      //         navigateToText: 'Security Roles'
-      //       },
-      //       {
-      //         navigateToPage: 'admin/users',
-      //         navigateToText: 'Users'
-      //       }
-      //     ]
-      //   }
-      // ]
+      dropdownNavs: [
+        // {
+        //   appModule: 'system',
+        //   dropdownText: 'Settings',
+        //   dropdownIcon: ['fas', 'cogs'],
+        //   dropdownIconStyle: { color: '#9c27b0' },
+        //   nestedLinks: [
+        //     {
+        //       navigateToPage: 'admin/buildings',
+        //       navigateToText: 'Buildings'
+        //     },
+        //     {
+        //       navigateToPage: 'admin/carriers',
+        //       navigateToText: 'Carriers'
+        //     },
+        //     {
+        //       navigateToPage: 'admin/contacts',
+        //       navigateToText: 'Contacts'
+        //     },
+        //     {
+        //       navigateToPage: 'admin/departments',
+        //       navigateToText: 'Departments'
+        //     },
+        //     {
+        //       navigateToPage: 'admin/floors',
+        //       navigateToText: 'Floors'
+        //     },
+        //     {
+        //       navigateToPage: 'admin/locations',
+        //       navigateToText: 'Locations'
+        //     },
+        //     {
+        //       navigateToPage: 'admin/securityRoles',
+        //       navigateToText: 'Security Roles'
+        //     },
+        //     {
+        //       navigateToPage: 'admin/users',
+        //       navigateToText: 'Users'
+        //     }
+        //   ]
+        // }
+      ]
     }
   },
 

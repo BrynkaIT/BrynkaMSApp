@@ -42,13 +42,6 @@
     "_name": "_5c64e9ed"
   },
   {
-    "name": "customers-test",
-    "path": "/customers/test",
-    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/customers/test.vue",
-    "chunkName": "pages/customers/test",
-    "_name": "_a9c97572"
-  },
-  {
     "name": "system-securityRoles",
     "path": "/system/securityRoles",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/system/securityRoles.vue",
