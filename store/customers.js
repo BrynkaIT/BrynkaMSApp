@@ -1,4 +1,6 @@
 const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+let URL = "/manage/customers"
+
 
 export const state = () => {
 	return {
@@ -25,18 +27,16 @@ export const mutations = {
 
 // Actions
 export const actions = {
-async	getCustomers({rootState, commit}, query) {
+async	getCustomers({ rootState, commit }, query) {
 
-let URL = "/manage/customers"
-  // if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
-  //    URL= "/manage/brynka/customers"
-  // }else{
-  //   URL = "/manage/customers"
-  // }
+  if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+     URL= "/manage/brynka/customers"
+  }else{
+    URL = "/manage/customers"
+  }
     query = query || ''
 
     try {
-
       const res = await this.$axios.$get(`${URL}${query}`)
       commit('setCustomers', res.customers )
       return res
@@ -45,9 +45,15 @@ let URL = "/manage/customers"
       console.log(error)
     }
 	},
-  async	getCustomer({ commit }, customerId) {
+  async	getCustomer({ rootState, commit }, customerId) {
+
+  if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+     URL= "/manage/brynka/customers"
+  }else{
+    URL = "/manage/customers"
+  }
       try {
-      const res = await this.$axios.$get(`manage/customers/${customerId}`)
+      const res = await this.$axios.$get(`${URL}/${customerId}`)
       commit('setCustomerInContext', res.customer)
       return res
       } catch (error) {
@@ -55,70 +61,120 @@ let URL = "/manage/customers"
       }
 	},
 
-	async postCustomer({ dispatch }, customer) {
+	async postCustomer({ rootState, dispatch }, customer) {
+    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+      URL= "/manage/brynka/customers"
+   }else{
+     URL = "/manage/customers"
+   }
     try {
       if(customer.image != null){
         let data = await dispatch('createFormData', customer)
-        const res = await this.$axios.$post(`/manage/customers`, data, config)
+        const res = await this.$axios.$post(URL, data, config)
         return res
       }else{
-        const res = await this.$axios.$post(`/manage/customers`, customer)
+        const res = await this.$axios.$post(URL, customer)
         return res
       }
-
 		} catch (error) {
 			console.log(error)
 		}
-
 	},
-
-	async putCustomer({ dispatch }, customerToEdit) {
+  async patchCustomer({ rootState, dispatch }, customerToEdit) {
+    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+      URL= "/manage/brynka/customers"
+    }else{
+      URL = "/manage/customers"
+    }
 
     try {
-      if(customerToEdit.image != null ){
-        debugger
         let data = await dispatch('createFormData', customerToEdit)
-        const res = await this.$axios.$put(`/manage/customers/${ customerToEdit.id }`, data, config)
+        const res = await this.$axios.$patch(`${URL}/${ customerToEdit.id }`, data, config)
         return res
-      }else{
-        debugger
-        const res = await this.$axios.$put(`/manage/customers/${ customerToEdit.id }`, customerToEdit)
-        return res
-      }
+
+		} catch (error) {
+			console.log(error)
+		}
+	},
+	async putCustomer({ rootState, dispatch }, customerToEdit) {
+    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+      URL= "/manage/brynka/customers"
+   }else{
+     URL = "/manage/customers"
+   }
+   try {
+    const res = await this.$axios.$put(`${URL}/${ customerToEdit.id }`, customerToEdit)
+    return res
 
 		} catch (error) {
 			console.log(error)
 		}
 	},
 
-	deleteCustomer({ commit }, customerId) {
-		return this.$axios.$delete(`manage/customer/${ customerId }`)
+	deleteCustomer({ rootState, commit }, customerId) {
+    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+      URL= "/manage/brynka/customers"
+   }else{
+     URL = "/manage/customers"
+   }
+		return this.$axios.$delete(`${URL}/${ customerId }`)
 			.then(res => {
 				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response))
   },
+
   createFormData({ context }, c) {
     let formData = new FormData()
-    debugger
-		formData.append('allowsAutomaticSignup', c.allowsAutomaticSignup)
-		formData.append('dbName', c.dbName)
-		formData.append('defaultSecurityRole', c.defaultSecurityRole)
-		formData.append('defaultSecurityRoleModel', c.defaultSecurityRoleModel)
-		formData.append('emailDomain', c.emailDomain)
-		formData.append('mediaFolder', c.mediaFolder)
-		formData.append('name', c.name)
-		formData.append('possessiveName', c.possessiveName)
-		formData.append('subFolder', c.subFolder)
+    
+   if(c.name != '') formData.append('name', c.name)
+   if(c.name != '') formData.append('dbName', c.dbName)
+   if(c.emailDomain != '') formData.append('emailDomain', c.emailDomain)
+   if(c.subFolder != '') formData.append('subFolder', c.subFolder)
+   if(c.mediaFolder != '') formData.append('mediaFolder', c.mediaFolder)
+   if(c.possessiveName != '') formData.append('possessiveName', c.possessiveName)
 
-		if (c.image != null) formData.append('image', c.image)
-    if (c.address != null) formData.append('address', c.address)
-    if (c.shipToAddress != null) formData.append('shipToAddress', c.shipToAddress)
-    if (c.billToAddress != null) formData.append('billToAddress', c.billToAddress)
-    if (c.billToContact != null) formData.append('billToContact', c.billToContact)
-    if (c.salesContact != null) formData.append('salesContact', c.salesContact)
-    if (c.technicalContact != null) formData.append('technicalContact', c.technicalContact)
+   if(c.address.street1 != '') formData.append('street1', c.address.street1)
+   if(c.address.street2 != '') formData.append('street2', c.address.street2)
+   if(c.address.city != '') formData.append('city', c.address.city)
+   if(c.address.state != '') formData.append('state', c.address.state)
+   if(c.address.postalCode != '') formData.append('postalCode', c.address.postalCode)
 
+    if(c.billToAddress.street1 != '') formData.append('billToStreet1', c.billToAddress.street1)
+    if(c.billToAddress.street2 != '') formData.append('billToStreet2', c.billToAddress.street2)
+    if(c.billToAddress.city != '') formData.append('billToCity', c.billToAddress.city)
+    if(c.billToAddress.state != '') formData.append('billToState', c.billToAddress.state)
+    if(c.billToAddress.postalCode != '') formData.append('billToPostalCode', c.billToAddress.postalCode)
+    if(c.billToAddress.title != '') formData.append('billToContactTitle', c.billToContact.title)
+    if(c.billToAddress.firstName != '') formData.append('billToContactFirstName', c.billToContact.firstName)
+    if(c.billToAddress.lastName != '') formData.append('billToContactLastName', c.billToContact.lastName)
+    if(c.billToAddress.email != '') formData.append('billToContactEmail', c.billToContact.email)
+    if(c.billToAddress.phone != '') formData.append('billToContactPhone', c.billToContact.phone)
+
+    if(c.salesContact.title != '') formData.append('salesContactTitle', c.salesContact.title)
+    if(c.salesContact.firstName != '') formData.append('salesContactFirstName', c.salesContact.firstName)
+    if(c.salesContact.lastName != '') formData.append('salesContactLastName', c.salesContact.lastName)
+    if(c.salesContact.email != '') formData.append('salesContactEmail', c.salesContact.email)
+    if(c.salesContact.phone != '') formData.append('salesContactPhone', c.salesContact.phone)
+
+    if(c.shipToAddress.street1 != '') formData.append('shipToStreet1', c.shipToAddress.street1)
+    if(c.shipToAddress.street2 != '') formData.append('shipToStreet2', c.shipToAddress.street2)
+    if(c.shipToAddress.city != '') formData.append('shipToCity', c.shipToAddress.city)
+    if(c.shipToAddress.state != '') formData.append('shipToState', c.shipToAddress.state)
+    if(c.shipToAddress.postalCode != '') formData.append('shipToPostalCode', c.shipToAddress.postalCode)
+
+    if(c.technicalContact.title != '') formData.append('technicalContactTitle', c.technicalContact.title)
+    if(c.technicalContact.firstName != '') formData.append('technicalContactFirstName', c.technicalContact.firstName)
+    if(c.technicalContact.lastName != '') formData.append('technicalContactLastName', c.technicalContact.lastName)
+    if(c.technicalContact.email != '') formData.append('technicalContactEmail', c.technicalContact.email)
+    if(c.technicalContact.phone != '') formData.append('technicalContactPhone', c.technicalContact.phone)
+
+    if(c.allowsAutomaticSignup != '')formData.append('allowsAutomaticSignup', c.allowsAutomaticSignup)
+		if ( c.defaultSecurityRole != undefined) formData.append('defaultSecurityRole', c.defaultSecurityRole)
+		if (c.defaultSecurityRoleModel != null) formData.append('defaultSecurityRoleModel', c.defaultSecurityRoleModel)
+
+
+    if (c.image != null) formData.append('image', c.image)
     if (c.automaticSignUpEmailDomainFilters != null) {
 			for (var i = 0; i < c.automaticSignUpEmailDomainFilters.length; i++) {
 				formData.append("automaticSignUpEmailDomainFilters", c.automaticSignUpEmailDomainFilters[i])

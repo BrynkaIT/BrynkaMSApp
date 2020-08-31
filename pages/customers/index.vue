@@ -51,7 +51,7 @@
                     <b-col md="4">
                       <div class="d-flex align-items-center">
                         <img
-                          :src="`${item.logoUrl}`"
+                          :src="`${baseUrl}${item.logoUrl}`"
                           width="70px"
                           class="mr-3"
                         />
@@ -345,7 +345,10 @@ export default {
   computed: {
     ...mapState({
       formToOpen: state => state.formToOpen
-    })
+    }),
+    baseUrl(){
+      return process.env.baseURL
+    }
   },
   data() {
     return {

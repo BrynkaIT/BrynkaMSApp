@@ -1,5 +1,5 @@
 const env = require('dotenv').config()
-const config = require('./config')
+
 
 module.exports = {
   mode: 'universal',
@@ -76,12 +76,17 @@ module.exports = {
       }
     ]
   ],
+  env: {
+    baseURL: process.env.API_DOMAIN_DEV,
+    username: process.env.BRYNKA_USER_USERNAME,
+    password: process.env.BRYNKA_USER_PASSWORD
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL:config.baseURL,
+    baseURL:process.env.API_DOMAIN_DEV,
     withCredentials: false
   },
   /*

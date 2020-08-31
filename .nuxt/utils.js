@@ -150,7 +150,7 @@ export async function setContext (app, context) {
       payload: context.payload,
       error: context.error,
       base: '/',
-      env: {}
+      env: {"baseURL":"http://localhost:8080","username":"it@brynka.com","password":"4APIsRunning"}
     }
     // Only set once
     if (!process.static && context.req) {

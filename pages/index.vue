@@ -107,18 +107,16 @@
 
 <script>
 import { required, email, sameAs, minLength } from 'vuelidate/lib/validators'
+
 export default {
    layout:'login',
    middleware: 'notAuthenticated',
 
-  created(){
-    // this.$store.dispatch('managedService/getManagedService', this.$route.params.ms)
-  },
   data() {
     return {
       credentials: {
-        email: 'it@brynka.com',
-        password: '4APIsRunning'
+        email: process.env.NODE_ENV === 'development'? process.env.username: '',
+        password: process.env.NODE_ENV === 'development'? process.env.password: '',
       },
       msg: {
         credentials: ''

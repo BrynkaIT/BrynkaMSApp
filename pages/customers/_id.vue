@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img">
-                            <img :src="customer.logoUrl" alt=""/>
+                            <img :src="`${baseUrl}${customer.logoUrl}`" alt="customer logo"/>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -232,7 +232,7 @@
       </b-card>
     </div>
     <FullWidthModal :show="this.formToOpen.showModal">
-      <component :is="this.formToOpen.to"/>
+      <component :is="this.formToOpen.to" @refreshCustomer="refreshData"/>
     </FullWidthModal>
   </div>
 </template>
@@ -268,7 +268,9 @@ export default {
       customer: state => state.customers.customerInContext,
       formToOpen: state => state.formToOpen,
     }),
-
+   baseUrl(){
+      return process.env.baseURL
+    }
   },
   data() {
     return {
@@ -294,6 +296,9 @@ export default {
           }
         })
     },
+    async refreshData(){
+      await this.$store.dispatch('customers/getCustomer', this.$route.params.id)
+    }
   }
 }
 </script>

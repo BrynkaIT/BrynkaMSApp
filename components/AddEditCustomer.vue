@@ -345,7 +345,7 @@
             <b-form-group label="Logo">
               <b-form-file
                 v-model="form.image"
-                :state="Boolean(form.image)"
+
                 placeholder="Choose a file or drop it here..."
                 drop-placeholder="Drop file here..."
                 ref="image"
@@ -497,7 +497,7 @@
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import { mapState } from 'vuex'
-import { required } from 'vuelidate/lib/validators'
+import { email, required, requiredUnless, requiredIf } from 'vuelidate/lib/validators'
 export default {
   components: {
     FormWizard,
@@ -505,11 +505,15 @@ export default {
   },
   computed: {
     ...mapState({
+      auth: state => state.auth,
       customers: state => state.customers.customers,
       securityRoles: state => state.securityRoles.securityRoles,
       usaStates: state => state.usStates.usaStates,
       formToOpen: state => state.formToOpen
-    })
+    }),
+     baseUrl(){
+      return process.env.baseURL
+    }
   },
   validations: {
     form: {
@@ -523,7 +527,13 @@ export default {
         required
       },
       dbName: {
-        required
+       required: requiredIf(function (customer) {
+           if(this.customerToEdit){
+            return false
+          }else{
+            return true
+          }
+        })
       },
       emailDomain: {
         required
@@ -627,61 +637,59 @@ export default {
       this.form.id = customer._id
       this.form.allowsAutomaticSignup = customer.allowsAutomaticSignup
       this.form.automaticSignUpEmailDomainFilters = customer.automaticSignUpEmailDomainFilters
-      // this.form.dbName  = customer.dbName;
-      this.form.defaultSecurityRole  = customer.defaultSecurityRole;
-      this.form.defaultSecurityRoleModel = customer.defaultSecurityRoleModel
-      this.form.emailDomain = customer.emailDomain
-      this.form.mediaFolder = customer.mediaFolder
-      this.imagePlaceholder = customer.logoUrl
-      // this.form.image = customer.image;
 
-      // this.form.parentCustomers = customer.parentCustomers;
+      this.form.dbName  = customer.dbName || ''
+      this.form.defaultSecurityRole  = customer.defaultSecurityRole || ''
+      this.form.defaultSecurityRoleModel = customer.defaultSecurityRoleModel || ''
+      this.form.emailDomain = customer.emailDomain || ''
+      this.form.mediaFolder = customer.mediaFolder || ''
+      this.imagePlaceholder = process.env.baseURL + customer.logoUrl || ''
+
       await this.$store.dispatch(`customers/getCustomers`)
       this.displaySelectedCustomerParents(customer.parentCustomers)
-      this.form.modules = customer.modules
-      this.form.name = customer.name
-      this.form.possessiveName = customer.possessiveName
-      this.form.subFolder = customer.subFolder
+      this.form.modules = customer.modules || ''
+      this.form.name = customer.name || ''
+      this.form.possessiveName = customer.possessiveName  || ''
+      this.form.subFolder = customer.subFolder || ''
 
-      this.form.address.street1 = customer.address.street1 || ''
-      this.form.address.street2 = customer.address.street2 || ''
-      this.form.address.city = customer.address.city || ''
-      this.form.address.state = customer.address.state || ''
-      this.form.address.postalCode = customer.address.postalCode || ''
+      this.form.address.street1 = customer.address ? customer.address.street1 : ''
+      this.form.address.street2 = customer.address ? customer.address.street2 : ''
+      this.form.address.city = customer.address ? customer.address.city : ''
+      this.form.address.state = customer.address ? customer.address.state : ''
+      this.form.address.postalCode = customer.address ? customer.address.postalCode : ''
 
-      this.form.billToAddress.street1 = customer.billToAddress.street1 || ''
-      this.form.billToAddress.street2 = customer.billToAddress.street2 || ''
-      this.form.billToAddress.city = customer.billToAddress.city || ''
-      this.form.billToAddress.state = customer.billToAddress.state || ''
-      this.form.billToAddress.postalCode =  customer.billToAddress.postalCode || ''
+      this.form.billToAddress.street1 = customer.billToAddress ? customer.billToAddress.street1 : ''
+      this.form.billToAddress.street2 = customer.billToAddress ? customer.billToAddress.street2 : ''
+      this.form.billToAddress.city = customer.billToAddress ? customer.billToAddress.city  : ''
+      this.form.billToAddress.state = customer.billToAddress ? customer.billToAddress.state : ''
+      this.form.billToAddress.postalCode =  customer.billToAddress ? customer.billToAddress.postalCode : ''
 
-      this.form.billToContact.title = customer.billToContact.title || "";
-      this.form.billToContact.email= customer.billToContact.email || "";
-      this.form.billToContact.firstName= customer.billToContact.firstName || "";
-      this.form.billToContact.lastName= customer.billToContact.lastName || "";
-      this.form.billToContact.middleName= customer.billToContact.middleName || "";
-      this.form.billToContact.phone= customer.billToContact.phone || "";
+      this.form.billToContact.title = customer.billToContact ? customer.billToContact.title : ''
+      this.form.billToContact.email= customer.billToContact ? customer.billToContact.email : ''
+      this.form.billToContact.firstName= customer.billToContact ? customer.billToContact.firstName : ''
+      this.form.billToContact.lastName= customer.billToContact ? customer.billToContact.lastName : ''
+      this.form.billToContact.middleName= customer.billToContact ? customer.billToContact.middleName : ''
+      this.form.billToContact.phone= customer.billToContact ? customer.billToContact.phone : ''
 
-      this.form.shipToAddress.street1 = customer.shipToAddress.street1 || ''
-      this.form.shipToAddress.street2 = customer.shipToAddress.street2 || ''
-      this.form.shipToAddress.city = customer.shipToAddress.city || ''
-      this.form.shipToAddress.state = customer.shipToAddress.state || ''
-      this.form.shipToAddress.postalCode = customer.shipToAddress.postalCode || ''
+      this.form.shipToAddress.street1 = customer.shipToAddress ? customer.shipToAddress.street1 : ''
+      this.form.shipToAddress.street2 = customer.shipToAddress ? customer.shipToAddress.street2 : ''
+      this.form.shipToAddress.city = customer.shipToAddress ? customer.shipToAddress.city : ''
+      this.form.shipToAddress.state = customer.shipToAddress ? customer.shipToAddress.state : ''
+      this.form.shipToAddress.postalCode = customer.shipToAddress ? customer.shipToAddress.postalCode : ''
 
-      this.form.salesContact.title = customer.salesContact.title || ''
-      this.form.salesContact.email = customer.salesContact.email || ''
-      this.form.salesContact.firstName = customer.salesContact.firstName || ''
-      this.form.salesContact.lastName = customer.salesContact.lastName || ''
-      this.form.salesContact.middleName = customer.salesContact.middleName || ''
-      this.form.salesContact.phone = customer.salesContact.phone || ''
+      this.form.salesContact.title = customer.salesContact ? customer.salesContact.title : ''
+      this.form.salesContact.email = customer.salesContact ? customer.salesContact.email : ''
+      this.form.salesContact.firstName = customer.salesContact ? customer.salesContact.firstName : ''
+      this.form.salesContact.lastName = customer.salesContact ? customer.salesContact.lastName  : ''
+      this.form.salesContact.middleName = customer.salesContact ? customer.salesContact.middleName : ''
+      this.form.salesContact.phone = customer.salesContact ? customer.salesContact.phone : ''
 
-      this.form.technicalContact.title = customer.technicalContact.title || "";
-      this.form.technicalContact.email= customer.technicalContact.email || "";
-      this.form.technicalContact.firstName= customer.technicalContact.firstName || "";
-      this.form.technicalContact.lastName= customer.technicalContact.lastName || "";
-      this.form.technicalContact.middleName= customer.technicalContact.middleName || "";
-      this.form.technicalContact.phone= customer.technicalContact.phone || "";
-
+      this.form.technicalContact.title = customer.technicalContact ? customer.technicalContact.title : ''
+      this.form.technicalContact.email= customer.technicalContact ? customer.technicalContact.email : ''
+      this.form.technicalContact.firstName= customer.technicalContact ? customer.technicalContact.firstName : ''
+      this.form.technicalContact.lastName= customer.technicalContact ? customer.technicalContact.lastName : ''
+      this.form.technicalContact.middleName= customer.technicalContact ? customer.technicalContact.middleName  : ''
+      this.form.technicalContact.phone= customer.technicalContact ? customer.technicalContact.phone  : ''
     },
     proccessCustomerName() {
       this.form.dbName = this.form.name.toLowerCase().replace(/\s/g, '')
@@ -691,7 +699,15 @@ export default {
     },
     async displaySelectedCustomerParents(ids) {
       ids.forEach(async (id) => {
-        let { customers } = await this.$axios.$get(`/manage/customers?id=${id}`)
+
+        let URL;
+        if(this.auth.customerSubFolder === 'brynka' && this.auth.userType === 'API'){
+          URL= "/manage/brynka/customers"
+          }else{
+          URL = "/manage/customers"
+          }
+
+        let { customers } = await this.$axios.$get(`${URL}?id=${id}`)
 
         if(customers.length > 0){
           if (this.parents.some(parent => parent == customers[0].name)) {
@@ -751,9 +767,8 @@ export default {
     async onSubmit() {
       this.$v.form.$touch()
       if (!this.$v.form.$invalid) {
-        if (this.customerToEdit) {
-          return this.onUpdate(this.form)
-        }
+        if (this.customerToEdit) { return this.onUpdate(this.form) }
+
         const res = await this.$store.dispatch('customers/postCustomer',this.form)
         if (res != undefined) {
           this.$emit('refreshCustomers')
@@ -772,9 +787,10 @@ export default {
     },
     async onUpdate(customer) {
 
-      const res = await this.$store.dispatch('customers/putCustomer', customer)
+      const res = await this.$store.dispatch('customers/patchCustomer', customer)
+
       if (res != undefined) {
-        this.$emit('refreshCustomers')
+        this.$emit('refreshCustomer')
         this.$store.commit('closeModal')
         this.$toasted.success(res.message, {
           position: 'top-center',
