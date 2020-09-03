@@ -47,17 +47,6 @@
               </span>
             </template>
 
-            <div class="pl-4 pr-4">
-                <span>
-                  <b-icon icon="building" scale="2" variant="primary"></b-icon>
-                </span >
-                <span class="ml-2">{{ customer.name | capFirstChar }}</span>
-            </div>
-            <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item to="preference">Preferences</b-dropdown-item>
-            <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
-          </b-nav-item-dropdown>
-        </b-navbar-nav> -->
       </b-collapse>
     </b-navbar>
     <div :class="{ overlay: sideBarOpen }" @click="overlayOff"></div>
