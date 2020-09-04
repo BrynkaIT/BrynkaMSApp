@@ -3,14 +3,14 @@
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand>
         <a href="/dashboard">
-          <img src="/img/brynka/BrynkaManager-logo-sm.png" width="125px" />
+          <img src="../../assets/images/brynkaManagerLogo-sm.png" width="125px" />
         </a>
       </b-navbar-brand>
 
       <b-navbar-toggle target="collapse" @click="toogleSideBar"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav right>
-        <b-navbar-nav class="ml-auto">
+        <b-navbar-nav class="ml-4">
           <li>
             <nuxt-link to="/dashboard" class="nav-link" >Dashboard</nuxt-link>
           </li>
@@ -24,28 +24,21 @@
             <nuxt-link to="/system" class="nav-link">System Settings</nuxt-link>
           </li>
         </b-navbar-nav>
-
-        <!-- <b-navbar-nav class="ml-auto">
+        <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
             <template v-slot:button-content>
-              <span class="menu-icon">
-                <img
-                  v-if="
-                    currentUser.imageUrl == '' || currentUser.imageUrl == null
-                  "
-                  style="max-width:32px; border-radius:360px;"
-                  src="../../assets/images/avatar-icon-images-4.png"
-                />
-                <img
-                  v-if="currentUser.imageUrl != ''"
-                  style="max-width:32px; border-radius:360px;"
-                  :src="currentUser.imageUrl"
-                />
-              </span>
-              <span class="menu-title" v-if="currentUser">
-                <i>{{ currentUser.firstName }} {{ currentUser.lastName }}</i>
-              </span>
+               <b-avatar v-if="!currentUser.imageUrl"></b-avatar>
+        <b-avatar v-if="currentUser.imageUrl" variant="primary" :src="`${baseUrl}${currentUser.imageUrl}`"></b-avatar>
             </template>
+
+            <div class="pl-4 pr-4">
+               <i>{{ currentUser.firstName }} {{ currentUser.lastName }}</i>
+            </div>
+            <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-item  :to="`/preferences`">Preferences</b-dropdown-item>
+            <b-dropdown-item @click="logout">Log Out</b-dropdown-item>
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
 
       </b-collapse>
     </b-navbar>
@@ -62,14 +55,18 @@ export default {
   middleware: 'authenticated',
   computed: {
     ...mapState({
-      customer: state => state.managedService,
+
       auth: state => state.auth,
-      sideBarOpen: state => state.sideBarOpen
+      sideBarOpen: state => state.sideBarOpen,
+      currentUser : state => state.currentUser
 
     }),
     ...mapGetters({
       isAuth: 'isAuthenticated'
-    })
+    }),
+     baseUrl(){
+      return process.env.baseURL
+    }
   },
   data(){
     return{
@@ -84,7 +81,7 @@ export default {
     overlayOff(){
       this.$store.commit('toggleSideBar', false)
     },
-    logout() {
+   logout () {
       this.$store.dispatch('logOut')
       localStorage.clear()
       this.$router.push(`/`)

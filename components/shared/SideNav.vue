@@ -4,23 +4,49 @@
 
       <div class="sidebar-content">
         <div class="sidebar ">
-          <div class="sidebar-header small-screens-only">
-            <!-- Module Switcher -->
-            <module-switcher :app="app"/>
-            <!-- End Module Switcher -->
+          <div class="sidebar-header">
+            <b-nav vertical v-if="auth">
+            <a class="nav-link" href="#" v-b-toggle.accordion-user>
+              <span class="menu-icon">
+                <b-avatar v-if="!currentUser.imageUrl"></b-avatar>
+                <b-avatar v-if="currentUser.imageUrl" variant="primary" :src="`${baseUrl}${currentUser.imageUrl}`"></b-avatar>
+              </span>
+              <span class="menu-title" v-if="currentUser">
+                <i>{{ currentUser.firstName }} {{ currentUser.lastName }}</i>
+              </span>
+              <font-awesome-icon
+                :icon="['fas', 'caret-down']"
+                style="color:#a3a3a3;margin-left:8%;"
+              />
+            </a>
+
+            <b-collapse
+              id="accordion-user"
+              accordion="my-accordion"
+              role="tabpanel"
+              class="mx-auto"
+            >
+              <div>
+                <li>
+                  <a
+                    @click="goTo('preferences')"
+                    class="nav-link"
+                    :class="{ active: page == 'preferences' }"
+                  >
+                    <span class="menu-title">Preferences</span>
+                  </a>
+                </li>
+                <b-nav-item @click="logout" class="sub-link">Log Out</b-nav-item>
+              </div>
+            </b-collapse>
+          </b-nav>
           </div>
-          <br class="small-screens-only"/>
-          <!-- User Profile -->
-          <Avatar   />
-          <!-- End User Profile -->
           <br />
 
-          <!-- Module links/tabs -->
 
           <ul class="list-unstyled components">
-            <!-- Home -->
             <li>
-              <nuxt-link to="/dashboard" class="nav-link"  :class="{ active: page == 'dashboard' }">
+              <a @click="goTo('dashboard')" class="nav-link"  :class="{ active: page == 'dashboard' }">
                 <span class="menu-icon" :class="{ active: page == 'dashboard' }">
                   <font-awesome-icon
                     :icon="['fas', 'tachometer-alt']"
@@ -28,104 +54,43 @@
                   />
                 </span>
                 <span class="menu-title">Dashboard</span>
-              </nuxt-link>
-            </li>
-            <!-- end Home -->
-            <!-- Customer Links -->
-            <div v-if="app == 'customers'">
-              <NavLink
-                v-if="navLink.appModule == 'customers'"
-                v-for="navLink in navLinks"
-                :key="navLink.navigateToPage"
-                :activeLink="navLink.navigateToText.toLowerCase()"
-                :page="page"
-                :appModule="navLink.appModule"
-                :navigateToPage="navLink.navigateToPage"
-                :navigateToText="navLink.navigateToText"
-                :fontAwesomeIcon="navLink.fontAwesomeIcon"
-                :fontAwesomeStyle="navLink.fontAwesomeStyle"
-              ></NavLink>
-
-              <!-- <DropdownNav
-                v-if="dropdownNavs.length > 0"
-                :appModule="dropdownNav.appModule"
-                v-for="dropdownNav in dropdownNavs"
-                :key="dropdownNav.dropdownText"
-                :dropdownText="dropdownNav.dropdownText"
-                :dropdownIcon="dropdownNav.dropdownIcon"
-                :dropdownIconStyle="dropdownNav.dropdownIconStyle"
-                :nestedLinks="dropdownNav.nestedLinks"
-              ></DropdownNav> -->
-            </div>
-            <!-- End Customer Links -->
-            <!-- Sales Links -->
-            <div v-if="app == 'customer'">
-              <NavLink
-                v-if="navLink.appModule == 'customer'"
-                v-for="navLink in navLinks"
-                :key="navLink.navigateToPage"
-                :activeLink="navLink.navigateToText.toLowerCase()"
-                :page="page"
-                :appModule="navLink.appModule"
-                :navigateToPage="navLink.navigateToPage"
-                :navigateToText="navLink.navigateToText"
-                :fontAwesomeIcon="navLink.fontAwesomeIcon"
-                :fontAwesomeStyle="navLink.fontAwesomeStyle"
-              ></NavLink>
-
-              <DropdownNav
-                v-if="dropdownNavs.length > 0"
-                :appModule="dropdownNav.appModule"
-                v-for="dropdownNav in dropdownNavs"
-                :key="dropdownNav.dropdownText"
-                :dropdownText="dropdownNav.dropdownText"
-                :dropdownIcon="dropdownNav.dropdownIcon"
-                :dropdownIconStyle="dropdownNav.dropdownIconStyle"
-                :nestedLinks="dropdownNav.nestedLinks"
-              ></DropdownNav>
-            </div>
-            <!-- End Sales Links -->
-            <!-- Operations -->
-            <!-- <div v-if="app == 'system'">
-              <NavLink
-                v-if="navLink.appModule == 'system'"
-                v-for="navLink in navLinks"
-                :key="navLink.navigateToPage"
-                :activeLink="navLink.navigateToText.toLowerCase()"
-                :page="page"
-                :appModule="navLink.appModule"
-                :navigateToPage="navLink.navigateToPage"
-                :navigateToText="navLink.navigateToText"
-                :fontAwesomeIcon="navLink.fontAwesomeIcon"
-                :fontAwesomeStyle="navLink.fontAwesomeStyle"
-              ></NavLink>
-            </div> -->
-            <!-- End -->
-
-            <!-- <li>
-              <nuxt-link to="/" class="nav-link">
-                <span class="menu-icon">
-                  <font-awesome-icon
-                    :icon="['fas', 'reply']"
-                    style="font-size: 17px; color:#fff;"
-                  />
-                </span>
-                <span class="menu-title">Brynka.com</span>
-              </nuxt-link>
+              </a>
             </li>
             <li>
-              <a class="nav-link">
-                <span class="menu-icon">
+              <a @click="goTo('customers')" class="nav-link"  :class="{ active: page == 'customers' }">
+                <span class="menu-icon" :class="{ active: page == 'customers' }">
                   <font-awesome-icon
-                    :icon="['fas', 'question-circle']"
-                    style="font-size: 17px; color:#fff;"
+                    :icon="['fas', 'project-diagram']"
+                    style="font-size: 17px; color:#fd7e14;"
                   />
                 </span>
-                <span class="menu-title">Support</span>
+                <span class="menu-title">Customers</span>
               </a>
-            </li> -->
+            </li>
+            <li>
+              <a @click="goTo('internal')" class="nav-link"  :class="{ active: page == 'internal' }">
+                <span class="menu-icon" :class="{ active: page == 'internal' }">
+                  <font-awesome-icon
+                    :icon="['fas', 'list']"
+                    style="font-size: 17px; color:#28a745;"
+                  />
+                </span>
+                <span class="menu-title">Internal</span>
+              </a>
+            </li>
+            <li>
+              <a @click="goTo('system')" class="nav-link"  :class="{ active: page == 'system' }">
+                <span class="menu-icon" :class="{ active: page == 'system' }">
+                  <font-awesome-icon
+                    :icon="['fas', 'cogs']"
+                    style="font-size: 17px; color:#e83e8c;"
+                  />
+                </span>
+                <span class="menu-title">System</span>
+              </a>
+            </li>
+
           </ul>
-          <!-- End Module links/tabs -->
 
         </div>
       </div>
@@ -134,125 +99,54 @@
 </template>
 
 <script>
-import ModuleSwitcher from '@/components/shared/ModuleSwitcher.vue'
-import DropdownNav from '@/components/shared/DropdownNavLink.vue'
-import NavLink from '@/components/shared/NavLink.vue'
-import Avatar from '@/components/shared/Avatar.vue'
-import { mapGetters } from 'vuex'
-import { mapState } from 'vuex'
+
+
+import { mapState, mapGetters } from 'vuex'
 
 export default {
-  // middleware: 'authenticated',
+
   props: ['page', 'app'],
   components: {
-    ModuleSwitcher,
-    Avatar,
-    NavLink,
-    DropdownNav
+
   },
   computed: {
     ...mapState({
       auth: state => state.auth,
       customer: state => state.customer,
-      currentUser: state => state.managedService,
+      currentUser : state => state.currentUser,
       sideBarOpen: state => state.sideBarOpen
-    })
+    }),
+     baseUrl(){
+      return process.env.baseURL
+    }
   },
-  //  async created(){
-  //   const permsId = currentUser.securityRole
-  //   const { data } = await this.$axios.get(`/securityRole/${permsId}`)
-  //   this.securityRole = data.securityRole
-  // },
+
   data() {
     return {
       isOpen: false,
       securityRole:null,
-      navLinks: [
-        {
-          appModule: 'home',
-          navigateToPage: 'home',
-          navigateToText: 'Dashboard',
-          fontAwesomeIcon: ['fas', 'tachometer-alt'],
-          fontAwesomeStyle: { color: '#5bc0de' }
-        },
-        {
-          appModule: 'internal',
-          navigateToPage: 'internal',
-          navigateToText: 'Internal',
-          fontAwesomeIcon: ['fas', 'list'],
-          fontAwesomeStyle: { color: '#28a745' }
-        },
 
-        {
-          appModule: 'customers',
-          navigateToPage: 'customers',
-          navigateToText: 'Customers',
-          fontAwesomeIcon: ['fas', 'project-diagram'],
-          fontAwesomeStyle: { color: '#76ef04;' }
-        },
-        {
-          appModule: 'system',
-          navigateToPage: 'system',
-          navigateToText: 'System',
-          fontAwesomeIcon: ['fas', 'barcode'],
-          fontAwesomeStyle: { color: '#76ef04;' }
-        },
-
-      ],
-      dropdownNavs: [
-        // {
-        //   appModule: 'system',
-        //   dropdownText: 'Settings',
-        //   dropdownIcon: ['fas', 'cogs'],
-        //   dropdownIconStyle: { color: '#9c27b0' },
-        //   nestedLinks: [
-        //     {
-        //       navigateToPage: 'admin/buildings',
-        //       navigateToText: 'Buildings'
-        //     },
-        //     {
-        //       navigateToPage: 'admin/carriers',
-        //       navigateToText: 'Carriers'
-        //     },
-        //     {
-        //       navigateToPage: 'admin/contacts',
-        //       navigateToText: 'Contacts'
-        //     },
-        //     {
-        //       navigateToPage: 'admin/departments',
-        //       navigateToText: 'Departments'
-        //     },
-        //     {
-        //       navigateToPage: 'admin/floors',
-        //       navigateToText: 'Floors'
-        //     },
-        //     {
-        //       navigateToPage: 'admin/locations',
-        //       navigateToText: 'Locations'
-        //     },
-        //     {
-        //       navigateToPage: 'admin/securityRoles',
-        //       navigateToText: 'Security Roles'
-        //     },
-        //     {
-        //       navigateToPage: 'admin/users',
-        //       navigateToText: 'Users'
-        //     }
-        //   ]
-        // }
-      ]
     }
   },
-
+  methods: {
+   logout () {
+      this.$store.dispatch('logOut')
+      localStorage.clear()
+      this.$router.push(`/`)
+    },
+      goTo(page) {
+      this.$router.push(`/${page}`)
+      this.$store.commit('toggleSideBar', false)
+    }
+  }
 }
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Assistant&display=swap');
-.small-screens-only{
-  display:none
-}
+
 .sidenav-wrapper {
+  margin-left: -250px;
   width: 250px;
   padding: 15px;
 
@@ -316,7 +210,7 @@ a[data-toggle='collapse'] {
     /* margin-top: 50px; */
   }
   .sidenav-wrapper {
-    margin-left: -250px;
+    /* margin-left: -250px; */
     transition: all 0.3s;
     z-index: 999999;
      position: absolute;
@@ -344,16 +238,13 @@ a[data-toggle='collapse'] {
   }
 }
 @media print {
-
   .sidenav-wrapper{
     display:none;
   }
 }
 
 @media(max-width:992px){
-  .small-screens-only{
-    display:block
-  }
+
 }
 .sidebar .nav-link:hover, .menu-icon:hover{
   color: #fff !important;

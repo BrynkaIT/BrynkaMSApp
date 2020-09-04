@@ -11,78 +11,17 @@
     >
       <h6> {{ error }}</h6>
     </b-alert>
-    <form-wizard
-      :title="formToOpen.title"
-      shape="tab"
-      class="mt-2"
-      color="#e67e22"
-      subtitle="Create or Edit a Customer"
-      @on-complete="onSubmit"
-      :startIndex="startIndex"
-    >
-      <tab-content title="Basics" :before-change="validateTab1">
+    <b-card title="Edit customer">
+      <b-form @submit="onSubmit">
         <div class="container">
-          <b-form-row>
-            <div class="col-md-4">
-              <b-form-group label="Name" label-for="input-1">
-                <b-form-input
-                  v-model="form.name"
-                  :class="{ 'validation-error': $v.form.name.$error }"
-                  type="text"
-                  @input="proccessCustomerName()"
-                  required
-                  placeholder="Customer / Account Name"
-                ></b-form-input>
-              </b-form-group>
-            </div>
-            <div class="col-md-4">
-              <b-form-group label="Possessive Name" label-for="input-2">
-                <b-form-input
-                  v-model="form.possessiveName"
-                  :class="{ 'validation-error': $v.form.possessiveName.$error }"
-                  type="text"
-                >
-                </b-form-input>
-              </b-form-group>
-            </div>
-            <div class="col-md-4">
-              <b-form-group label="Sub-Folder">
-                <b-form-input
-                  v-model="form.subFolder"
-                  :class="{ 'validation-error': $v.form.subFolder.$error }"
-                  required
-                  placeholder="Enter Sub-Folder Name"
-                ></b-form-input>
-              </b-form-group>
-            </div>
-          </b-form-row>
-          <b-form-group>
-            <label for=""
-              >Parent Customer(s):
-              <b-badge
-                variant="primary"
-                class="mx-1"
-                pill
-                v-for="(parent, index) in parents"
-                :key="index"
-                >{{ parent }}
-                <b-icon
-                  href="#"
-                  variant="light"
-                  scale="1.2"
-                  icon="x-circle-fill"
-                  @click="deletePC(index)"
-                ></b-icon></b-badge
-            ></label>
-            <b-form-select
-              v-model="c"
-              :options="customers"
-              value-field="_id"
-              text-field="name"
-              multiple
-              :select-size="3"
-              @input="displaySelectedCustomerParents($event)"
-            ></b-form-select>
+          <b-form-group label="Name" >
+            <b-form-input
+              v-model="form.name"
+              :class="{ 'validation-error': $v.form.name.$error }"
+              type="text"
+              @input="proccessCustomerName()"
+              disabled
+            ></b-form-input>
           </b-form-group>
 
           <b-form-row>
@@ -95,7 +34,7 @@
                     type="text"
                     class="form-control"
                     v-model="form.address.street1"
-                    placeholder="1234 Main St"
+                     disabled
                   />
                 </div>
                 <div class="form-group">
@@ -104,7 +43,7 @@
                     type="text"
                     class="form-control"
                     v-model="form.address.street2"
-                    placeholder="Apartment, studio, or floor"
+                     disabled
                   />
                 </div>
                 <div class="form-row">
@@ -114,6 +53,7 @@
                       type="text"
                       v-model="form.address.city"
                       class="form-control"
+                       disabled
                     />
                   </div>
                   <div class="form-group col-md-4">
@@ -124,6 +64,7 @@
                       text-field="name"
                       value-field="abbreviation"
                       class="form-control"
+                       disabled
                     >
                     </b-form-select>
                   </div>
@@ -133,6 +74,7 @@
                       type="text"
                       v-model="form.address.postalCode"
                       class="form-control"
+                       disabled
                     />
                   </div>
                 </div>
@@ -191,168 +133,7 @@
               </b-form-group>
             </div>
           </b-form-row>
-        </div>
-      </tab-content>
-      <tab-content title="Billing Info">
-        <div class="mb-2">
-          <h6 class="font-weight-bolder text-primary">Billing Contact</h6>
-          <div class="form-row">
-            <div class="form-group col-md-3">
-              <input
-                type="text"
-                v-model="form.billToContact.title"
-                class="form-control"
-                placeholder="Title"
-              />
-            </div>
-            <div class="form-group col-md-3">
-              <input
-                type="text"
-                v-model="form.billToContact.firstName"
-                class="form-control"
-                placeholder="First Name"
-              />
-            </div>
-            <div class="form-group col-md-3">
-              <input
-                type="text"
-                v-model="form.billToContact.middleName"
-                class="form-control"
-                placeholder="Middle Name"
-              />
-            </div>
-            <div class="form-group col-md-3">
-              <input
-                type="text"
-                v-model="form.billToContact.lastName"
-                class="form-control"
-                placeholder="Last Name"
-              />
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <input
-                type="text"
-                v-model="form.billToContact.email"
-                class="form-control"
-                placeholder="Email"
-              />
-            </div>
-            <div class="form-group col-md-6">
-              <input
-                type="text"
-                v-model="form.billToContact.phone"
-                class="form-control"
-                placeholder="Phone"
-              />
-            </div>
-          </div>
-        </div>
-        <b-form-group>
-          <h6 class="font-weight-bolder text-primary">Billing Address</h6>
-          <div class="form-group">
-            <label>Street</label>
-            <input
-              type="text"
-              class="form-control"
-              v-model="form.billToAddress.street1"
-              placeholder="1234 Main St"
-            />
-          </div>
-          <div class="form-group">
-            <label>Street 2</label>
-            <input
-              type="text"
-              class="form-control"
-              v-model="form.billToAddress.street2"
-              placeholder="Apartment, studio, or floor"
-            />
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-5">
-              <label>City</label>
-              <input
-                type="text"
-                v-model="form.billToAddress.city"
-                class="form-control"
-              />
-            </div>
-            <div class="form-group col-md-4">
-              <label>State</label>
-              <b-form-select
-                :options="states"
-                v-model="form.billToAddress.state"
-                text-field="name"
-                value-field="abbreviation"
-                class="form-control"
-              >
-              </b-form-select>
-            </div>
-            <div class="form-group col-md-3">
-              <label>Zip</label>
-              <input
-                type="text"
-                v-model="form.billToAddress.postalCode"
-                class="form-control"
-              />
-            </div>
-          </div>
-        </b-form-group>
-      </tab-content>
-
-      <tab-content title="Technical Settings" :before-change="validateTab2">
-        <b-row>
-          <b-col>
-            <b-form-group label="DbName:" label-for="input-2">
-              <b-form-input
-                v-model="form.dbName"
-                :class="{ 'validation-error': $v.form.dbName.$error }"
-                required
-                placeholder="Enter Database Name"
-              >
-              </b-form-input>
-            </b-form-group>
-          </b-col>
-          <b-col>
-            <b-form-group label="Email-Domain">
-              <b-form-input
-                v-model="form.emailDomain"
-                :class="{ 'validation-error': $v.form.emailDomain.$error }"
-                required
-                placeholder="Enter Email Domain"
-              ></b-form-input>
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <b-form-group label="Automatic Signup">
-              <b-form-select
-                :options="AASignupOptions"
-                v-model="form.allowsAutomaticSignup"
-                required
-              >
-              </b-form-select>
-            </b-form-group>
-          </b-col>
-          <b-col>
-            <b-form-group label="Automatic Signup Email Domain Filters">
-              <b-form-tags v-model="form.automaticSignUpEmailDomainFilters">
-              </b-form-tags>
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <b-form-group label="Media Folder">
-              <b-form-input
-                v-model="form.mediaFolder"
-                :class="{ 'validation-error': $v.form.mediaFolder.$error }"
-              ></b-form-input>
-            </b-form-group>
-          </b-col>
-          <b-col>
+          <b-form-row>
             <b-form-group label="Logo">
               <b-form-file
                 v-model="form.image"
@@ -363,144 +144,25 @@
                 accept="image/*"
                 @change="previewImage($event)"
               ></b-form-file>
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <b-form-group label="Modules">
-              <b-form-checkbox-group
-                :options="moduleOptions"
-                v-model="form.modules"
-                switches
-                stacked
-              ></b-form-checkbox-group>
-            </b-form-group>
-          </b-col>
-          <b-col>
-            <div>
+              <div>
               <b-img
+                style="max-width:50%"
                 :src="imagePlaceholder"
                 fluid
                 alt="Responsive image"
               ></b-img>
             </div>
-          </b-col>
-        </b-row>
-      </tab-content>
-      <tab-content title="Other">
-        <div class="mb-2">
-          <h6 class="font-weight-bolder text-primary">Sales Contact</h6>
-          <div class="form-row">
-            <div class="form-group col-md-3">
-              <input
-                type="text"
-                v-model="form.salesContact.title"
-                class="form-control"
-                placeholder="Title"
-              />
-            </div>
-            <div class="form-group col-md-3">
-              <input
-                type="text"
-                v-model="form.salesContact.firstName"
-                class="form-control"
-                placeholder="First Name"
-              />
-            </div>
-            <div class="form-group col-md-3">
-              <input
-                type="text"
-                v-model="form.salesContact.middleName"
-                class="form-control"
-                placeholder="Middle Name"
-              />
-            </div>
-            <div class="form-group col-md-3">
-              <input
-                type="text"
-                v-model="form.salesContact.lastName"
-                class="form-control"
-                placeholder="Last Name"
-              />
-            </div>
+            </b-form-group>
+        </b-form-row>
+          <div class="text-right">
+            <b-button type="reset" variant="danger">Reset</b-button>
+          <b-button type="submit" variant="primary">Submit</b-button>
           </div>
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <input
-                type="text"
-                v-model="form.salesContact.email"
-                class="form-control"
-                placeholder="Email"
-              />
-            </div>
-            <div class="form-group col-md-6">
-              <input
-                type="text"
-                v-model="form.salesContact.phone"
-                class="form-control"
-                placeholder="Phone"
-              />
-            </div>
-          </div>
+
         </div>
-        <div class="mb-2">
-          <h6 class="font-weight-bolder text-primary">IT Contact</h6>
-          <div class="form-row">
-            <div class="form-group col-md-3">
-              <input
-                type="text"
-                v-model="form.technicalContact.title"
-                class="form-control"
-                placeholder="Title"
-              />
-            </div>
-            <div class="form-group col-md-3">
-              <input
-                type="text"
-                v-model="form.technicalContact.firstName"
-                class="form-control"
-                placeholder="First Name"
-              />
-            </div>
-            <div class="form-group col-md-3">
-              <input
-                type="text"
-                v-model="form.technicalContact.middleName"
-                class="form-control"
-                placeholder="Middle Name"
-              />
-            </div>
-            <div class="form-group col-md-3">
-              <input
-                type="text"
-                v-model="form.technicalContact.lastName"
-                class="form-control"
-                placeholder="Last Name"
-              />
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <input
-                type="text"
-                v-model="form.technicalContact.email"
-                class="form-control"
-                placeholder="Email"
-              />
-            </div>
-            <div class="form-group col-md-6">
-              <input
-                type="text"
-                v-model="form.technicalContact.phone"
-                class="form-control"
-                placeholder="Phone"
-              />
-            </div>
-          </div>
-        </div>
-      </tab-content>
-    </form-wizard>
+      </b-form>
+
+    </b-card>
 
   </div>
 </template>

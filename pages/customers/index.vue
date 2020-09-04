@@ -10,6 +10,7 @@
           </b-col>
           <b-col cols="4">
             <a
+            v-if="isBrynka"
               href="#"
               @click="$store.commit('switchForm', { title: 'Add Customer' })"
               class="float-right align-items-center"
@@ -111,7 +112,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('a')"
+                  @click="fetchCustomers('a')"
                   >A</a
                 >
               </li>
@@ -119,7 +120,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('b')"
+                  @click="fetchCustomers('b')"
                   >B</a
                 >
               </li>
@@ -127,7 +128,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('c')"
+                  @click="fetchCustomers('c')"
                   >C</a
                 >
               </li>
@@ -135,7 +136,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('d')"
+                  @click="fetchCustomers('d')"
                   >D</a
                 >
               </li>
@@ -143,7 +144,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('e')"
+                  @click="fetchCustomers('e')"
                   >E</a
                 >
               </li>
@@ -151,7 +152,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('f')"
+                  @click="fetchCustomers('f')"
                   >F</a
                 >
               </li>
@@ -159,7 +160,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('g')"
+                  @click="fetchCustomers('g')"
                   >G</a
                 >
               </li>
@@ -167,7 +168,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('h')"
+                  @click="fetchCustomers('h')"
                   >H</a
                 >
               </li>
@@ -175,7 +176,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('i')"
+                  @click="fetchCustomers('i')"
                   >I</a
                 >
               </li>
@@ -183,7 +184,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('j')"
+                  @click="fetchCustomers('j')"
                   >J</a
                 >
               </li>
@@ -191,7 +192,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('k')"
+                  @click="fetchCustomers('k')"
                   >K</a
                 >
               </li>
@@ -199,7 +200,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('l')"
+                  @click="fetchCustomers('l')"
                   >L</a
                 >
               </li>
@@ -207,7 +208,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('m')"
+                  @click="fetchCustomers('m')"
                   >M</a
                 >
               </li>
@@ -215,7 +216,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('n')"
+                  @click="fetchCustomers('n')"
                   >N</a
                 >
               </li>
@@ -223,7 +224,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('o')"
+                  @click="fetchCustomers('o')"
                   >O</a
                 >
               </li>
@@ -231,7 +232,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('p')"
+                  @click="fetchCustomers('p')"
                   >P</a
                 >
               </li>
@@ -239,7 +240,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('q')"
+                  @click="fetchCustomers('q')"
                   >Q</a
                 >
               </li>
@@ -247,7 +248,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('r')"
+                  @click="fetchCustomers('r')"
                   >R</a
                 >
               </li>
@@ -255,7 +256,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('s')"
+                  @click="fetchCustomers('s')"
                   >S</a
                 >
               </li>
@@ -263,7 +264,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('t')"
+                  @click="fetchCustomers('t')"
                   >T</a
                 >
               </li>
@@ -271,7 +272,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('u')"
+                  @click="fetchCustomers('u')"
                   >U</a
                 >
               </li>
@@ -279,7 +280,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('v')"
+                  @click="fetchCustomers('v')"
                   >V</a
                 >
               </li>
@@ -287,7 +288,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('w')"
+                  @click="fetchCustomers('w')"
                   >W</a
                 >
               </li>
@@ -295,7 +296,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('x')"
+                  @click="fetchCustomers('x')"
                   >X</a
                 >
               </li>
@@ -303,7 +304,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('y')"
+                  @click="fetchCustomers('y')"
                   >Y</a
                 >
               </li>
@@ -311,7 +312,7 @@
                 <a
                   href="#"
                   class="search-link"
-                  @click="fetchCustomersByLetter('z')"
+                  @click="fetchCustomers('z')"
                   >Z</a
                 >
               </li>
@@ -332,10 +333,9 @@ import SideNav from '@/components/shared/SideNav.vue'
 import CustomerForm from '@/components/AddEditCustomer.vue'
 import FullWidthModal from '@/components/shared/FullWidthModal.vue'
 import JwPagination from 'jw-vue-pagination'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   middleware: ['authenticated', 'is-manager'],
-  // transition: 'tile',
   components: {
     SideNav,
     FullWidthModal,
@@ -348,7 +348,8 @@ export default {
     }),
     baseUrl(){
       return process.env.baseURL
-    }
+    },
+     ...mapGetters(['isBrynka'])
   },
   data() {
     return {
@@ -376,38 +377,23 @@ export default {
     onRowSelected(item) {
       this.$router.push(`/customers/${item._id}`)
     },
-    async fetchCustomers() {
-      let query
-      if (this.searchCriteria == '') {
-      query = ''
-      } else {
-        query = `?name.bw=${this.searchCriteria}`
-      }
+    async fetchCustomers(l) {
+      const searchCriteria = l || this.searchCriteria
+
+      let query = (searchCriteria == '') ? '': `?name.bw=${searchCriteria}`
 
       try {
       const { customers } = await this.$store.dispatch(`customers/getCustomers`,query)
       this.items = customers
       this.totalRows = this.items.length
-      } catch (error) {
-        console.log(error)
+      } catch (err) {
+        this.$toasted.error(err.message, {
+          position: 'top-center',
+          duration: 5000
+        })
       }
-
     },
-    async fetchCustomersByLetter(letter) {
-      let query = `?name.bw=${letter}`
 
-      try {
-        const { customers } = await this.$store.dispatch(
-        `customers/getCustomers`,
-        query
-      )
-      this.items = customers
-      this.totalRows = this.items.length
-      } catch (error) {
-         console.log(error)
-      }
-
-    },
     clearSearch() {
       this.searchCriteria = ''
       this.fetchCustomers()

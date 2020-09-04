@@ -1,6 +1,6 @@
 <template>
   <div class="content-container">
-    <SideNav page="Customer" app="customer"></SideNav>
+    <SideNav page="Customer" ></SideNav>
     <div class="content-right">
       <b-card >
         <div><h5 class="mb-1">{{ customer.name }}</h5></div>
@@ -196,13 +196,26 @@
 
                       </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2"  v-if="isBrynka">
                       <b-button pill
                       variant="outline-secondary"
                        @click="
                         $store.commit('switchForm', {
                           title: 'Edit Customer',
                           to:'CustomerForm',
+                          data: customer
+                        })
+                      "
+                      >Edit</b-button>
+
+                    </div>
+                     <div class="col-md-2"  v-if="!isBrynka">
+                      <b-button pill
+                      variant="outline-primary"
+                       @click="
+                        $store.commit('switchForm', {
+                          title: 'Edit Customer',
+                          to:'CustomerFormSimple',
                           data: customer
                         })
                       "
@@ -247,8 +260,9 @@ import SecurityRole from '@/components/customer/SecurityRole'
 import Users from '@/components/customer/Users'
 import LocationDetails from '@/components/LocationDetails'
 import CustomerForm from '@/components/AddEditCustomer.vue'
+import CustomerFormSimple from '@/components/EditCustomer.vue'
 import AddEditLocation from '@/components/AddEditLocation'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
    middleware: ['authenticated', 'is-manager'],
   components: {
@@ -261,6 +275,7 @@ export default {
     AddEditLocation,
     SecurityRole,
     CustomerForm,
+    CustomerFormSimple,
     Users
   },
   computed: {
@@ -270,7 +285,8 @@ export default {
     }),
    baseUrl(){
       return process.env.baseURL
-    }
+    },
+    ...mapGetters(['isBrynka'])
   },
   data() {
     return {

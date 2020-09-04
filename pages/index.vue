@@ -4,7 +4,7 @@
       <div class="row text-center mb-4">
         <div class="col-md-12">
           <div>
-            <img src="img/brynka/mainLogo.png" />
+            <img src="../assets/images/brynkaManagerLogo-lg.png" />
           <br>
             <p style="color:#fff">Verison 1.0</p>
           </div>
@@ -82,14 +82,14 @@
                     </button>
                     <button  v-if="loading.status"
                     type="button"
-                    tyle="background: rgb(255, 152, 0); color: #fff; font-size: 20px; font-weight: bolder;"
+                    style="background: rgb(255, 152, 0); color: #fff; font-size: 20px; font-weight: bolder;"
                     class="btn btn-block"
                     disabled><b-spinner small type="grow">
                     </b-spinner>{{ loading.msg }}</button>
                   </div>
                 </form>
               </div>
-              <div class="logi-forgot text-center mt-2">
+              <div class="login-forgot text-center mt-2">
                 <a href="#"><small><i>Forgot your password?</i></small></a>
               </div>
               <div>

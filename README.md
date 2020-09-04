@@ -1,4 +1,4 @@
-# SCT - System Configuration Tool
+# SCT - Brynka Manager App
 
 > This App is designed to manage BrynkaApp
 

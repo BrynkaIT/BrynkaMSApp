@@ -77,7 +77,7 @@ module.exports = {
     ]
   ],
   env: {
-    baseURL: process.env.API_DOMAIN_DEV,
+    baseURL: process.env.API_DOMAIN,
     username: process.env.BRYNKA_USER_USERNAME,
     password: process.env.BRYNKA_USER_PASSWORD
   },
@@ -86,7 +86,7 @@ module.exports = {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL:process.env.API_DOMAIN_DEV,
+    baseURL:process.env.API_DOMAIN,
     withCredentials: false
   },
   /*
