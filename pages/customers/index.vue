@@ -66,9 +66,10 @@
                     </b-col>
                     <b-col md="4">
                       <p class="middle" v-if="item.address">
-                        <span v-if="item.address.street1">{{ item.address.street1 }}</span> <span v-if="item.address.street2">{{ item.address.street2 }}</span>,<br>
-                        <span v-if="item.address.city">{{ item.address.city }}</span>,
-                        <span v-if="item.address.state">{{ item.address.state }}</span>,
+                        <span v-if="item.address.street1">{{ item.address.street1 }},</span>
+                        &nbsp;<span v-if="item.address.street2">{{ item.address.street2 }},</span><br>
+                        <span v-if="item.address.city">{{ item.address.city }},&nbsp;</span>
+                        <span v-if="item.address.state">{{ item.address.state }},&nbsp;</span>
                         <span v-if="item.address.postalCode">{{ item.address.postalCode }}</span><br>
                       </p>
                     </b-col>

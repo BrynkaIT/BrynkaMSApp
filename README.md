@@ -1,6 +1,6 @@
-# SCT - Brynka Manager App
+# BrynkaManager - Brynka Manager App
 
-> This App is designed to manage BrynkaApp
+> This App is designed to manage Brynka WebApp
 
 ## Build Setup
 
