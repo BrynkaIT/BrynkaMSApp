@@ -3,7 +3,7 @@
     <SideNav page="customers" app="customers"></SideNav>
     <div class="content-right">
       <!-- view-all-customers-table -->
-      <b-card class="overflow-scroll">
+      <b-card style="height:95%; overflow:scroll">
         <b-row align-h="between">
           <b-col cols="4">
             <b-card-title>Your Customers</b-card-title>

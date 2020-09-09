@@ -11,128 +11,34 @@
     >
       <h6> {{ error }}</h6>
     </b-alert>
-    <b-card title="Edit customer">
-      <b-form @submit="onSubmit">
+    <b-card :title="`Edit customer: ${customerToEditName }`" style="max-width:900px">
+      <b-form>
         <div class="container">
-          <b-form-group label="Name" >
-            <b-form-input
-              v-model="form.name"
-              :class="{ 'validation-error': $v.form.name.$error }"
-              type="text"
-              @input="proccessCustomerName()"
-              disabled
-            ></b-form-input>
-          </b-form-group>
 
-          <b-form-row>
-            <div class="col-md-6 p-2">
-              <b-form-group>
-                <h6 class="font-weight-bolder text-primary">Main Address</h6>
-                <div class="form-group">
-                  <label>Street</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="form.address.street1"
-                     disabled
-                  />
-                </div>
-                <div class="form-group">
-                  <label>Street 2</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="form.address.street2"
-                     disabled
-                  />
-                </div>
-                <div class="form-row">
-                  <div class="form-group col-md-5">
-                    <label>City</label>
-                    <input
-                      type="text"
-                      v-model="form.address.city"
-                      class="form-control"
-                       disabled
-                    />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label>State</label>
-                    <b-form-select
-                      :options="states"
-                      v-model="form.address.state"
-                      text-field="name"
-                      value-field="abbreviation"
-                      class="form-control"
-                       disabled
-                    >
-                    </b-form-select>
-                  </div>
-                  <div class="form-group col-md-3">
-                    <label>Zip</label>
-                    <input
-                      type="text"
-                      v-model="form.address.postalCode"
-                      class="form-control"
-                       disabled
-                    />
-                  </div>
-                </div>
-              </b-form-group>
-            </div>
-            <div class="col-md-6 p-2">
-              <b-form-group>
-                <h6 class="font-weight-bolder text-primary">Ship-To Address</h6>
-                <div class="form-group">
-                  <label>Street</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="form.shipToAddress.street1"
-                    placeholder="1234 Main St"
-                  />
-                </div>
-                <div class="form-group">
-                  <label>Street 2</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="form.shipToAddress.street2"
-                    placeholder="Apartment, studio, or floor"
-                  />
-                </div>
-                <div class="form-row">
-                  <div class="form-group col-md-5">
-                    <label>City</label>
-                    <input
-                      type="text"
-                      v-model="form.shipToAddress.city"
-                      class="form-control"
-                    />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label>State</label>
-                    <b-form-select
-                      :options="states"
-                      v-model="form.shipToAddress.state"
-                      text-field="name"
-                      value-field="abbreviation"
-                      class="form-control"
-                    >
-                    </b-form-select>
-                  </div>
-                  <div class="form-group col-md-3">
-                    <label>Zip</label>
-                    <input
-                      type="text"
-                      v-model="form.shipToAddress.postalCode"
-                      class="form-control"
-                    />
-                  </div>
-                </div>
-              </b-form-group>
-            </div>
-          </b-form-row>
+            <b-form-group label="Automatic Signup">
+              <b-form-select
+                :options="AASignupOptions"
+                v-model="form.allowsAutomaticSignup"
+                required
+              >
+              </b-form-select>
+            </b-form-group>
+
+            <b-form-group label="Automatic Signup Email Domain Filters">
+              <b-form-tags v-model="form.automaticSignUpEmailDomainFilters">
+              </b-form-tags>
+            </b-form-group>
+
+            <b-form-group label="Default Security Role">
+              <b-form-select
+                :options="securityRoles"
+                v-model="form.defaultSecurityRole"
+                 value-field="_id"
+                text-field="name"
+                required
+              >
+              </b-form-select>
+            </b-form-group>
           <b-form-row>
             <b-form-group label="Logo">
               <b-form-file
@@ -155,73 +61,40 @@
             </b-form-group>
         </b-form-row>
           <div class="text-right">
-            <b-button type="reset" variant="danger">Reset</b-button>
-          <b-button type="submit" variant="primary">Submit</b-button>
+            <b-button @click="$store.commit('closeModal')" variant="outline-secondary">Cancel</b-button>
+          <b-button @click="onSubmit" variant="primary">Submit</b-button>
           </div>
-
         </div>
       </b-form>
-
     </b-card>
 
   </div>
 </template>
 
 <script>
-import { FormWizard, TabContent } from 'vue-form-wizard'
-import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+
+
 import { mapState } from 'vuex'
-import { email, required, requiredUnless, requiredIf } from 'vuelidate/lib/validators'
+
 export default {
   components: {
-    FormWizard,
-    TabContent
+
   },
   computed: {
     ...mapState({
       auth: state => state.auth,
       customers: state => state.customers.customers,
       securityRoles: state => state.securityRoles.securityRoles,
-      usaStates: state => state.usStates.usaStates,
+
       formToOpen: state => state.formToOpen
     }),
      baseUrl(){
       return process.env.baseURL
     }
   },
-  validations: {
-    form: {
-      name: {
-        required
-      },
-      subFolder: {
-        required
-      },
-      possessiveName: {
-        required
-      },
-      dbName: {
-       required: requiredIf(function (customer) {
-           if(this.customerToEdit){
-            return false
-          }else{
-            return true
-          }
-        })
-      },
-      emailDomain: {
-        required
-      },
-      mediaFolder: {
-        required
-      },
-      defaultSecurityRoleModel: {
-        required
-      }
-    }
-  },
+
   created() {
-    this.fetchUSAStates()
+
     if (this.formToOpen.data) {
       this.isCustomerToEdit = true
       this.populateCustomer(this.formToOpen.data)
@@ -234,170 +107,32 @@ export default {
       showDismissibleAlert: false,
       errorMsg:[],
       startIndex: 0,
-      states: [{ name: 'Select State', abbreviation: null }],
+      customerToEdit: false,
+      customerToEditId: '',
+      customerToEditName: '',
       form: {
-        id: '',
-        address: {
-          street1: '',
-          street2: '',
-          city: '',
-          state: null,
-          postalCode: ''
-        },
         allowsAutomaticSignup: false,
         automaticSignUpEmailDomainFilters: [],
-        billToContact: {
-          email: '',
-          firstName: '',
-          lastName: '',
-          middleName: '',
-          phone: '',
-          title: ''
-        },
-        billToAddress: {
-          street1: '',
-          street2: '',
-          city: '',
-          state: '',
-          postalCode: ''
-        },
-        dbName: '',
-        defaultSecurityRoleModel: 'none',
-        emailDomain: '',
-        mediaFolder: '',
+        defaultSecurityRole: null,
         image: null,
-        parentCustomers: [],
-        modules: [],
-        name: '',
-        possessiveName: '',
-        salesContact: {
-          email: '',
-          firstName: '',
-          lastName: '',
-          middleName: '',
-          phone: '',
-          title: ''
-        },
-        shipToAddress: {
-          street1: '',
-          street2: '',
-          city: '',
-          state: '',
-          postalCode: ''
-        },
-        subFolder: '',
-        technicalContact: {
-          email: '',
-          firstName: '',
-          lastName: '',
-          middleName: '',
-          phone: '',
-          title: ''
-        }
       },
-      moduleOptions: ['Receiving', 'Shipping', 'Jobsubmission'],
       AASignupOptions: [ { value: 'false', text: 'No' },{ value: 'true', text: 'Yes' }],
       isCustomerToEdit: false,
-      c: [],
-      parents: [],
       customerToEdit: false,
       imagePlaceholder: ''
     }
   },
   methods: {
     async populateCustomer(customer) {
-
       this.customerToEdit = true
-      this.form.id = customer._id
+      this.customerToEditId = customer._id
+      this.customerToEditName = customer.name || ''
+      this.imagePlaceholder = process.env.baseURL + customer.logoUrl || ''
       this.form.allowsAutomaticSignup = customer.allowsAutomaticSignup
       this.form.automaticSignUpEmailDomainFilters = customer.automaticSignUpEmailDomainFilters
-
-      this.form.dbName  = customer.dbName || ''
       this.form.defaultSecurityRole  = customer.defaultSecurityRole || ''
-      this.form.defaultSecurityRoleModel = customer.defaultSecurityRoleModel || ''
-      this.form.emailDomain = customer.emailDomain || ''
-      this.form.mediaFolder = customer.mediaFolder || ''
-      this.imagePlaceholder = process.env.baseURL + customer.logoUrl || ''
-
-      await this.$store.dispatch(`customers/getCustomers`)
-      this.displaySelectedCustomerParents(customer.parentCustomers)
-      this.form.modules = customer.modules || ''
-      this.form.name = customer.name || ''
-      this.form.possessiveName = customer.possessiveName  || ''
-      this.form.subFolder = customer.subFolder || ''
-
-      this.form.address.street1 = customer.address ? customer.address.street1 : ''
-      this.form.address.street2 = customer.address ? customer.address.street2 : ''
-      this.form.address.city = customer.address ? customer.address.city : ''
-      this.form.address.state = customer.address ? customer.address.state : ''
-      this.form.address.postalCode = customer.address ? customer.address.postalCode : ''
-
-      this.form.billToAddress.street1 = customer.billToAddress ? customer.billToAddress.street1 : ''
-      this.form.billToAddress.street2 = customer.billToAddress ? customer.billToAddress.street2 : ''
-      this.form.billToAddress.city = customer.billToAddress ? customer.billToAddress.city  : ''
-      this.form.billToAddress.state = customer.billToAddress ? customer.billToAddress.state : ''
-      this.form.billToAddress.postalCode =  customer.billToAddress ? customer.billToAddress.postalCode : ''
-
-      this.form.billToContact.title = customer.billToContact ? customer.billToContact.title : ''
-      this.form.billToContact.email= customer.billToContact ? customer.billToContact.email : ''
-      this.form.billToContact.firstName= customer.billToContact ? customer.billToContact.firstName : ''
-      this.form.billToContact.lastName= customer.billToContact ? customer.billToContact.lastName : ''
-      this.form.billToContact.middleName= customer.billToContact ? customer.billToContact.middleName : ''
-      this.form.billToContact.phone= customer.billToContact ? customer.billToContact.phone : ''
-
-      this.form.shipToAddress.street1 = customer.shipToAddress ? customer.shipToAddress.street1 : ''
-      this.form.shipToAddress.street2 = customer.shipToAddress ? customer.shipToAddress.street2 : ''
-      this.form.shipToAddress.city = customer.shipToAddress ? customer.shipToAddress.city : ''
-      this.form.shipToAddress.state = customer.shipToAddress ? customer.shipToAddress.state : ''
-      this.form.shipToAddress.postalCode = customer.shipToAddress ? customer.shipToAddress.postalCode : ''
-
-      this.form.salesContact.title = customer.salesContact ? customer.salesContact.title : ''
-      this.form.salesContact.email = customer.salesContact ? customer.salesContact.email : ''
-      this.form.salesContact.firstName = customer.salesContact ? customer.salesContact.firstName : ''
-      this.form.salesContact.lastName = customer.salesContact ? customer.salesContact.lastName  : ''
-      this.form.salesContact.middleName = customer.salesContact ? customer.salesContact.middleName : ''
-      this.form.salesContact.phone = customer.salesContact ? customer.salesContact.phone : ''
-
-      this.form.technicalContact.title = customer.technicalContact ? customer.technicalContact.title : ''
-      this.form.technicalContact.email= customer.technicalContact ? customer.technicalContact.email : ''
-      this.form.technicalContact.firstName= customer.technicalContact ? customer.technicalContact.firstName : ''
-      this.form.technicalContact.lastName= customer.technicalContact ? customer.technicalContact.lastName : ''
-      this.form.technicalContact.middleName= customer.technicalContact ? customer.technicalContact.middleName  : ''
-      this.form.technicalContact.phone= customer.technicalContact ? customer.technicalContact.phone  : ''
     },
-    proccessCustomerName() {
-      this.form.dbName = this.form.name.toLowerCase().replace(/\s/g, '')
-      this.form.mediaFolder = this.form.name.toLowerCase().replace(/\s/g, '')
-      this.form.possessiveName = this.form.name.toLowerCase().concat("'s")
-      this.form.subFolder = this.form.name.toLowerCase().replace(/\s/g, '')
-    },
-    async displaySelectedCustomerParents(ids) {
-      ids.forEach(async (id) => {
 
-        let URL;
-        if(this.auth.customerSubFolder === 'brynka' && this.auth.userType === 'API'){
-          URL= "/manage/brynka/customers"
-          }else{
-          URL = "/manage/customers"
-          }
-
-        let { customers } = await this.$axios.$get(`${URL}?id=${id}`)
-
-        if(customers.length > 0){
-          if (this.parents.some(parent => parent == customers[0].name)) {
-            return alert('Customer already selected')
-          }
-          this.parents.push(customers[0].name)
-          this.form.parentCustomers.push(customers[0]._id)
-        }
-      })
-    },
-    deletePC(index) {
-      if (index > -1) {
-        this.parents.splice(index, 1)
-        this.form.parentCustomers.splice(index, 1)
-      }
-    },
     previewImage(e) {
       const files = e.target.files
       if (files && files[0]) {
@@ -409,61 +144,24 @@ export default {
         this.imagePlaceholder = files[0]
       }
     },
-    validateTab1() {
-      this.$v.form.name.$touch()
-      this.$v.form.subFolder.$touch()
-      this.$v.form.possessiveName.$touch()
-      if (
-        !this.$v.form.name.$invalid &&
-        !this.$v.form.subFolder.$invalid &&
-        !this.$v.form.possessiveName.$invalid
-      ) {
-        return true
-      } else {
-        return false
-      }
-    },
-    validateTab2() {
-      this.$v.form.dbName.$touch()
-      this.$v.form.emailDomain.$touch()
-      this.$v.form.mediaFolder.$touch()
 
-      if (
-        !this.$v.form.dbName.$invalid &&
-        !this.$v.form.emailDomain.$invalid &&
-        !this.$v.form.mediaFolder.$invalid
-      ) {
-        return true
-      } else {
-        return false
-      }
-    },
     async onSubmit() {
-      this.$v.form.$touch()
-      if (!this.$v.form.$invalid) {
-        if (this.customerToEdit) { return this.onUpdate(this.form) }
 
-        try {
-          const res = await this.$store.dispatch('customers/postCustomer',this.form)
-          this.$emit('refreshCustomers')
-          this.$store.commit('closeModal')
-          this.$toasted.success(res.message, {
-            position: 'top-center',
-            duration: 5000
-          })
-        } catch (error) {
-        const err = error.data.data
-        this.errorMsg = []
-        err.forEach(e => this.errorMsg.push(e.msg))
-        this.showAlert();
+      let formData = new FormData()
+
+      formData.append('allowsAutomaticSignup', this.form.allowsAutomaticSignup)
+      formData.append('defaultSecurityRole', this.form.defaultSecurityRole)
+      if (this.form.image != null) formData.append('image', this.form.image)
+      if (this.form.automaticSignUpEmailDomainFilters != null) {
+        for (var i = 0; i < this.form.automaticSignUpEmailDomainFilters.length; i++) {
+          formData.append("automaticSignUpEmailDomainFilters", this.form.automaticSignUpEmailDomainFilters[i])
         }
       }
-    },
-
-    async onUpdate(customer) {
 
       try {
-        const res = await this.$store.dispatch('customers/patchCustomer', customer)
+        const res = await this.$axios.$patch(`/manage/customers/${this.customerToEditId}` , formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
         this.$emit('refreshCustomer')
         this.$store.commit('closeModal')
         this.$toasted.success(res.message, {
@@ -471,91 +169,24 @@ export default {
           duration: 5000
         })
       } catch (error) {
-        const err = error.data.data
-        this.errorMsg = []
-        err.forEach(e => this.errorMsg.push(e.msg))
-        this.showAlert();
+      const err = error.data.data
+      this.errorMsg = []
+      err.forEach(e => this.errorMsg.push(e.msg))
+      this.showAlert();
       }
+
     },
+
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown
     },
     showAlert() {
       this.dismissCountDown = this.dismissSecs
-    },
-    fetchUSAStates() {
-      this.usaStates.forEach(state => {
-        this.states.push(state)
-      })
     }
   }
 }
 </script>
 
-<style scoped>
-.vue-form-wizard {
-  padding-bottom: 20px;
-  border: 1px solid #ccc;
-  background: #fafafa;
-  padding: 10px;
-  border-radius: 5px;
-}
-.vue-form-wizard .nav-link {
-  display: -webkit-flex !important;
-  display: flex !important;
-  -webkit-align-items: center;
-  align-items: center;
-  white-space: nowrap;
-  padding: 0.8rem 1.188rem;
-  color: #a3a3a3 !important;
-  -webkit-transition-duration: 0.45s;
-  -moz-transition-duration: 0.45s;
-  -o-transition-duration: 0.45s;
-  transition-duration: 0.45s;
-  transition-property: color;
-  -webkit-transition-property: color;
-  height: 46px;
-  padding-left: 30px;
-}
+<style>
 
-.vue-form-wizard .nav-link:hover,
-.menu-icon:hover {
-  color: #000 !important;
-  background: none !important;
-}
-.vue-form-wizard .wizard-header {
-  background: #eee;
-  margin-bottom: 5px;
-}
-.vue-form-wizard .wizard-card-footer {
-  margin-top: 5px;
-  background: #eee;
-  padding: 15px;
-}
-.validation-error {
-  border: 1px solid #f44336;
-  color: red;
-}
-.validation-error::placeholder {
-  /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: red;
-  opacity: 1; /* Firefox */
-}
-
-.validation-error:-ms-input-placeholder {
-  /* Internet Explorer 10-11 */
-  color: red;
-}
-
-::-ms-input-placeholder {
-  /* Microsoft Edge */
-  color: red;
-}
-
-@media (min-width: 1200px) {
-  .vue-form-wizard {
-    /* width: 80%; */
-    margin: auto;
-  }
-}
 </style>
