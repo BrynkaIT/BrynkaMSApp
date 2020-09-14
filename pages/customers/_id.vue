@@ -21,9 +21,9 @@
                         <p class="proile-rating"></span></p>
                         <b-tabs content-class="mt-3">
                           <b-tab title="Basic Info" active>
-                            <div class="row">
+                            <div class="row" v-if="isBrynka">
                                 <div class="col-md-6">
-                                    <label>Customer Id</label>
+                                    <label >Customer Id</label>
                                 </div>
                                 <div class="col-md-6">
                                     <p>{{ customer._id}}</p>
@@ -43,14 +43,14 @@
                                 </div>
                                 <div class="col-md-6">
                                   <p >
-                                    <span v-if="customer.address.street1">{{ customer.address.street1 }}</span> <span v-if="customer.address.street2">{{ customer.address.street2 }}</span>,<br>
-                                    <span v-if="customer.address.city">{{ customer.address.city }}</span>,
-                                    <span v-if="customer.address.state">{{ customer.address.state }}</span>,
+                                    <span v-if="customer.address.street1">{{ customer.address.street1 }}</span> <span v-if="customer.address.street2">{{ customer.address.street2 }},</span><br>
+                                    <span v-if="customer.address.city">{{ customer.address.city }},</span>
+                                    <span v-if="customer.address.state">{{ customer.address.state }},</span>
                                     <span v-if="customer.address.postalCode">{{ customer.address.postalCode }}</span><br>
                                   </p>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" v-if="isBrynka">
                                 <div class="col-md-6">
                                     <label>Email Domain</label>
                                 </div>
@@ -58,7 +58,7 @@
                                     <p>{{ customer.emailDomain}}</p>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" v-if="isBrynka">
                                 <div class="col-md-6">
                                     <label>Possessive Name</label>
                                 </div>
@@ -71,11 +71,11 @@
                                     <label>Parent(s)</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <span v-for=" (parent, index) in parentCustomers" :key="index">{{ parent }}, </span>
+                                    <span v-for=" (parent, index) in parentCustomers" :key="index">{{ parent }}<span v-if="parentCustomers.length > 1 ">,</span> </span>
                                 </div>
                             </div>
                           </b-tab>
-                          <b-tab title="Billing">
+                          <b-tab title="Billing" v-if="isBrynka">
                             <div class="row" v-if="customer.billToContact">
                                 <div class="col-md-6">
                                     <label>Billing Contact</label>
@@ -106,7 +106,7 @@
 
                           </b-tab>
                           <b-tab title="Techinial Settings">
-                             <div class="row">
+                             <div class="row" v-if="isBrynka">
                                 <div class="col-md-6">
                                     <label>Database Name</label>
                                 </div>
@@ -114,7 +114,7 @@
                                     <p>{{ customer.dbName}}</p>
                                 </div>
                             </div>
-                             <div class="row">
+                             <div class="row" v-if="isBrynka">
                                 <div class="col-md-6">
                                     <label>Media Folder</label>
                                 </div>
@@ -122,7 +122,7 @@
                                     <p>{{ customer.mediaFolder}}</p>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" v-if="isBrynka">
                                 <div class="col-md-6">
                                     <label>Sub-Folder</label>
                                 </div>
@@ -135,7 +135,7 @@
                                     <label>Default Security Role</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>{{ customer.defaultSecurityRoleModel}}</p>
+                                    <p>{{ customer.defaultSecurityRole}}</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -159,11 +159,11 @@
                                   <label>Last Updated</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>{{ customer.updatedAt}}</p>
+                                    <p>{{ customer.updatedAt | moment("MMMM Do YYYY, h:mm:ss a") }}</p>
                                 </div>
                             </div>
                           </b-tab>
-                          <b-tab title="Other">
+                          <b-tab title="Other" v-if="isBrynka">
                             <div class="row" v-if="customer.salesContact">
                                 <div class="col-md-6">
                                     <label>Billing Contact</label>

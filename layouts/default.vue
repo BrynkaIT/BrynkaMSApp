@@ -1,10 +1,9 @@
 <template>
-<div>
-    <top-nav />
+  <div>
+    <TopNav />
+     <!-- Page Content  -->
     <nuxt />
   </div>
-  <!-- Page Content  -->
-
 </template>
 
 <script>
@@ -13,7 +12,6 @@ import TopNav from '@/components/shared/TopNav.vue'
 export default {
   components: {
     TopNav,
-
   },
   head() {
     return {
@@ -42,7 +40,7 @@ export default {
 body {
   /* font-family: 'Assistant', sans-serif; */
   font-family: 'Nunito Sans', sans-serif;
-  
+
 }
 .wrapper {
   display: flex;
@@ -64,7 +62,7 @@ body {
 	 display: block;
 	 width: 100%;
 	 height: 50%;
-	 transition-property: opacity, transform;
+	 /* transition-property: opacity, transform; */
 	 transition-timing-function: ease-in-out;
 }
  .tile-enter-active::before, .tile-leave-active::before {

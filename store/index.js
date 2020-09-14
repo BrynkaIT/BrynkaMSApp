@@ -52,15 +52,15 @@ export const mutations = {
 // Actions
 export const actions = {
   nuxtServerInit({ commit, dispatch }, { req }) {
-    let auth = null
-    let currentUser = null
+    let managerApp_auth = null
+    let managerApp_currentUser = null
 
 
     if (req.headers.cookie) {
       const parsed = cookieparser.parse(req.headers.cookie)
       try {
-        if (parsed.auth) { auth = JSON.parse(parsed.auth) }
-        if (parsed.currentUser) { currentUser = JSON.parse(parsed.currentUser) }
+        if (parsed.managerApp_auth) { managerApp_auth = JSON.parse(parsed.managerApp_auth) }
+        if (parsed.managerApp_currentUser) { managerApp_currentUser = JSON.parse(parsed.managerApp_currentUser) }
 
       } catch (err) {
         // No valid cookie found
@@ -68,9 +68,8 @@ export const actions = {
       }
 
     }
-    commit('setAuth', auth)
-
-    commit('setCurrentUser', currentUser)
+    commit('setAuth', managerApp_auth)
+    commit('setCurrentUser', managerApp_currentUser)
   },
 
   async login({ dispatch, commit }, credentials) {
@@ -80,13 +79,13 @@ export const actions = {
       if (!auth)  return Promise.reject(e)
 
       commit('setAuth', auth.data) // mutating to store for client rendering
-      Cookie.set('auth', auth.data) // saving token in cookie for server rendering
+      Cookie.set('managerApp_auth', auth.data) // saving token in cookie for server rendering
 
       const currentuser = await this.$axios.get('/users/me', auth.data.userId) // get current user
       if (!currentuser) { return Promise.reject(e) }
 
       commit('setCurrentUser', currentuser.data.user) // mutating to store for client rendering
-      Cookie.set('currentUser', currentuser.data.user) // saving token in cookie for server rendering
+      Cookie.set('managerApp_currentUser', currentuser.data.user) // saving token in cookie for server rendering
 
       return currentuser
     }
@@ -96,8 +95,8 @@ export const actions = {
   },
 
   logOut({ commit }) {
-    Cookie.remove('auth')
-    Cookie.remove('currentUser')
+    Cookie.remove('managerApp_auth')
+    Cookie.remove('managerApp_currentUser')
     commit('setAuth', null)
     commit('setCurrentUser', null)
 

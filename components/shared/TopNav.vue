@@ -24,14 +24,14 @@
             <nuxt-link to="/system" class="nav-link">System Settings</nuxt-link>
           </li>
         </b-navbar-nav>
-        <b-navbar-nav class="ml-auto">
+        <b-navbar-nav class="ml-auto" v-if="currentUser">
           <b-nav-item-dropdown right>
             <template v-slot:button-content>
                <b-avatar v-if="!currentUser.imageUrl"></b-avatar>
         <b-avatar v-if="currentUser.imageUrl" variant="primary" :src="`${baseUrl}${currentUser.imageUrl}`"></b-avatar>
             </template>
 
-            <div class="pl-4 pr-4">
+            <div class="pl-4 pr-4" >
                <i>{{ currentUser.firstName }} {{ currentUser.lastName }}</i>
             </div>
             <b-dropdown-divider></b-dropdown-divider>
