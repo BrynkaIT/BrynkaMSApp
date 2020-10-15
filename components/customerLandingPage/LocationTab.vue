@@ -180,8 +180,11 @@ export default {
   },
   methods: {
     fetchLocations() {
-      this.$store.dispatch('locations/getLocations', `?cid=${this.$route.params.id}&deep=true`)
+
+      // this.$store.dispatch('locations/getLocations', `?cid=${this.$route.params.id}&deep=true`)
+      this.$axios.$get('/locations?deep=true')
         .then(response => {
+
           this.items = response.locations
           // Set the initial number of items
           this.totalRows = this.items.length

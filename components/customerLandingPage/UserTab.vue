@@ -143,7 +143,7 @@ export default {
         { key: 'firstName', label: 'First Name', sortable: true },
         { key: 'lastName', label: 'Last Name', sortable: true },
         { key: 'email', label: 'Email', sortable: true },
-        { key: 'securityRole', label: 'Security Role', sortable: true },
+        { key: 'securityRole.name', label: 'Security Role',sortable: true},
         // { key: 'isActive', label: 'Is Active', sortable: true },
         { key: 'actions', label: 'Actions', }
       ],
@@ -204,7 +204,7 @@ export default {
     },
     fetchUsers() {
       this.$store
-        .dispatch('users/getUsers')
+        .dispatch('users/getUsers', '?deep=true')
         .then(response => {
           this.items = response.users
           this.items.forEach(user => {
@@ -217,7 +217,7 @@ export default {
         })
         .catch(err => (this.message = err.response.data.message))
     },
-
+  
     onDelete(item) {
 
       this.$store

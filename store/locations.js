@@ -23,7 +23,7 @@ export const mutations = {
 // Actions
 export const actions = {
 	getLocations({ rootState, commit }, query) {
-
+    debugger
     if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
       URL= "/manage/brynka/locations"
     }else{
