@@ -193,23 +193,35 @@ export default {
     info(item){
     this.$router.push(`./${item.customer._id}/locations/${item._id}`)
     },
-    onDelete(item){
-      this.$store.dispatch('locations/deleteLocation', item._id)
-      .then(res =>{
-        this.fetchLocations()
-        this.$toasted.success(res.message, {
-        duration: 3000,
-        position: 'top-center'
-        })
+    onDelete(item) {
+      this.$bvModal.msgBoxConfirm(`Please confirm that you want to delete ${item.name}`, {
+        title: 'Confirm',
+        size: 'sm',
+        buttonSize: 'sm',
+        okVariant: 'danger',
+        okTitle: 'YES',
+        cancelTitle: 'NO',
+        footerClass: 'p-2',
+        hideHeaderClose: false,
+        centered: true
       })
-      .catch(e => {
-        this.$toasted.error(e.data.message, {
-          duration: 3000,
-          position: 'top-center'
-        })
+      .then(async (value) => {
+        if(!value){
+          return
+        }else{
+          try {
+            debugger
+            const res = await this.$store.dispatch('locations/deleteLocation', item._id)
+            debugger
+             this.fetchLocations()
+            this.$brynkaToast(res.message, 'success')
+          } catch (error) {
+            this.$brynkaToast(error, 'danger')
+          }
+        }
       })
-
     },
+
     onHide(value) {
       this.showModal = value
     },

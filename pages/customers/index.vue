@@ -366,7 +366,7 @@ export default {
       ],
       items: [],
       pageOfItems: [],
-      pageSize: 10,
+      pageSize: 25,
       searchCriteria: ''
     }
   },
