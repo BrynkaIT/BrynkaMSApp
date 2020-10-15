@@ -56,7 +56,7 @@
                 <b-list-group-item class="flex-column align-items-start m-2">
                   <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{ building.name }}</h5>
-                    <b-dropdown variant="outline-primary" class="right">
+                    <b-dropdown right variant="outline-primary" class="right">
                         <template v-slot:button-content>
                           <b-icon icon="gear-fill" aria-hidden="true"></b-icon>
                         </template>

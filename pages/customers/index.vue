@@ -74,7 +74,7 @@
                       </p>
                     </b-col>
                     <b-col md="4">
-                      <b-dropdown variant="outline-primary" class="right">
+                      <b-dropdown right variant="outline-primary" class="right">
                         <template v-slot:button-content>
                           <b-icon icon="gear-fill" aria-hidden="true"></b-icon>
                         </template>

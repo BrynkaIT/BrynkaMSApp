@@ -2,6 +2,7 @@
   <div>
     <TopNav />
      <!-- Page Content  -->
+     
     <nuxt />
   </div>
 </template>
