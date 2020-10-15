@@ -1,9 +1,8 @@
 <template>
   <div>
-     <br />
+    <br />
         <!-- User Interface controls -->
         <b-row>
-
           <b-col md="5" class="my-1">
             <b-form-group
               label="Filter"
@@ -48,19 +47,25 @@
             </b-form-group>
           </b-col>
           <b-col md="2" class="my-1">
-            <b-button size="sm"
-            variant="primary"
-            style="float:right"
-            @click="$store.commit('switchForm',{ title:'Add Security Role'})"
-            > New Security Role</b-button >
+            <b-button
+                size="sm"
+                variant="primary"
+                style="float:right"
+                @click="
+                  $store.commit('switchForm', { title: 'Add User', to: 'user' })
+                "
+              >
+                New User</b-button
+              >
           </b-col>
+
         </b-row>
 
         <br />
         <!-- Main table element -->
         <b-table
 
-          head-variant="light"
+          head-variant="dark"
           stacked="md"
           :items="items"
           :fields="fields"
@@ -72,7 +77,7 @@
           :sort-direction="sortDirection"
         >
 
-          <template v-slot:cell(actions)="row">
+          <template v-slot:cell(actions)="row" >
             <div class="action-buttons">
               <b-icon
               icon="pencil"
@@ -80,7 +85,7 @@
               variant="dark"
               @click="
                   $store.commit('switchForm', {
-                    title:'Edit Security Role',
+                    title:'Edit User',
                     data: row.item
                   })
                 "
@@ -92,6 +97,7 @@
               @click="onDelete(row.item)"
               ></b-icon>
             </div>
+
           </template>
 
           <template v-slot:row-details="row">
@@ -120,7 +126,6 @@
           </b-container>
   </div>
 </template>
-
 <script>
 
 import { mapState } from 'vuex'
@@ -129,35 +134,25 @@ export default {
 
   data() {
     return {
+      userToEdit: '',
       items: [],
       showModal: false,
       formTitle: '',
       fields: [
-        { key: 'name', label: 'Name', sortable: true },
-        { key: 'createdAt', label: 'Date Created',
-        formatter: (value, key, item) => {
-            return this.$moment(value).format("l");
-          },
-        sortable: true },
-        { key: 'updatedAt', label: 'Last Updated',
-        formatter: (value, key, item) => {
-            return this.$moment(value).format("l");
-          },
-        sortable: true },
-        { key: 'kind', label: 'Type', sortable: true },
-        { key: 'protectFromDeletion',
-        label: 'Protect From Deletion?',
-        sortable: true,
-        formatter: (value, key, item) => {
-          return value.toString()[0].toUpperCase()+ value.toString().slice(1);
-        },
-        },
-         { key: 'actions', label: 'Actions' }
+        { key: '_id', label: 'user ID', sortable: true },
+        { key: 'firstName', label: 'First Name', sortable: true },
+        { key: 'lastName', label: 'Last Name', sortable: true },
+        { key: 'email', label: 'Email', sortable: true },
+        { key: 'securityRole', label: 'Security Role', sortable: true },
+        // { key: 'isActive', label: 'Is Active', sortable: true },
+        { key: 'actions', label: 'Actions', }
       ],
       totalRows: 1,
       currentPage: 1,
       perPage: 15,
       pageOptions: [5, 10, 15],
+      securityOptions: ['Admin', 'Ms User', 'Clerk'],
+      isActiveOptions: ['True', 'False'],
       sortBy: '',
       sortDesc: false,
       sortDirection: 'asc',
@@ -166,7 +161,7 @@ export default {
     }
   },
   computed: {
-     ...mapState({
+    ...mapState({
       formToOpen: state => state.formToOpen
     }),
     sortOptions() {
@@ -179,36 +174,73 @@ export default {
     }
   },
   created() {
-    this.fetchSecurityRoles()
+    this.fetchUsers()
   },
   methods: {
-    fetchSecurityRoles() {
-      this.$store.dispatch('securityRoles/getSecurityRoles')
-      .then(response => {
-        this.items = response.securityRoles
-      // Set the initial number of items
-      this.totalRows = this.items.length
-      }).catch(err => console.log(err))
+    isActive(item) {
+      if (!item.isActive) {
+        this.$axios
+          .put('/users/activate', {
+            userId: item._id
+          })
+          .then(user => {
+            this.message = 'User Activated!'
+            if (item._rowVariant) {
+              item._rowVariant = null
+            }
+          })
+          .catch(err => console.log(err.response))
+      } else {
+        this.$axios
+          .put('/users/deactivate', {
+            userId: item._id
+          })
+          .then(user => (this.message = 'User Deactivated!'))
+          .catch(err => {
+            this.message = err.response.data.message
+            item.isActive = true
+          })
+      }
     },
-     onDelete(item){
-      this.$store.dispatch('securityRoles/deleteSecurityRole', item._id)
-      .then(res =>{
-        this.fetchSecurityRoles()
-        this.$toasted.success(res.message, {
-        duration: 3000,
-        position: 'top-center'
+    fetchUsers() {
+      this.$store
+        .dispatch('users/getUsers')
+        .then(response => {
+          this.items = response.users
+          this.items.forEach(user => {
+            if (user.isPendingApproval) {
+              user._rowVariant = 'warning'
+            }
+          })
+          // Set the initial number of items
+          this.totalRows = this.items.length
         })
-      })
-      .catch(e => {
-        this.$toasted.error(e.message, {
-          duration: 3000,
-          position: 'top-center'
-        })
-      })
+        .catch(err => (this.message = err.response.data.message))
     },
 
+    onDelete(item) {
+
+      this.$store
+        .dispatch('users/deleteUser', item._id)
+        .then(res => {
+          this.fetchUsers()
+          this.$toasted.show(res.message, {
+            theme: "outline",
+            duration: 3000,
+            position: 'top-center'
+          })
+        })
+        .catch(e => {
+          this.$toasted.error(e.data.message, {
+            duration: 3000,
+            position: 'top-center'
+          })
+        })
+    },
+    onHide(value) {
+      this.showModal = value
+    },
     onFiltered(filteredItems) {
-
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length
       this.currentPage = 1

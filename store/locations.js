@@ -1,3 +1,4 @@
+let URL;
 export const state = () => {
 	return {
 		locations: [{ name: 'Location', _id: null }],
@@ -21,45 +22,69 @@ export const mutations = {
 
 // Actions
 export const actions = {
-	getLocations({ commit }, query) {
-		query = query || ''
-		return this.$axios.$get(`/locations${query}`)
+	getLocations({ rootState, commit }, query) {
+
+    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+      URL= "/manage/brynka/locations"
+    }else{
+      URL = "/manage/locations"
+    }
+
+    query = query || ''
+
+		return this.$axios.$get(`${URL}${query}`)
 			.then(res => {
 				commit('setLocations', res.locations )
 				return Promise.resolve(res)
 			})
 			.catch(e => {Promise.reject(e.response)});
 	},
-	getLocation({ commit }, locationId) {
-		return this.$axios.$get(`/location/${locationId}`)
+	getLocation({ rootState, commit }, locationId) {
+
+    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+      URL= "/manage/brynka/locations"
+    }else{
+      URL = "/manage/locations"
+    }
+		return this.$axios.$get(`${URL}/${locationId}`)
 			.then(res => {
 				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response));
 	},
 
-	postLocation({ commit }, location) {
-		return this.$axios.$post('/location', location )
-			.then(res => {
-				return Promise.resolve(res)
-			})
+	postLocation({ rootState }, location) {
+
+    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+      URL= "/manage/brynka/locations"
+    }else{
+      URL = "/manage/locations"
+    }
+
+		return this.$axios.$post(URL, location )
+			.then(res =>  Promise.resolve(res))
 			.catch(e => Promise.reject(e.response))
 	},
 
-	putLocation({ commit }, locationToEdit) {
-		return this.$axios.$put(`/location/${ locationToEdit.id }`, locationToEdit)
-			.then(res => {
-				return Promise.resolve(res)
-			})
+	putLocation({ rootState }, locationToEdit) {
+    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+      URL= "/manage/brynka/locations"
+    }else{
+      URL = "/manage/locations"
+    }
+		return this.$axios.$put(`${URL}/${ locationToEdit.id }`, locationToEdit)
+			.then(res => Promise.resolve(res))
 			.catch(e => Promise.reject(e.response))
 	},
 
-	deleteLocation({ commit }, locationId) {
-		return this.$axios.$delete(`/location/${ locationId }`)
-			.then(res => {
-				return Promise.resolve(res)
-			})
+	deleteLocation({ rootState }, locationId) {
+    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+      URL= "/manage/brynka/locations"
+    }else{
+      URL = "/manage/locations"
+    }
+		return this.$axios.$delete(`${URL}/${locationId}`)
+			.then(res => Promise.resolve(res))
 			.catch(e => Promise.reject(e.response))
 	}
-
 }

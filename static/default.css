@@ -11,16 +11,13 @@
   -webkit-box-align: stretch;
   align-items: stretch;
 }
-.sidenav-wrapper {
-  background: #e48800;
-  position: sticky;
-}
+
 .content-right {
   /* padding: 25px; */
   color: #000;
   width:100%;
 }
-.nav-link {
+/* .nav-link {
 display: -webkit-flex !important;
 display: flex !important;
 -webkit-align-items: center;
@@ -40,8 +37,9 @@ padding-left: 30px;
 .nav-link:hover,
 .nav-link:active {
   color:  #fff !important;
-  background:#000 !important;
-}
+  background:#ccc !important;
+} */
+
 .menu-icon {
   margin-right: 1.25rem;
   font-size: 0.8125rem;
@@ -89,10 +87,11 @@ thead {
   border: 1px solid #bbb;
 }
 .card-header {
-  background-color: #FF9800 !important;
+  /* background-color: #FF9800 !important; */
+  background-color: #efefef !important;
   border-bottom: 1px solid #9E9E9E !important;
 }
 .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
   color: #fff !important;
-  background-color: rgb(191, 83, 0) !important;
+  background-color: #007bff !important;
 }

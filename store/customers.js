@@ -1,7 +1,6 @@
 const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 let URL;
 
-
 export const state = () => {
 	return {
     customers: [{ name: 'Please select customer(s)', _id: null, disabled: true }],

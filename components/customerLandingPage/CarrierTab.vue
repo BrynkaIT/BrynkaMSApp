@@ -61,7 +61,7 @@
     <b-table
 
 
-      head-variant="light"
+      head-variant="dark"
       stacked="md"
       :items="items"
       :fields="fields"

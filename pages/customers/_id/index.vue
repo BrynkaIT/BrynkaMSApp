@@ -9,12 +9,12 @@
             <div class="emp-profile">
             <form method="post">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <div class="profile-img">
                             <img :src="`${baseUrl}${customer.logoUrl}`" alt="customer logo"/>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                       <div class="profile-head">
                         <h5>{{ customer.name }}</h5>
                         <h6>{{ customer.emailDomain}}</h6>
@@ -253,12 +253,10 @@
 <script>
 import SideNav from '@/components/shared/SideNav.vue'
 import FullWidthModal from '@/components/shared/FullWidthModal.vue'
-import Carriers from '@/components/customer/Carriers'
-import Departments from '@/components/customer/Departments'
-import Locations from '@/components/customer/Locations'
-import SecurityRole from '@/components/customer/SecurityRole'
-import Users from '@/components/customer/Users'
-import LocationDetails from '@/components/LocationDetails'
+import Carriers from '@/components/customerLandingPage/CarrierTab'
+import Locations from '@/components/customerLandingPage/LocationTab'
+import SecurityRole from '@/components/customerLandingPage/SecurityRoleTab'
+import Users from '@/components/customerLandingPage/UserTab'
 import CustomerForm from '@/components/AddEditCustomer.vue'
 import CustomerFormSimple from '@/components/EditCustomer.vue'
 import AddEditLocation from '@/components/AddEditLocation'
@@ -268,10 +266,8 @@ export default {
   components: {
     SideNav,
     Carriers,
-    Departments,
     Locations,
     FullWidthModal,
-    LocationDetails,
     AddEditLocation,
     SecurityRole,
     CustomerForm,
@@ -320,6 +316,11 @@ export default {
 </script>
 
 <style scoped>
+.nav-tabs .nav-link a {
+color: #000 !important;
+
+}
+
 .emp-profile{
     /* padding: 3%; */
     margin-top: 3%;

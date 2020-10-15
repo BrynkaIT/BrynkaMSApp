@@ -78,7 +78,7 @@
                         <template v-slot:button-content>
                           <b-icon icon="gear-fill" aria-hidden="true"></b-icon>
                         </template>
-                        <b-dropdown-item-button variant="info"  @click="onRowSelected(item)">
+                        <b-dropdown-item-button variant="info"  @click="info(item)">
                           <b-icon icon="info-circle" aria-hidden="true"></b-icon>
                           More
                         </b-dropdown-item-button>
@@ -321,7 +321,6 @@
           </div>
         </div>
       </b-card>
-      <!-- view-all-customers-table -->
     </div>
     <FullWidthModal :show="this.formToOpen.showModal">
       <CustomerForm @refreshCustomers="fetchCustomers"></CustomerForm>
@@ -375,7 +374,7 @@ export default {
     this.fetchCustomers()
   },
   methods: {
-    onRowSelected(item) {
+    info(item) {
       this.$router.push(`/customers/${item._id}`)
     },
     async fetchCustomers(l) {

@@ -51,9 +51,16 @@
   {
     "name": "customers-id",
     "path": "/customers/:id",
-    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/customers/_id.vue",
-    "chunkName": "pages/customers/_id",
-    "_name": "_02540ed6"
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/customers/_id/index.vue",
+    "chunkName": "pages/customers/_id/index",
+    "_name": "_9b6e0950"
+  },
+  {
+    "name": "customers-id-locations-lid",
+    "path": "/customers/:id/locations/:lid?",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/customers/_id/locations/_lid.vue",
+    "chunkName": "pages/customers/_id/locations/_lid",
+    "_name": "_02e926c3"
   },
   {
     "name": "index",

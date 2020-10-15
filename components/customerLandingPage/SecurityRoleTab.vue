@@ -1,6 +1,6 @@
 <template>
-    <div >
-        <br />
+  <div>
+     <br />
         <!-- User Interface controls -->
         <b-row>
 
@@ -51,8 +51,8 @@
             <b-button size="sm"
             variant="primary"
             style="float:right"
-            @click="$store.commit('switchForm',{ title:'Add Location'})"
-            > New Location</b-button >
+            @click="$store.commit('switchForm',{ title:'Add Security Role'})"
+            > New Security Role</b-button >
           </b-col>
         </b-row>
 
@@ -60,7 +60,7 @@
         <!-- Main table element -->
         <b-table
 
-          head-variant="light"
+          head-variant="dark"
           stacked="md"
           :items="items"
           :fields="fields"
@@ -74,37 +74,24 @@
 
           <template v-slot:cell(actions)="row">
             <div class="action-buttons">
-             <b-icon
-            icon="info"
-            class="bg-primary rounded p-1 "
-            variant="light"
-             @click="
-                $store.commit('switchForm', {
-                  to:'LocationDetails',
-                  data: row.item
-                })
-              "
-            ></b-icon>
-            <b-icon
-            icon="pencil"
-            class="bg-warning rounded p-1"
-            variant="dark"
-             @click="
-                $store.commit('switchForm', {
-                  title:'Edit Location',
-                  to:'AddEditLocation',
-                  data: row.item
-                })
-              "
-            ></b-icon>
-             <b-icon
-             icon="trash"
-             class="rounded bg-danger p-1"
-             variant="light"
-             @click="onDelete(row.item)"
-             ></b-icon>
-          </div>
-
+              <b-icon
+              icon="pencil"
+              class="bg-warning rounded p-1"
+              variant="dark"
+              @click="
+                  $store.commit('switchForm', {
+                    title:'Edit Security Role',
+                    data: row.item
+                  })
+                "
+              ></b-icon>
+              <b-icon
+              icon="trash"
+              class="rounded bg-danger p-1"
+              variant="light"
+              @click="onDelete(row.item)"
+              ></b-icon>
+            </div>
           </template>
 
           <template v-slot:row-details="row">
@@ -117,8 +104,6 @@
             </b-card>
           </template>
         </b-table>
-
-
           <b-container>
             <b-row>
               <b-col sm="7" md="6" class="my-1 mx-auto">
@@ -133,9 +118,7 @@
               </b-col>
             </b-row>
           </b-container>
-
-    </div>
-
+  </div>
 </template>
 
 <script>
@@ -149,15 +132,27 @@ export default {
       items: [],
       showModal: false,
       formTitle: '',
-      locationToEdit: null,
       fields: [
-        { key: 'name', label: 'Location Name', sortable: true },
-        { key: 'address.street1', label: 'Street', sortable: true },
-        { key: 'address.street2', label: 'Suite', sortable: true },
-        { key: 'address.city', label: 'City', sortable: true },
-        { key: 'address.state', label: 'State', sortable: true },
-        { key: 'address.postalCode', label: 'State'},
-        { key: 'actions', label: 'Actions' }
+        { key: 'name', label: 'Name', sortable: true },
+        { key: 'createdAt', label: 'Date Created',
+        formatter: (value, key, item) => {
+            return this.$moment(value).format("l");
+          },
+        sortable: true },
+        { key: 'updatedAt', label: 'Last Updated',
+        formatter: (value, key, item) => {
+            return this.$moment(value).format("l");
+          },
+        sortable: true },
+        { key: 'kind', label: 'Type', sortable: true },
+        { key: 'protectFromDeletion',
+        label: 'Protect From Deletion?',
+        sortable: true,
+        formatter: (value, key, item) => {
+          return value.toString()[0].toUpperCase()+ value.toString().slice(1);
+        },
+        },
+         { key: 'actions', label: 'Actions' }
       ],
       totalRows: 1,
       currentPage: 1,
@@ -172,8 +167,7 @@ export default {
   },
   computed: {
      ...mapState({
-      formToOpen: state => state.formToOpen,
-      customerInContext: state => state.customers.customerInContext
+      formToOpen: state => state.formToOpen
     }),
     sortOptions() {
       // Create an options list from our fields
@@ -185,37 +179,34 @@ export default {
     }
   },
   created() {
-    this.fetchLocations()
+    this.fetchSecurityRoles()
   },
   methods: {
-    fetchLocations() {
-      this.$store.dispatch('locations/getLocations', `?cid=${this.$route.params.id}&deep=true`)
-        .then(response => {
-          this.items = response.locations
-          // Set the initial number of items
-          this.totalRows = this.items.length
-        })
+    fetchSecurityRoles() {
+      this.$store.dispatch('securityRoles/getSecurityRoles')
+      .then(response => {
+        this.items = response.securityRoles
+      // Set the initial number of items
+      this.totalRows = this.items.length
+      }).catch(err => console.log(err))
     },
-    onDelete(item){
-      this.$store.dispatch('locations/deleteLocation', item._id)
+     onDelete(item){
+      this.$store.dispatch('securityRoles/deleteSecurityRole', item._id)
       .then(res =>{
-        this.fetchLocations()
+        this.fetchSecurityRoles()
         this.$toasted.success(res.message, {
         duration: 3000,
         position: 'top-center'
         })
       })
       .catch(e => {
-        this.$toasted.error(e.data.message, {
+        this.$toasted.error(e.message, {
           duration: 3000,
           position: 'top-center'
         })
       })
+    },
 
-    },
-    onHide(value) {
-      this.showModal = value
-    },
     onFiltered(filteredItems) {
 
       // Trigger pagination to update the number of buttons/pages due to filtering
