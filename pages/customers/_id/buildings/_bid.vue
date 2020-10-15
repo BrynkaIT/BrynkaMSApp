@@ -126,7 +126,7 @@ export default {
       async fetchBuilding() {
       try {
 
-      const { building } = await this.$axios.$get(`/building/${this.$route.params.id}`)
+      const { building } = await this.$axios.$get(`/building/${this.$route.params.bid}`)
 
       this.building = building
 
@@ -137,7 +137,7 @@ export default {
     async fetchFloors() {
         try {
 
-        const { floors } = await this.$store.dispatch('floors/getFloors', `?bid=${this.$route.params.id}&deep=true`)
+        const { floors } = await this.$store.dispatch('floors/getFloors', `?bid=${this.$route.params.bid}&deep=true`)
         this.floors = floors
 
         } catch (error) {

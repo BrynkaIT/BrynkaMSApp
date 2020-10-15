@@ -52,7 +52,10 @@
                 variant="primary"
                 style="float:right"
                 @click="
-                  $store.commit('switchForm', { title: 'Add User', to: 'user' })
+                  $store.commit('switchForm', {
+                    title: 'Add User',
+                    to: 'AddEditUser'
+                    })
                 "
               >
                 New User</b-button
@@ -86,6 +89,7 @@
               @click="
                   $store.commit('switchForm', {
                     title:'Edit User',
+                    to: 'AddEditUser',
                     data: row.item
                   })
                 "
@@ -217,7 +221,7 @@ export default {
         })
         .catch(err => (this.message = err.response.data.message))
     },
-  
+
     onDelete(item) {
 
       this.$store

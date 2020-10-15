@@ -50,7 +50,7 @@
         <b-button
           size="sm"
           variant="primary"
-          @click="$store.commit('switchForm', { title: 'Add Department' })"
+          @click="$store.commit('switchForm', { title: 'Add Department', to:'AddEditDepartment', })"
         >
           New Department</b-button
         >
@@ -82,6 +82,7 @@
           @click="
             $store.commit('switchForm', {
               title: 'Edit Department',
+              to:'AddEditDepartment',
               data: row.item
             })
           "

@@ -49,7 +49,7 @@
         <b-button size="sm"
           variant="primary"
           style="float:right"
-            @click="$store.commit('switchForm',{ title:'Add Carrier'})"
+            @click="$store.commit('switchForm',{ title:'Add Carrier',  to:'AddEditCarrier'})"
             >
             New Carrier</b-button
           >
@@ -83,6 +83,7 @@
              @click="
                 $store.commit('switchForm', {
                   title:'Edit Carrier',
+                  to:'AddEditCarrier',
                   data: row.item
                 })
               "

@@ -51,7 +51,7 @@
             <b-button size="sm"
             variant="primary"
             style="float:right"
-            @click="$store.commit('switchForm',{ title:'Add Security Role'})"
+            @click="$store.commit('switchForm',{ title:'Add Security Role', to:'AddEditSecurityRole'})"
             > New Security Role</b-button >
           </b-col>
         </b-row>
@@ -81,6 +81,7 @@
               @click="
                   $store.commit('switchForm', {
                     title:'Edit Security Role',
+                    to:'AddEditSecurityRole',
                     data: row.item
                   })
                 "

@@ -254,9 +254,12 @@
 import SideNav from '@/components/shared/SideNav.vue'
 import FullWidthModal from '@/components/shared/FullWidthModal.vue'
 import Carriers from '@/components/customerLandingPage/CarrierTab'
+import AddEditCarrier from '@/components/AddEditCarrier'
 import Locations from '@/components/customerLandingPage/LocationTab'
 import SecurityRole from '@/components/customerLandingPage/SecurityRoleTab'
+import AddEditSecurityRole from '@/components/AddEditSecurityRoles'
 import Users from '@/components/customerLandingPage/UserTab'
+import AddEditUser from '@/components/AddEditUser'
 import CustomerForm from '@/components/AddEditCustomer.vue'
 import CustomerFormSimple from '@/components/EditCustomer.vue'
 import AddEditLocation from '@/components/AddEditLocation'
@@ -266,13 +269,16 @@ export default {
   components: {
     SideNav,
     Carriers,
+    AddEditCarrier,
     Locations,
     FullWidthModal,
     AddEditLocation,
     SecurityRole,
+    AddEditSecurityRole,
     CustomerForm,
     CustomerFormSimple,
-    Users
+    Users,
+    AddEditUser
   },
   computed: {
     ...mapState({
