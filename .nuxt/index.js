@@ -16,6 +16,7 @@ import { createStore } from './store.js'
 import nuxt_plugin_bootstrapvue_5a4fd586 from 'nuxt_plugin_bootstrapvue_5a4fd586' // Source: ./bootstrap-vue.js (mode: 'all')
 import nuxt_plugin_templatespluginf532cde8_d6fb3bb6 from 'nuxt_plugin_templatespluginf532cde8_d6fb3bb6' // Source: ./templates.plugin.f532cde8.js (mode: 'all')
 import nuxt_plugin_axios_7f933e57 from 'nuxt_plugin_axios_7f933e57' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_brynkaToasts_4b440606 from 'nuxt_plugin_brynkaToasts_4b440606' // Source: ../plugins/brynkaToasts (mode: 'client')
 import nuxt_plugin_vuelidate_4345260a from 'nuxt_plugin_vuelidate_4345260a' // Source: ../plugins/vuelidate (mode: 'all')
 import nuxt_plugin_filters_2dd71012 from 'nuxt_plugin_filters_2dd71012' // Source: ../plugins/filters.js (mode: 'all')
 import nuxt_plugin_axios_3566aa80 from 'nuxt_plugin_axios_3566aa80' // Source: ../plugins/axios (mode: 'all')
@@ -218,6 +219,10 @@ async function createApp(ssrContext, config = {}) {
 
   if (typeof nuxt_plugin_axios_7f933e57 === 'function') {
     await nuxt_plugin_axios_7f933e57(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_brynkaToasts_4b440606 === 'function') {
+    await nuxt_plugin_brynkaToasts_4b440606(app.context, inject)
   }
 
   if (typeof nuxt_plugin_vuelidate_4345260a === 'function') {

@@ -80,7 +80,7 @@ export const actions = {
 
 	},
   async patchCustomer({ rootState, dispatch }, customerToEdit) {
-    debugger
+
     if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
       URL= "/manage/brynka/customers"
     }else{

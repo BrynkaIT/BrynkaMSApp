@@ -35,6 +35,7 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    { src: '~/plugins/brynkaToasts', ssr: false},
     { src: '~/plugins/vuelidate' },
     { src: '~/plugins/filters.js' },
     { src: '~/plugins/axios' },

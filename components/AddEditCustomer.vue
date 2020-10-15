@@ -1,16 +1,6 @@
 <template>
   <div class="container">
-    <b-alert
-    v-for="(error, index) in errorMsg"
-    :key="index"
-    :show="dismissCountDown"
-    dismissible
-    fade
-    variant="danger"
-    @dismiss-count-down="countDownChanged"
-    >
-      <h6> {{ error }}</h6>
-    </b-alert>
+
     <form-wizard
       :title="formToOpen.title"
       shape="tab"
@@ -567,10 +557,6 @@ export default {
   },
   data() {
     return {
-      dismissSecs: 5,
-      dismissCountDown: 0,
-      showDismissibleAlert: false,
-      errorMsg:[],
       startIndex: 0,
       states: [{ name: 'Select State', abbreviation: null }],
       form: {
@@ -785,15 +771,9 @@ export default {
           const res = await this.$store.dispatch('customers/postCustomer',this.form)
           this.$emit('refreshCustomers')
           this.$store.commit('closeModal')
-          this.$toasted.success(res.message, {
-            position: 'top-center',
-            duration: 5000
-          })
+          this.$brynkaToast(res.message, 'success')
         } catch (error) {
-        const err = error.data.data
-        this.errorMsg = []
-        err.forEach(e => this.errorMsg.push(e.msg))
-        this.showAlert();
+        this.$brynkaToast(error, 'danger')
         }
       }
     },
@@ -802,24 +782,13 @@ export default {
 
       try {
         const res = await this.$store.dispatch('customers/patchCustomer', customer)
+
         this.$emit('refreshCustomer')
         this.$store.commit('closeModal')
-        this.$toasted.success(res.message, {
-          position: 'top-center',
-          duration: 5000
-        })
+        this.$brynkaToast(res.message, 'success')
       } catch (error) {
-        const err = error.data.data
-        this.errorMsg = []
-        err.forEach(e => this.errorMsg.push(e.msg))
-        this.showAlert();
+        this.$brynkaToast(error, 'danger')
       }
-    },
-    countDownChanged(dismissCountDown) {
-      this.dismissCountDown = dismissCountDown
-    },
-    showAlert() {
-      this.dismissCountDown = this.dismissSecs
     },
     fetchUSAStates() {
       this.usaStates.forEach(state => {

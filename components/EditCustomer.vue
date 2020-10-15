@@ -1,16 +1,6 @@
 <template>
   <div class="container">
-    <b-alert
-    v-for="(error, index) in errorMsg"
-    :key="index"
-    :show="dismissCountDown"
-    dismissible
-    fade
-    variant="danger"
-    @dismiss-count-down="countDownChanged"
-    >
-      <h6> {{ error }}</h6>
-    </b-alert>
+
     <b-card :title="`Edit customer: ${customerToEditName }`" style="max-width:900px">
       <b-form>
         <div class="container">
@@ -102,10 +92,6 @@ export default {
   },
   data() {
     return {
-      dismissSecs: 5,
-      dismissCountDown: 0,
-      showDismissibleAlert: false,
-      errorMsg:[],
       startIndex: 0,
       customerToEdit: false,
       customerToEditId: '',
@@ -164,24 +150,10 @@ export default {
         })
         this.$emit('refreshCustomer')
         this.$store.commit('closeModal')
-        this.$toasted.success(res.message, {
-          position: 'top-center',
-          duration: 5000
-        })
+        this.$brynkaToast(res.message, 'success')
       } catch (error) {
-      const err = error.data.data
-      this.errorMsg = []
-      err.forEach(e => this.errorMsg.push(e.msg))
-      this.showAlert();
+      this.$brynkaToast(error, 'danger')
       }
-
-    },
-
-    countDownChanged(dismissCountDown) {
-      this.dismissCountDown = dismissCountDown
-    },
-    showAlert() {
-      this.dismissCountDown = this.dismissSecs
     }
   }
 }

@@ -86,6 +86,9 @@ thead {
   color: #000;
   border: 1px solid #bbb;
 }
+.toasted-container, .b-toaster {
+  z-index: 1000000000000 !important;
+}
 .card-header {
   /* background-color: #FF9800 !important; */
   background-color: #efefef !important;
