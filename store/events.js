@@ -1,39 +1,63 @@
 export const state = () => {
 	return {
-		eventList: [
-            {
-                "_id": "5e7bd4afbe7f6e3484ac59bf",
-                "marksAsDelivered": false,
-                "name": "Receive",
-                "code": "Receive",
-                "type": "Receive",
-                "protectFromDeletion": true
-              },
-              {
-                "_id": "5e7bda81be7f6e3484ac59c0",
-                "marksAsDelivered": true,
-                "name": "Deliver",
-                "code": "Deliver",
-                "type": "Deliver",
-                "protectFromDeletion": true
-              },
-              {
-                "_id": "5e84e88c94fbb33310a3094a",
-                "marksAsDelivered": false,
-                "name": "Attempted Delivery",
-                "code": "Attempted",
-                "type": "Deliver",
-                "protectFromDeletion": true,
-                "emailNotifications": [{
-                    "bcc": "ryantoner86@gmail.com",
-                    "body": "Hello <<RECIPIENT_NAME>>",
-                    "cc": "ryantoner86@gmail.com",
-                    "from": "ryantoner86@gmail.com",
-                    "subject": "Attempted Delivery - <<TRACKING_NUMBER>>",
-                    "to": "ryan.toner@brynka.com"
-                }]
-              }
-        ],
-
+		events: [{ name: 'Event', _id: null }]
 	}
+}
+
+// Mutations
+export const mutations = {
+	setEvents(state, events) {
+		state.events = [{ name: 'Event', _id: null }]
+		if (events != null && events.length > 0) {
+			events.forEach(event => {
+				state.events.push(event)
+			})
+		}
+	},
+
+}
+
+// Actions
+export const actions = {
+	getEvents({ commit }, query) {
+		query = query || ''
+		return this.$axios.$get(`/events${query}`)
+			.then(res => {
+				commit('setEvents', res.events )
+				return Promise.resolve(res)
+			})
+			.catch(e => Promise.reject(e.response));
+	},
+	getEvent({ commit }, eventId) {
+		return this.$axios.$get(`/events/${eventId}`)
+			.then(res => {
+				return Promise.resolve(res)
+			})
+			.catch(e => Promise.reject(e.response));
+	},
+
+	postEvent({ commit }, events) {
+		return this.$axios.$post('/events', events )
+			.then(res => {
+				return Promise.resolve(res)
+			})
+			.catch(e => Promise.reject(e.response))
+	},
+
+	putEvent({ commit }, eventToEdit) {
+		return this.$axios.$put(`/events/${ eventToEdit.id }`, eventToEdit)
+			.then(res => {
+				return Promise.resolve(res)
+			})
+			.catch(e => Promise.reject(e.response))
+	},
+
+	deleteEvent({ commit }, eventId) {
+		return this.$axios.$delete(`/events/${ eventId }`)
+			.then(res => {
+				return Promise.resolve(res)
+			})
+			.catch(e => Promise.reject(e.response))
+	}
+
 }

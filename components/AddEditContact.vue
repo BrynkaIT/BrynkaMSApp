@@ -1,19 +1,15 @@
 <template>
   <div class="container">
-    <br />
-      <b-alert
-        :show="dismissCountDown"
-        dismissible
-        fade
-        :variant="message.variant"
-        @dismiss-count-down="countDownChanged"
-      >
-        {{ message.text }}
-      </b-alert>
+
     <b-card bg-variant="light contactCard">
-      <b-row class="mb-2 p-2">
-        <b-card-title class="ml-2">{{ formToOpen.title }}</b-card-title>
-        <div class="contact-type-btn-container" v-if="!contactTypeControls">
+      <b-card-body>
+
+      <b-row align-h="between" class="mb-2 p-2">
+        <b-col cols="4">
+           <b-card-title class="ml-2">{{ formToOpen.title }}</b-card-title>
+        </b-col>
+         <b-col cols="4" class="text-right">
+           <div class="contact-type-btn-container" v-if="!contactTypeControls">
           <a href="#" class="contact-type-btn" :class="{ select : internal }" @click="internal = true">Internal</a>&nbsp;|&nbsp;
           <a href="#" class="contact-type-btn" :class="{ select : !internal }" @click="internal = false">External</a>
         </div>
@@ -21,9 +17,12 @@
         <div class="" v-if="contactTypeControls">
         <span href="#" class="contact-type-internal-only" >- Internal</span>
         </div>
+        </b-col>
+
+
       </b-row>
 
-      <form @submit="onSubmit" @reset="onReset" v-if="show">
+      <form @submit="onSubmit" @reset="onReset">
         <b-row>
           <div class="col-md-2 text-center">
             <img
@@ -302,7 +301,7 @@
           <b-button type="submit" variant="primary" size="sm">Submit</b-button>
         </b-row>
       </form>
-
+    </b-card-body>
     </b-card>
   </div>
 </template>
@@ -322,8 +321,10 @@ export default {
       floors: state => state.floors.floors,
       departments: state => state.departments.departments,
       formToOpen: state => state.formToOpen
-    })
-
+    }),
+     baseUrl(){
+      return process.env.baseURL
+    }
   },
   data() {
     return {
@@ -364,13 +365,6 @@ export default {
         { text: 'Text Message', value: 'green' }
           ],
       formToEdit: null,
-      message: {
-        text: '',
-        variant: ''
-      },
-      dismissSecs: 3,
-      dismissCountDown: 0,
-      showDismissibleAlert: false,
       states: [{ name: 'State', }],
     }
   },
@@ -472,7 +466,7 @@ export default {
       this.contact.email = contact.email;
       this.contact.phone = contact.phone;
       this.contact.isInternalContact = contact.isInternalContact;
-      if(contact.imageUrl)this.imagePlaceholder = contact.imageUrl
+      if(contact.imageUrl)this.imagePlaceholder = this.baseUrl+contact.imageUrl
       this.internal = contact.isInternalContact
       this.contact.address.street1 = contact.address.street1;
       this.contact.address.street2 = contact.address.street2;
@@ -487,86 +481,68 @@ export default {
           this.states.push(state)
         })
     },
-    getLocations(){
-      this.$store.dispatch('locations/getLocations')
-      .then(res => {})
-      .catch(e =>{ console.log(e)})
+    async getLocations(){
+      await this.$store.dispatch('locations/getLocations')
     },
-    getBuildings(lid) {
+    async getBuildings(lid) {
       const locationId = lid || this.contact.locationId
       if (locationId != null) {
-        this.$store.dispatch('buildings/getBuildings', `?lid=${locationId}`)
-        .then(res =>  {})
-        .catch(e => console.log(e))
+        await this.$store.dispatch('buildings/getBuildings', `?lid=${locationId}`)
+
       } else {
-        this.$store.commit('buildings/setBuildings', [])
+        await this.$store.commit('buildings/setBuildings', [])
       }
       this.getDepartments(locationId)
     },
-    getFloors(bid) {
+    async getFloors(bid) {
       const buildingId = bid || this.contact.buildingId
        if (buildingId != null) {
-      this.$store.dispatch('floors/getFloors', `?bid=${buildingId}`)
-       .then(res =>  {})
-        .catch(e => console.log(e))
+      await this.$store.dispatch('floors/getFloors', `?bid=${buildingId}`)
       } else {
-        this.$store.commit('floors/setFloors', [])
+       await this.$store.commit('floors/setFloors', [])
       }
     },
-    getDepartments(lid) {
+    async getDepartments(lid) {
       const locationId = lid || this.contact.locationId
       if (locationId != null) {
-        this.$store.dispatch('departments/getDepartments', `?lid=${locationId}`)
-        .then(res => {})
-        .catch(e => console.log(e))
+        await this.$store.dispatch('departments/getDepartments', `?lid=${locationId}`)
       } else {
-        this.$store.commit('departments/setDepartments', [])
+       await this.$store.commit('departments/setDepartments', [])
       }
     },
 
-    onSubmit(e) {
+    async onSubmit(e) {
       e.preventDefault()
       this.$v.contact.$touch()
       if (!this.$v.contact.$invalid) {
         this.contact.useFirstNameAlias = this.contact.firstNameAlias != '' ? true : false
         if(this.isContactToEdit) return this.onUpdate()
-         this.$store.dispatch('contacts/postContact', this.contact)
-         .then(c =>{
-            this.$emit('refreshContacts')
-            this.$store.commit('closeModal')
-            this.$toasted.success(c.message, {
-              duration: 3000,
-              position: 'top-center'
-            })
-         })
-         .catch(e =>{
-            this.$toasted.error(e.data.message, {
-              duration: 3000,
-              position: 'top-center'
-            })
-         })
+
+        try {
+          const res = await this.$store.dispatch('contacts/postContact', this.contact)
+          this.$emit('refreshContacts')
+          this.$brynkaToast(res.message, 'success')
+          this.onReset()
+          this.$store.commit('closeModal')
+        } catch (error) {
+          this.$brynkaToast(error, 'danger')
+        }
 
       } else {
-        e.preventDefault()
-        this.showAlert('Please fill in required field(s)', 'danger')
+       this.$brynkaToast('Please fill in required field(s)', 'danger')
       }
     },
-  onUpdate(){
-    
-        this.$store.dispatch('contacts/patchContact', this.contact)
-       .then(c =>{
+   async onUpdate(){
+
+         try {
+          const res = await this.$store.dispatch('contacts/patchContact', this.contact)
           this.$emit('refreshContacts')
+          this.$brynkaToast(res.message, 'success')
+          this.onReset()
           this.$store.commit('closeModal')
-          this.$toasted.success(c.message, {
-          duration: 3000,
-          position: 'top-center'
-          })
-       }) .catch(e=>{
-          this.$toasted.error(e.data.message, {
-          duration: 3000,
-          position: 'top-center'
-          })
-       })
+         } catch (error) {
+           this.$brynkaToast(error, 'danger')
+         }
     },
     onReset(evt) {
       // Reset our form values
@@ -607,14 +583,6 @@ export default {
         this.imagePlaceholder = files[0]
       }
        this.contact.image = files[0]
-    },
-    countDownChanged(dismissCountDown) {
-      this.dismissCountDown = dismissCountDown
-    },
-    showAlert(message, variant) {
-      this.message.text = message
-      this.message.variant = variant
-      this.dismissCountDown = this.dismissSecs
     },
 
   }

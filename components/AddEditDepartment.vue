@@ -1,18 +1,24 @@
 <template>
   <div class="container">
-    <b-alert
-      :show="dismissCountDown"
-      dismissible
-      fade
-      :variant="message.variant"
-      @dismiss-count-down="countDownChanged"
-    >
-      {{ message.text }}
-    </b-alert>
-    <b-card bg-variant="light departmentCard">
-      <b-card-title>{{ formToOpen.title }}</b-card-title>
-      <b-card-body>
-        <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+
+    <b-card
+    header-bg-variant="primary"
+    header-text-variant="white"
+    border-variant="secondary"
+    class="departmentCard"
+    :header="formToOpen.title ">
+      <b-row align-h="between" class="mb-2">
+        <b-col cols="4">
+          <!-- <b-card-title>{{ formToOpen.title }}</b-card-title> -->
+        </b-col>
+        <b-col cols="4" class="text-right">
+          <b-form-checkbox v-model="department.isActive"  switch>
+          Active
+        </b-form-checkbox>
+        </b-col>
+      </b-row>
+
+        <b-form @submit="onSubmit" @reset="onReset" >
           <div>
             <b-form-group>
               <b-form-input
@@ -25,22 +31,7 @@
               ></b-form-input>
             </b-form-group>
           </div>
-          <b-form-group label="This Building is part of:">
-              <b-form-select
-                size="sm"
-                v-model="department.locationId"
-                class="mb-3"
-                :class="{ 'validation-error': $v.department.locationId.$error }"
-                @blur="$v.department.locationId.$touch()"
-                :options="locations"
-                :disabled="disableLocation"
-                ref="locationInput"
-                value-field="_id"
-                text-field="name"
-              ></b-form-select>
-            </b-form-group>
-          <b-row style="float:right">
-
+          <div style="float:right" >
             <b-button
                @click="$store.commit('switchForm',{ title:`Add ${formToOpen.from}`, to:'contact', from:'department'})"
               class="mr-1"
@@ -58,9 +49,8 @@
             <b-button type="submit" variant="primary" size="sm"
               >Submit</b-button
             >
-          </b-row>
+          </div>
         </b-form>
-      </b-card-body>
     </b-card>
   </div>
 </template>
@@ -82,90 +72,59 @@ export default {
       department: {
         id:'',
         name: '',
-        locationId: null
-      },
-      message: {
-        text: '',
-        variant: ''
-      },
-      dismissSecs: 3,
-      dismissCountDown: 0,
-      showDismissibleAlert: false,
-      show: true,
-      disableLocation: false,
-      isDepartmentToEdit:false
+        locationId: null,
+        isActive:true,
+        protected:false
+        },
+
+        isDepartmentToEdit:false
     }
   },
   validations: {
     department: {
       name: {
         required
-      },
-      locationId: {
-        required
       }
     }
   },
   created() {
-    this.getLocations()
+
     if (this.formToOpen.data) {
       this.fetchDepartmentToEdit(this.formToOpen.data)
     }
   },
-  activated() {
-   if(this.formToOpen.data){
-     this.department.locationId = this.formToOpen.data.locationId
-     this.disableLocation = true
-    }
-   },
   methods: {
-    onSubmit(e) {
+    async onSubmit(e) {
       e.preventDefault()
+      this.department.locationId = this.department.locationId ? this.department.locationId : this.$route.params.id
       this.$v.department.name.$touch()
       if (!this.$v.department.name.$invalid) {
-        if (this.isDepartmentToEdit) {
-          return this.onUpdate()
-        }
-        this.$store
-          .dispatch('departments/postDepartment', this.department)
-          .then(department => {
-            this.$emit('refreshDepartments')
-            this.showAlert(department.message, 'success')
+        if (this.isDepartmentToEdit) return this.onUpdate()
+
+        try {
+            const res = await this.$store.dispatch('departments/postDepartment', this.department)
+            this.$emit('refresh')
+            this.$brynkaToast(res.message, 'success')
             this.onReset()
-            if (this.formToOpen.from) {
-                this.$store.dispatch('departments/getDepartments')
-                this.$store.commit('switchForm',{
-                title: this.formToOpen.title,
-                to: this.formToOpen.from,
-                from: 'department',
-                isInternalContact: this.formToOpen.isInternalContact,
-                data:department
-              })
-              setTimeout(() => { this.$emit('hideModal', false) }, 1000)
-            }else{
-               setTimeout(() => { this.$store.commit('closeModal') }, 1200)
-            }
-          })
-          .catch(e => {
-            this.showAlert(e.data.message, 'danger')
-          })
+            this.$store.commit('closeModal')
+
+        } catch (error) {
+           this.$brynkaToast(error, 'danger')
+        }
       } else {
-        this.showAlert('Please fill in required field(s)', 'danger')
+        this.$brynkaToast('Please fill in required field(s)', 'danger')
       }
     },
-    onUpdate() {
-      this.$store
-        .dispatch('departments/putDepartment', this.department)
-        .then(d => {
-           this.$emit('refreshDepartments')
-          this.showAlert(d.message, 'success')
+    async onUpdate() {
+        try {
+          const res = await this.$store.dispatch('departments/putDepartment', this.department)
+          this.$emit('refresh')
+          this.$brynkaToast(res.message, 'success')
           this.onReset()
-          setTimeout(() => { this.$store.commit('closeModal') }, 1000)
-        })
-        .catch(e => {this.showAlert(e.data.message, 'danger')})
-    },
-     getLocations() {
-      this.$store.dispatch('locations/getLocations')
+          this.$store.commit('closeModal')
+        } catch (error) {
+          this.$brynkaToast(error, 'danger')
+        }
     },
     onReset(evt) {
       this.department.name = ''
@@ -178,20 +137,12 @@ export default {
         this.$v.department.$reset()
       })
     },
-    countDownChanged(dismissCountDown) {
-      this.dismissCountDown = dismissCountDown
-    },
-    showAlert(message, variant) {
-      this.message.text = message
-      this.message.variant = variant
-      this.dismissCountDown = this.dismissSecs
-    },
     fetchDepartmentToEdit(formData) {
        if(formData.locationId == undefined){
-        this.disableLocation = true
         this.department.id = formData._id
-        this.department.locationId = formData.location._id
+        this.department.locationId = formData.location._id || formData.location
         this.department.name = formData.name
+        this.department.isActive = formData.isActive
         this.isDepartmentToEdit = true
       }
     }

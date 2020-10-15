@@ -51,7 +51,7 @@
             <b-button size="sm"
             variant="primary"
             style="float:right"
-            @click="$store.commit('switchForm',{ title:'Add Location'})"
+            @click="$store.commit('switchForm',{ title:'Add Location', to:'AddEditLocation'})"
             > New Location</b-button >
           </b-col>
         </b-row>

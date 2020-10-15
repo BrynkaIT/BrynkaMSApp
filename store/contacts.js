@@ -17,69 +17,61 @@ export const mutations = {
 
 // Actions
 export const actions = {
-	async getContacts({ commit },  query) {
+	getContacts({ commit },  query) {
 
 		query = query || ''
-		try {
-			const res = await this.$axios.$get(`/contacts${query}`)
+		return this.$axios.$get(`/contacts${query}`)
+		.then(res => {
 			commit('setContacts', res.contacts)
-			return res
-		} catch (error) {
-			console.log(error)
-		}
-
+			return Promise.resolve(res)
+		})
+		.catch(e => {
+			Promise.reject(e.response)
+		})
 	},
-	async getContact({ commit }, contactId) {
-		try {
-			const res = await this.$axios.$get('/contacts', contactId)
-			commit('setContacts', res.contact)
-			return res
-		} catch (error) {
-			console.log(error)
-		}
-
+	getContact({ commit }, contactId) {
+		return this.$axios.$get('/contacts', contactId)
+			.then(res => {
+				return Promise.resolve(res)
+			})
+			.catch(e => Promise.reject(e.response));
 	},
+
 	async postContact({ dispatch }, data) {
-		try {
-
-			const contact = await dispatch('createFormData', data)
-
-			const newContact = await this.$axios.$post(`/contacts`, contact, config)
-			return newContact
-		} catch (error) {
-			console.log(error)
-		}
+		const contact =  await dispatch('createFormData', data)
+		return this.$axios.$post(`/contacts`, contact, config )
+			.then(res => {
+				return Promise.resolve(res)
+			})
+			.catch(e => Promise.reject(e.response))
 
 	},
 	async putContact({ dispatch }, data) {
 
-		try {
 			const contactToEdit = await dispatch('createFormData', data)
-			const editedContact = await this.$axios.$put(`/contacts/${data.id}`, contactToEdit, config)
-			return editedContact
-		} catch (error) {
-			console.log(error)
-		}
+			return this.$axios.$put(`/contacts/${data.id}`, contactToEdit, config)
+			.then(res => {
+				return Promise.resolve(res)
+			})
+			.catch(e => Promise.reject(e.response))
+
 	},
 	async patchContact({ dispatch },  data) {
 
-		try {
 			const contactToEdit = await dispatch('createFormData', data)
-			const editedContact = await this.$axios.$patch(`/contacts/${data.id}`, contactToEdit, config)
-			return editedContact
-		} catch (error) {
-			console.log(error)
-		}
-
+			return this.$axios.$patch(`/contacts/${data.id}`, contactToEdit, config)
+			.then(res => {
+				return Promise.resolve(res)
+			})
+			.catch(e => Promise.reject(e.response))
 	},
-	async deleteContact({ commit }, contactId) {
+	deleteContact({ commit }, contactId) {
 
-		try {
-			const deletedContact = await this.$axios.$delete(`/contacts/${contactId}`)
-			return deletedContact
-		} catch (error) {
-			console.log(error)
-		}
+		return this.$axios.$delete(`/contacts/${contactId}`)
+		.then(res => {
+			return Promise.resolve(res)
+		})
+		.catch(e => Promise.reject(e.response))
 	},
 	createFormData({ context }, contact){
 		let formData = new FormData()
@@ -106,10 +98,10 @@ export const actions = {
 			if(contact.address.country) formData.append('country', contact.address.country)
 		}
 
-		console.log(Array.from(formData))
-		for(let obj of formData) {
-			console.log(obj)
-		}
+		// console.log(Array.from(formData))
+		// for(let obj of formData) {
+		// 	console.log(obj)
+		// }
 		return formData
 	}
 }

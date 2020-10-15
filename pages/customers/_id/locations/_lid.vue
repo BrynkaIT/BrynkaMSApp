@@ -56,24 +56,31 @@
                 <b-list-group-item class="flex-column align-items-start m-2">
                   <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{ building.name }}</h5>
-                    <b-button
-                      size="sm"
-                      variant="outline-secondary"
-                      class="mb-2"
-                      @click="$store.commit('switchForm', {
+                    <b-dropdown variant="outline-primary" class="right">
+                        <template v-slot:button-content>
+                          <b-icon icon="gear-fill" aria-hidden="true"></b-icon>
+                        </template>
+                        <b-dropdown-item-button variant="info"
+                        @click="() =>{ $router.push(`/customers/${customerInContext._id}/buildings/${building._id}`)}"
+                        >
+                          <b-icon icon="info-circle" aria-hidden="true"></b-icon>
+                          Show Building
+                        </b-dropdown-item-button>
+                        <b-dropdown-divider></b-dropdown-divider>
+                        <b-dropdown-item-button variant="default"
+                          @click="$store.commit('switchForm', {
                           title: 'Edit Building',
                           to:'AddEditBuilding',
                           data: building
                             })
                           ">
 
-                      <b-icon icon="gear-fill" aria-hidden="true"></b-icon>
-                    </b-button>
+                          <b-icon icon="pencil" aria-hidden="true"></b-icon>
+                          Edit
+                        </b-dropdown-item-button>
+                      </b-dropdown>
                   </div>
-                  <div>
-                    <small><i><b-link @click="() =>{ $router.push(`${customer.path}settings/buildings/${building._id}`)}">Show Floors</b-link ></i></small>
 
-                  </div>
                   <small>building ID: {{ building._id }}</small>
                 </b-list-group-item>
               </b-list-group>
@@ -160,7 +167,7 @@ export default {
   computed: {
     ...mapState({
       formToOpen: state => state.formToOpen,
-      customer : state => state.customer,
+      customerInContext : state => state.customers.customerInContext,
     })
   },
   components: {
@@ -189,7 +196,7 @@ export default {
       this.location = location
 
       } catch (error) {
-        console.log('error')
+         this.$brynkaToast(error, 'danger')
       }
     }
   }

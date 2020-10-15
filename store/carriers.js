@@ -25,14 +25,14 @@ export const actions = {
 		return this.$axios.$get(`/carriers${query}`)
 			.then(res => {
 				commit('setCarriers', res.carriers )
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response));
 	},
 	getCarrier({ commit }, carrierId) {
 		return this.$axios.$get(`/carrier/${carrierId}`)
 			.then(res => {
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response));
 	},
@@ -40,7 +40,7 @@ export const actions = {
 	postCarrier({ commit }, carrier) {
 		return this.$axios.$post('/carrier', carrier )
 			.then(res => {
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response))
 	},
@@ -48,7 +48,7 @@ export const actions = {
 	putCarrier({ commit }, carrierToEdit) {
 		return this.$axios.$put(`/carrier/${ carrierToEdit.id }`, carrierToEdit)
 			.then(res => {
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response))
 	},
@@ -56,7 +56,7 @@ export const actions = {
 	deleteCarrier({ commit }, carrierId) {
 		return this.$axios.$delete(`/carrier/${ carrierId }`)
 			.then(res => {
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response))
 	}

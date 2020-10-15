@@ -38,6 +38,7 @@ export const actions = {
       return this.$axios.$get(`${URL}${query}`)
       .then(res =>{
         commit('setCustomers', res.customers )
+        commit('setCustomerInContext', '' )
         return Promise.resolve(res)
       })
       .catch(e => Promise.reject(e.response));

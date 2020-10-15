@@ -15,72 +15,58 @@ export const mutations = {
 
 // Actions
 export const actions = {
-	async getUsers({ commit }, query) {
-		query = query || ''
+	getUsers({ commit }, query) {
 
-		try {
-			const res = await this.$axios.$get(`/users${query}`)
-			return res
-		} catch (error) {
-			console.log(error)
-		}
+		query = query || ''
+		return this.$axios.$get(`/users${query}`)
+		.then(res => {
+			return Promise.resolve(res)
+		})
+		.catch(e => {
+			Promise.reject(e.response)
+		})
 
 	},
 	getUser({ commit }, userId) {
 		return this.$axios.$get('/users', userId)
 			.then(res => {
-				// commit('setUsers', res)
 				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response))
 	},
 	async postUser({ dispatch }, data) {
-
-		try {
 			const user = await dispatch('createFormData', data)
-			
-			const newUser = await this.$axios.$post(`/users`, user, config)
-			return newUser
-
-		} catch (e) {
-
-			console.log(e)
-		}
-
+			return this.$axios.$post(`/users`, user, config)
+			.then(res => {
+				return Promise.resolve(res)
+			})
+			.catch(e => Promise.reject(e.response))
 	},
 	async putUser({ dispatch }, data) {
-
-		try {
 			const userToEdit = await dispatch('createFormData', data)
-			const editedUser = await this.$axios.$put(`/users/${data.id}`, userToEdit, config)
-			return editedUser
-
-		} catch (error) {
-			console.log(error)
-		}
-
+			return this.$axios.$put(`/users/${data.id}`, userToEdit, config)
+			.then(res => {
+				return Promise.resolve(res)
+			})
+			.catch(e => Promise.reject(e.response))
 	},
 	async patchUser({ dispatch }, data) {
-
-		try {
-
 			const userToEdit = await dispatch('createFormData', data)
-			const editedUser = await this.$axios.$patch(`/users/${data.id}`, userToEdit, config)
-			return editedUser
-		} catch (error) {
-			console.log(error)
-		}
+			return this.$axios.$patch(`/users/${data.id}`, userToEdit, config)
+			.then(res => {
+				return Promise.resolve(res)
+			})
+			.catch(e => Promise.reject(e.response))
+
 
 	},
-	async deleteUser({ commit }, userId) {
+	deleteUser({ commit }, userId) {
 
-		try {
-			const deletedUser = await this.$axios.$delete(`/users/${userId}`)
-			return deletedUser
-
-		} catch (error) {
-			return(error)
-		}
+		return this.$axios.$delete(`/users/${userId}`)
+		.then(res => {
+			return Promise.resolve(res)
+		})
+		.catch(e => Promise.reject(e.response))
 	},
 	createFormData({ context }, user) {
 		let formData = new FormData()

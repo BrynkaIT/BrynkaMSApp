@@ -24,7 +24,7 @@ export const actions = {
 		return this.$axios.$get(`/departments${query}`)
 			.then(res => {
 				commit('setDepartments', res.departments)
-				return Promise.resolve(res.departments)
+				return Promise.resolve(res)
 			})
 			.catch(e => {
 				Promise.reject(e.response)

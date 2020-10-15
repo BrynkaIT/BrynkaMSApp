@@ -1,18 +1,23 @@
 <template>
   <div class="container">
-    <b-alert
-      :show="dismissCountDown"
-      dismissible
-      fade
-      :variant="message.variant"
-      @dismiss-count-down="countDownChanged"
-    >
-      {{ message.text }}
-    </b-alert>
-    <b-card bg-variant="light carrierCard">
-      <b-card-title>{{ formToOpen.title }}</b-card-title>
-      <b-card-body>
-        <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+    <b-card
+    header-bg-variant="primary"
+    header-text-variant="white"
+    border-variant="secondary"
+    class="carrierCard"
+    :header="formToOpen.title ">
+
+        <b-row align-h="between" class="mb-2">
+        <b-col cols="4">
+          <!-- <b-card-title>{{ formToOpen.title }}</b-card-title> -->
+        </b-col>
+        <b-col cols="4" class="text-right">
+          <b-form-checkbox v-model="carrier.isActive" switch>
+            Active
+          </b-form-checkbox>
+        </b-col>
+      </b-row>
+        <b-form @submit="onSubmit" @reset="onReset" >
           <div>
             <b-form-group
             label-size="sm"
@@ -47,7 +52,7 @@
               ></b-form-input>
             </b-form-group>
           </div>
-          <b-row style="float:right">
+          <div style="float:right">
             <b-button
               @click="$store.commit('closeModal')"
               class="mr-1"
@@ -56,16 +61,16 @@
               >Cancel</b-button
             >
             <b-button type="submit" variant="primary" size="sm">Submit</b-button>
-          </b-row>
+          </div>
         </b-form>
-      </b-card-body>
+
     </b-card>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import { email, required } from 'vuelidate/lib/validators'
+import { required } from 'vuelidate/lib/validators'
 
 export default {
   computed: {
@@ -78,16 +83,10 @@ export default {
       carrier: {
         id:'',
         name: '',
-        code: null
+        code: null,
+        isActive: true,
+        protected: false
       },
-      message: {
-        text: '',
-        variant: ''
-      },
-      dismissSecs: 3,
-      dismissCountDown: 0,
-      showDismissibleAlert: false,
-      show: true,
       isCarrierToEdit: false
     }
   },
@@ -109,47 +108,48 @@ export default {
   },
 
   methods: {
-    onSubmit(e) {
+    async onSubmit(e) {
       e.preventDefault()
       this.$v.carrier.name.$touch()
       if (!this.$v.carrier.$invalid) {
-        if (this.isCarrierToEdit) {
-          return this.onUpdate()
-        }
-        this.$store
-          .dispatch('carriers/postCarrier', this.carrier)
-          .then(carrier => {
-            this.$emit('refreshCarriers')
-            this.showAlert(carrier.message, 'success')
-            this.onReset()
-            if (this.formToOpen.from) {
+        if (this.isCarrierToEdit) return this.onUpdate(this.carrier)
+
+        try {
+          const res = await this.$store.dispatch('carriers/postCarrier', this.carrier)
+          this.$emit('refreshCarriers')
+          this.$brynkaToast(res.message, 'success')
+          this.onReset()
+
+          if (this.formToOpen.from) {
                 this.$store.dispatch('carriers/getCarriers')
                 this.$store.commit('switchForm',{
                 title: this.formToOpen.title,
                 to: this.formToOpen.from,
                 from: 'carrier',
-                data:carrier
+                data: res
               })
-              setTimeout(() => { this.$emit('hideModal', false) }, 1000)
+              this.$store.commit('closeModal')
+
             }else{
-              setTimeout(() => { this.$store.commit('closeModal') }, 1200)
+             this.$store.commit('closeModal')
             }
-          })
-          .catch(e => { this.showAlert(e.data.message, 'danger')})
+        } catch (error) {
+          this.$brynkaToast(error, 'danger')
+        }
       } else {
-        this.showAlert('Please fill in required field(s)', 'danger')
+        this.$brynkaToast('Please fill in required field(s)', 'danger')
       }
     },
-    onUpdate() {
-      this.$store
-        .dispatch('carriers/putCarrier', this.carrier)
-        .then(carrier => {
-          this.$emit('refreshCarriers')
-          this.showAlert(carrier.message, 'success')
-          this.onReset()
-          setTimeout(() => { this.$store.commit('closeModal') }, 1000)
-        })
-        .catch(e => { this.showAlert(e.data.message, 'danger') })
+    async onUpdate(carrier) {
+      try {
+        const res = await this.$store.dispatch('carriers/putCarrier', carrier)
+        this.$emit('refreshCarriers')
+        this.$brynkaToast(res.message, 'success')
+        this.onReset()
+        this.$store.commit('closeModal')
+      } catch (error) {
+        this.$brynkaToast(error, 'danger')
+      }
     },
 
     onReset(evt) {
@@ -162,18 +162,11 @@ export default {
         this.$v.carrier.$reset()
       })
     },
-    countDownChanged(dismissCountDown) {
-      this.dismissCountDown = dismissCountDown
-    },
-    showAlert(message, variant) {
-      this.message.text = message
-      this.message.variant = variant
-      this.dismissCountDown = this.dismissSecs
-    },
     fetchCarrierToEdit(formData) {
       this.carrier.id = formData._id
       this.carrier.code = formData.code
       this.carrier.name = formData.name
+      this.carrier.isActive = formData.isActive
       this.isCarrierToEdit = true
     }
   }

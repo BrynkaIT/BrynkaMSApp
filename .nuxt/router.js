@@ -11,6 +11,7 @@ const _f76dc466 = () => interopDefault(import('../pages/preferences.vue' /* webp
 const _5c64e9ed = () => interopDefault(import('../pages/system/index.vue' /* webpackChunkName: "pages/system/index" */))
 const _24f8fff8 = () => interopDefault(import('../pages/system/securityRoles.vue' /* webpackChunkName: "pages/system/securityRoles" */))
 const _9b6e0950 = () => interopDefault(import('../pages/customers/_id/index.vue' /* webpackChunkName: "pages/customers/_id/index" */))
+const _efaad720 = () => interopDefault(import('../pages/customers/_id/buildings/_id.vue' /* webpackChunkName: "pages/customers/_id/buildings/_id" */))
 const _02e926c3 = () => interopDefault(import('../pages/customers/_id/locations/_lid.vue' /* webpackChunkName: "pages/customers/_id/locations/_lid" */))
 const _6cf31c67 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 
@@ -62,6 +63,10 @@ export const routerOptions = {
     path: "/customers/:id",
     component: _9b6e0950,
     name: "customers-id"
+  }, {
+    path: "/customers/:id/buildings/:id?",
+    component: _efaad720,
+    name: "customers-id-buildings-id"
   }, {
     path: "/customers/:id/locations/:lid?",
     component: _02e926c3,

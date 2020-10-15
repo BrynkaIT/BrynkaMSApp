@@ -25,14 +25,14 @@ export const actions = {
 		return this.$axios.$get(`/securityRoles${query}`)
 			.then(res => {
 				commit('setSecurityRoles', res.securityRoles )
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response));
 	},
 	getSecurityRole({ commit }, securityRoleId) {
 		return this.$axios.$get(`/securityRole${ securityRoleId }`)
 			.then(res => {
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response));
 	},
@@ -40,7 +40,7 @@ export const actions = {
 	postSecurityRole({ commit }, securityRole) {
 		return this.$axios.$post('/securityRole', securityRole )
 			.then(res => {
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response))
 	},
@@ -48,7 +48,7 @@ export const actions = {
 	putSecurityRole({ commit }, securityRoleToEdit) {
 		return this.$axios.$put(`/securityRole/${ securityRoleToEdit.id }`, securityRoleToEdit)
 			.then(res => {
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response))
 	},
@@ -57,7 +57,7 @@ export const actions = {
 
 		return this.$axios.$delete(`/securityRole/${ securityRoleId }`)
 			.then(res => {
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response))
 	}

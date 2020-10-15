@@ -25,14 +25,14 @@ export const actions = {
 		return this.$axios.$get(`/itemTypes${query}`)
 			.then(res => {
 				commit('setItemTypes', res.itemTypes )
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response));
 	},
 	getItemType({ commit }, itemTypeId) {
 		return this.$axios.$get(`/itemType/${itemTypeId}`)
 			.then(res => {
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response));
 	},
@@ -40,7 +40,7 @@ export const actions = {
 	postItemType({ commit }, itemType) {
 		return this.$axios.$post('/itemType', itemType )
 			.then(res => {
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response))
 	},
@@ -48,7 +48,7 @@ export const actions = {
 	putItemType({ commit }, ItemTypeToEdit) {
 		return this.$axios.$put(`/itemType/${ ItemTypeToEdit.id }`, ItemTypeToEdit)
 			.then(res => {
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response))
 	},
@@ -56,7 +56,7 @@ export const actions = {
 	deleteItemType({ commit }, itemTypeId) {
 		return this.$axios.$delete(`/itemType/${ itemTypeId }`)
 			.then(res => {
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response))
 	}

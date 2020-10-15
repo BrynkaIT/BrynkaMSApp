@@ -28,7 +28,7 @@ let store = {};
   resolveStoreModules(require('../store/floors.js'), 'floors.js')
   resolveStoreModules(require('../store/carriers.js'), 'carriers.js')
   resolveStoreModules(require('../store/locations.js'), 'locations.js')
-  resolveStoreModules(require('../store/receivedItems.js'), 'receivedItems.js')
+  resolveStoreModules(require('../store/notifications.js'), 'notifications.js')
   resolveStoreModules(require('../store/search.js'), 'search.js')
   resolveStoreModules(require('../store/securityRoles.js'), 'securityRoles.js')
   resolveStoreModules(require('../store/services.js'), 'services.js')
@@ -50,7 +50,7 @@ let store = {};
       '../store/index.js',
       '../store/carriers.js',
       '../store/locations.js',
-      '../store/receivedItems.js',
+      '../store/notifications.js',
       '../store/search.js',
       '../store/securityRoles.js',
       '../store/services.js',

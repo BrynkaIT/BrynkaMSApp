@@ -1,18 +1,25 @@
 <template>
   <div class="container">
-    <b-alert
-      :show="dismissCountDown"
-      dismissible
-      fade
-      :variant="message.variant"
-      @dismiss-count-down="countDownChanged"
-    >
-      {{ message.text }}
-    </b-alert>
-    <b-card bg-variant="light locationCard">
-      <b-card-title>{{ formToOpen.title }}</b-card-title>
-      <b-card-body>
-        <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+
+    <b-card
+     header-bg-variant="primary"
+    header-text-variant="white"
+    border-variant="secondary"
+    class="locationCard"
+    :header="formToOpen.title">
+
+      <b-row align-h="between" class="mb-2">
+        <b-col cols="4">
+          <!-- <b-card-title>{{ formToOpen.title }}</b-card-title> -->
+        </b-col>
+        <b-col cols="4" class="text-right">
+          <b-form-checkbox v-model="location.isActive" switch>
+            Active
+          </b-form-checkbox>
+        </b-col>
+      </b-row>
+
+        <b-form @submit="onSubmit" @reset="onReset" >
           <div>
             <b-form-group>
               <b-form-input
@@ -96,7 +103,7 @@
             >
           </b-row>
         </b-form>
-      </b-card-body>
+
     </b-card>
   </div>
 </template>
@@ -104,7 +111,7 @@
 <script>
 import { mapState } from 'vuex'
 import { email, required } from 'vuelidate/lib/validators'
-// import usaStates from '@/static/js/usaStates.json'
+
 
 export default {
 
@@ -125,16 +132,10 @@ export default {
         street2: '',
         city: '',
         state: null,
-        postalCode: ''
+        postalCode: '',
+        isActive: true,
+        protected: false
       },
-      message: {
-        text: '',
-        variant: ''
-      },
-      dismissSecs: 3,
-      dismissCountDown: 0,
-      showDismissibleAlert: false,
-      show: true,
       isLocationToEdit: false,
       states: [{ name: 'State' }]
     }
@@ -152,57 +153,38 @@ export default {
       this.fetchLocationToEdit(this.formToOpen.data)
     }
   },
-   activated() {
-  //  if(this.formToOpen.data){
-  //    this.building.locationId = this.formToOpen.data.locationId
-  //    this.disableLocation = true
-  //   }
-  },
+
   methods: {
-    onSubmit(e) {
+    async onSubmit(e) {
       e.preventDefault()
       this.$v.location.name.$touch()
       if (!this.$v.location.name.$invalid) {
-        if (this.isLocationToEdit) {
-          return this.onUpdate()
+        if (this.isLocationToEdit) return this.onUpdate(this.location)
+        try {
+          const res = await this.$store.dispatch('locations/postLocation', this.location)
+          this.$emit('refresh')
+          this.$brynkaToast(res.message, 'success')
+          this.onReset()
+          this.$store.commit('closeModal')
+        } catch (error) {
+          this.$brynkaToast(error, 'danger')
         }
-        this.$store
-          .dispatch('locations/postLocation', this.location)
-          .then(location => {
-            this.$emit('refreshLocations')
-            this.showAlert(location.message, 'success')
-            this.onReset()
-            if (this.formToOpen.from) {
-              this.$store.dispatch('locations/getLocations')
-              this.$store.commit('switchForm',{
-                title: this.formToOpen.title,
-                to: this.formToOpen.from,
-                from: 'location',
-                isInternalContact: this.formToOpen.isInternalContact,
-                data:location
-              })
-              setTimeout(() => { this.$emit('hideModal', false) }, 1000)
-            }else{
-              setTimeout(() => { this.$store.commit('closeModal') }, 1200)
-            }
-          })
-          .catch(e =>this.showAlert(e.data.message, 'danger'))
       } else {
-        this.showAlert('Please fill in required field(s)', 'danger')
+        this.$brynkaToast('Please fill in required field(s)', 'danger')
       }
     },
-    onUpdate() {
-      this.$store
-        .dispatch('locations/putLocation', this.location)
-        .then(l => {
-          this.$emit('refreshLocations')
-          this.showAlert(l.message, 'success')
-          this.onReset()
-           setTimeout(() => { this.$store.commit('closeModal') }, 1000)
-        })
-        .catch(e => {
-          this.showAlert(e.data.message, 'danger')
-        })
+    async onUpdate(location) {
+      try {
+        debugger
+        const res = await this.$store.dispatch('locations/putLocation', location)
+        this.$emit('refresh')
+        debugger
+        this.$brynkaToast(res.message, 'success')
+        this.onReset()
+        this.$store.commit('closeModal')
+      }catch (error) {
+        this.$brynkaToast(error, 'danger')
+      }
     },
     onReset(evt) {
       this.location.name = ''
@@ -219,14 +201,6 @@ export default {
         this.$v.location.$reset()
       })
     },
-    countDownChanged(dismissCountDown) {
-      this.dismissCountDown = dismissCountDown
-    },
-    showAlert(message, variant) {
-      this.message.text = message
-      this.message.variant = variant
-      this.dismissCountDown = this.dismissSecs
-    },
     fetchUSAStates() {
       this.usaStates.forEach(state => {
         this.states.push(state)
@@ -240,6 +214,7 @@ export default {
       this.location.city = formData.address.city
       this.location.state = formData.address.state
       this.location.postalCode = formData.address.postalCode
+      this.location.isActive = formData.isActive
       this.isLocationToEdit = true
     }
   }

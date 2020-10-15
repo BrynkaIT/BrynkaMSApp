@@ -28,6 +28,13 @@ export const actions = {
 			})
 			.catch(e => Promise.reject(e.response))
 	},
+	getFloor({ commit }, floorId) {
+		return this.$axios.$get(`/floor/${floorId}`)
+			.then(res => {
+				return Promise.resolve(res)
+			})
+			.catch(e => Promise.reject(e.response))
+	},
 	postFloor({ commit }, floor) {
 		return this.$axios.$post(`/floor`, floor)
 			.then(res => {
@@ -37,6 +44,7 @@ export const actions = {
 	},
 
 	putFloor({ commit }, floorToEdit) {
+
 		return this.$axios.$put(`/floor/${floorToEdit.id}`, floorToEdit)
 			.then(res => {
 				return Promise.resolve(res)
@@ -45,6 +53,7 @@ export const actions = {
 	},
 
 	deleteFloor({ commit }, floorId) {
+
 		return this.$axios.$delete(`/floor/${floorId}`)
 			.then(res => {
 				return Promise.resolve(res)

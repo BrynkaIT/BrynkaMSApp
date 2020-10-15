@@ -21,18 +21,19 @@ export const mutations = {
 // Actions
 export const actions = {
 	getServices({ commit }, query) {
+
 		query = query || ''
 		return this.$axios.$get(`/services${query}`)
 			.then(res => {
 				commit('setServices', res.services )
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response));
 	},
 	getService({ commit }, serviceId) {
 		return this.$axios.$get(`/service/${serviceId}`)
 			.then(res => {
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response));
 	},
@@ -40,7 +41,7 @@ export const actions = {
 	postService({ commit }, service) {
 		return this.$axios.$post('/service', service )
 			.then(res => {
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response))
 	},
@@ -48,7 +49,7 @@ export const actions = {
 	putService({ commit }, serviceToEdit) {
 		return this.$axios.$put(`/service/${ serviceToEdit.id }`, serviceToEdit)
 			.then(res => {
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response))
 	},
@@ -56,7 +57,7 @@ export const actions = {
 	deleteService({ commit }, serviceId) {
 		return this.$axios.$delete(`/service/${ serviceId }`)
 			.then(res => {
-				return res
+				return Promise.resolve(res)
 			})
 			.catch(e => Promise.reject(e.response))
 	}

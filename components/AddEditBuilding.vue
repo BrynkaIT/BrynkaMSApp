@@ -1,48 +1,44 @@
 <template>
   <div class="container">
-    <b-alert
-      :show="dismissCountDown"
-      dismissible
-      fade
-      :variant="message.variant"
-      @dismiss-count-down="countDownChanged"
-    >
-      {{ message.text }}
-    </b-alert>
-    <b-card bg-variant="light buildingCard">
-      <b-card-title>{{ formToOpen.title }}</b-card-title>
-      <b-card-body>
-        <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-          <div>
-            <b-form-group>
-              <b-form-input
-                v-model="building.name"
-                size="sm"
-                :class="{ 'validation-error': $v.building.name.$error }"
-                @blur="$v.building.name.$touch()"
-                placeholder="Name"
-                type="text"
-              ></b-form-input>
-            </b-form-group>
+    <b-card
+    header-bg-variant="primary"
+    header-text-variant="white"
+    border-variant="secondary"
+    class="buildingCard"
+    :header="formToOpen.title ">
 
-            <b-form-group label="This Building is part of:">
-              <b-form-select
-                size="sm"
-                v-model="building.locationId"
-                class="mb-3"
-                :class="{ 'validation-error': $v.building.locationId.$error }"
-                @blur="$v.building.locationId.$touch()"
-                :options="locations"
-                :disabled="disableLocation"
-                ref="locationInput"
-                value-field="_id"
-                text-field="name"
-              ></b-form-select>
-            </b-form-group>
-          </div>
-          <b-row style="float:right">
+      <b-row align-h="between" class="mb-2">
+        <b-col cols="4">
+          <!-- <b-card-title>{{ formToOpen.title }}</b-card-title> -->
+        </b-col>
+        <b-col cols="4" class="text-right">
+          <b-form-checkbox v-model="building.isActive" switch>
+            Active
+          </b-form-checkbox>
+        </b-col>
+      </b-row>
+
+        <b-form @submit="onSubmit" @reset="onReset">
+          <b-form-group label="Building">
+            <b-form-input
+              v-model="building.name"
+              size="sm"
+              :class="{ 'validation-error': $v.building.name.$error }"
+              @blur="$v.building.name.$touch()"
+              placeholder="Building Name"
+              type="text"
+            ></b-form-input>
+          </b-form-group>
+
+          <div style="float:right" >
             <b-button
-              @click="$store.commit('switchForm',{ title:`Add ${formToOpen.from}`, to:formToOpen.from, from:'building'})"
+              @click="
+                $store.commit('switchForm', {
+                  title: `Add ${formToOpen.from}`,
+                  to: formToOpen.from,
+                  from: 'building'
+                })
+              "
               class="mr-1"
               size="sm"
               v-if="formToOpen.from == 'contact'"
@@ -55,17 +51,19 @@
               v-if="formToOpen.from != 'contact'"
               >Cancel</b-button
             >
-            <b-button type="submit" variant="primary" size="sm">Submit</b-button>
-          </b-row>
+            <b-button type="submit" variant="primary" size="sm"
+              >Submit</b-button
+            >
+          </div>
         </b-form>
-      </b-card-body>
+
     </b-card>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import { email, required } from 'vuelidate/lib/validators'
+import { required } from 'vuelidate/lib/validators'
 
 export default {
   computed: {
@@ -77,19 +75,12 @@ export default {
   data() {
     return {
       building: {
-        id:'',
+        id: '',
         name: '',
-        locationId: null
+        locationId: '',
+        isActive: true,
+        protected: false
       },
-      message: {
-        text: '',
-        variant: ''
-      },
-      dismissSecs: 3,
-      dismissCountDown: 0,
-      showDismissibleAlert: false,
-      show: true,
-      disableLocation:false,
       isBuildingToEdit: false
     }
   },
@@ -97,75 +88,52 @@ export default {
     building: {
       name: {
         required
-      },
-      locationId: {
-        required
       }
     }
   },
   created() {
-    this.getLocations()
-    if(this.formToOpen.data){
+    if (this.formToOpen.data) {
       this.fetchBuildingToEdit(this.formToOpen.data)
     }
   },
-  activated() {
-   if(this.formToOpen.data){
-     this.building.locationId = this.formToOpen.data.locationId
-     this.disableLocation = true
-    }
-  },
+
   methods: {
-    onSubmit(e) {
+    async onSubmit(e) {
       e.preventDefault()
+      this.building.locationId = this.building.locationId ? this.building.locationId :this.$route.params.id
       this.$v.building.name.$touch()
       if (!this.$v.building.$invalid) {
+        if (this.isBuildingToEdit) return this.onUpdate()
 
-        if (this.isBuildingToEdit) {
-          return this.onUpdate()
+        try {
+          const res = await this.$store.dispatch('buildings/postBuilding',this.building)
+          this.$emit('refresh')
+          this.$brynkaToast(res.message, 'success')
+          this.onReset()
+           this.$store.commit('closeModal')
+        } catch (error) {
+          this.$brynkaToast(error, 'danger')
         }
-        this.$store
-          .dispatch('buildings/postBuilding', this.building)
-          .then(building => {
-            this.$emit('refreshBuildings')
-            this.showAlert(building.message, 'success')
-            this.onReset()
-            if (this.formToOpen.from) {
-                this.$store.dispatch('buildings/getBuildings')
-                this.$store.commit('switchForm',{
-                title: this.formToOpen.title,
-                to: this.formToOpen.from,
-                from: 'building',
-                isInternalContact: this.formToOpen.isInternalContact,
-                data:building
-              })
-              setTimeout(() => { this.$emit('hideModal', false) }, 1000)
-            }else{
-              setTimeout(() => { this.$store.commit('closeModal') }, 1200)
-            }
-          })
-          .catch(e => { this.showAlert(e.data.message, 'danger')})
       } else {
-        this.showAlert('Please fill in required field(s)', 'danger')
+        this.$brynkaToast('Please fill in required field(s)', 'danger')
       }
     },
-    onUpdate() {
-      this.$store
-        .dispatch('buildings/putBuilding', this.building)
-        .then(b => {
-          this.$emit('refreshBuildings')
-          this.showAlert(b.message, 'success')
-          this.onReset()
-          setTimeout(() => { this.$store.commit('closeModal') }, 1000)
-        })
-        .catch(e => { this.showAlert(e.data.message, 'danger') })
-    },
-    getLocations() {
-      this.$store.dispatch('locations/getLocations')
+    async onUpdate() {
+
+      try {
+        const res = await this.$store.dispatch('buildings/putBuilding',this.building)
+        this.$emit('refresh')
+        this.$brynkaToast(res.message, 'success')
+        this.onReset()
+        this.$store.commit('closeModal')
+      } catch (error) {
+        this.$brynkaToast(error, 'danger')
+      }
     },
     onReset(evt) {
       this.building.name = ''
       this.building.locationId = null
+
       // Trick to reset/clear native browser form validation state
       this.show = false
       this.$nextTick(() => {
@@ -173,21 +141,13 @@ export default {
         this.$v.building.$reset()
       })
     },
-    countDownChanged(dismissCountDown) {
-      this.dismissCountDown = dismissCountDown
-    },
-    showAlert(message, variant) {
-      this.message.text = message
-      this.message.variant = variant
-      this.dismissCountDown = this.dismissSecs
-    },
     fetchBuildingToEdit(formData) {
-      if(formData.locationId == undefined){
-      this.disableLocation = true
-      this.building.id = formData._id
-      this.building.locationId = formData.location._id
-      this.building.name = formData.name
-      this.isBuildingToEdit = true
+      if (formData.locationId == undefined) {
+        this.building.id = formData._id
+        this.building.locationId = formData.location._id || formData.location
+        this.building.name = formData.name
+        this.building.isActive = formData.isActive
+        this.isBuildingToEdit = true
       }
     }
   }
@@ -220,7 +180,6 @@ export default {
   /* Internet Explorer 10-11 */
   color: red;
 }
-
 ::-ms-input-placeholder {
   /* Microsoft Edge */
   color: red;

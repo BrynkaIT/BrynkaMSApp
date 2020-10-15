@@ -26,11 +26,18 @@ export const actions = {
 		return this.$axios.$get(`/buildings${query}`)
 			.then(res => {
 				commit('setBuildings', res.buildings)
-				return Promise.resolve(res.buildings)
+				return Promise.resolve(res)
 			})
 			.catch(e => {
 				Promise.reject(e.response)
 			})
+	},
+	getBuilding({ commit }, buildingId) {
+		return this.$axios.$get(`/building/${buildingId}`)
+			.then(res => {
+				return res
+			})
+			.catch(e => Promise.reject(e.response));
 	},
 	postBuilding({ commit }, building) {
 		return this.$axios.$post(`/building`, building)

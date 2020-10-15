@@ -375,6 +375,7 @@ export default {
   },
   methods: {
     info(item) {
+      this.$store.commit('setCustomerInContext', item)
       this.$router.push(`/customers/${item._id}`)
     },
     async fetchCustomers(l) {
