@@ -182,7 +182,7 @@ export default {
     fetchLocations() {
 
       // this.$store.dispatch('locations/getLocations', `?cid=${this.$route.params.id}&deep=true`)
-      this.$axios.$get('/locations?deep=true')
+      this.$store.dispatch('locations/getLocations')
         .then(response => {
 
           this.items = response.locations
