@@ -99,7 +99,7 @@
                       <div class="col-md-3 text-center">
                         <img
                           class="mt-3"
-                          :src="imagePlaceholder"
+                          :src="`${baseUrl}${imagePlaceholder}`"
                           style="width: 100%;border:1px solid #999999"
                           alt=""
                         />
@@ -201,7 +201,7 @@
                     <b-form-group label="Location:" >
                       <b-form-select
                           size="sm"
-                          :disabled="disable"
+
                           v-model="locationInfo.locationId"
                           :class="{ 'validation-error': $v.locationInfo.locationId.$error }"
                           :options="locations"
@@ -217,12 +217,12 @@
                           type="text"
                           placeholder="Building"
                           v-model="locationInfo.buildingId"
-                          :disabled="disable"
+
                           :options="buildings"
                           ref="buildingInput"
                           value-field="_id"
                           text-field="name"
-                          @input="getFloors"
+                          @change="getFloors"
                         ></b-form-select>
                     </b-form-group>
                     <b-row>
@@ -231,7 +231,7 @@
                       <b-form-select
                           size="sm"
                           v-model="locationInfo.floorId"
-                          :disabled="disable"
+
                           :options="floors"
                           value-field="_id"
                           text-field="name"
@@ -243,7 +243,7 @@
                       <b-form-input
                         size="sm"
                         class="mb-2"
-                        :disabled="disable"
+
                       ></b-form-input>
                     </b-form-group>
                       </div>
@@ -255,7 +255,7 @@
                           type="text"
                           v-model="locationInfo.departmentId"
                           :options="departments"
-                          :disabled="disable"
+
                           placeholder="Department"
                           value-field="_id"
                           text-field="name"
@@ -486,7 +486,7 @@
   </div>
 </template>
 <script>
-import SideNav from '@/components/shared//SideNav'
+import SideNav from '@/components/shared/SideNav'
 import { mapState } from 'vuex'
 import vueMask from 'v-mask'
 import { required, sameAs, minLength, email } from 'vuelidate/lib/validators'
@@ -498,13 +498,15 @@ export default {
   },
   computed: {
     ...mapState({
-      // locations: state => state.locations.locations,
-      // buildings: state => state.buildings.buildings,
-      // floors: state => state.floors.floors,
-      // departments: state => state.departments.departments,
-      // securityRoles: state => state.securityRoles.securityRoles,
-
-    })
+      locations: state => state.locations.locations,
+      buildings: state => state.buildings.buildings,
+      floors: state => state.floors.floors,
+      departments: state => state.departments.departments,
+      securityRoles: state => state.securityRoles.securityRoles,
+    }),
+      baseUrl(){
+      return process.env.baseURL
+    }
   },
   data() {
     return {
@@ -520,7 +522,7 @@ export default {
         useFirstNameAlias: false,
         email: '',
         phone: '',
-        image: null,
+        image: '/img/avatar-placeholder.png',
       },
       locationInfo: {
         id: '',
@@ -537,7 +539,7 @@ export default {
         confirmPassword:"",
       },
       securityRoleId: null,
-      imagePlaceholder: 'http://ssl.gstatic.com/accounts/ui/avatar_1x.png'
+      imagePlaceholder: '/img/avatar-placeholder.png'
     }
   },
   validations: {
@@ -569,9 +571,9 @@ export default {
     }
   },
   created() {
-    // this.getLocations()
-    // this.getSecurityRoles()
-    // this.getCurrentUser(this.$store.state.currentUser)
+    this.getLocations()
+    this.getSecurityRoles()
+    this.getCurrentUser(this.$store.state.currentUser)
 
   },
   methods: {
@@ -585,7 +587,7 @@ export default {
       this.personalInfo.email= currentUser.email
       this.personalInfo.phone= currentUser.phone
       this.personalInfo.image= currentUser.imageUrl
-      this.imagePlaceholder= currentUser.imageUrl
+      this.imagePlaceholder= currentUser.imageUrl ? currentUser.imageUrl : '/img/avatar-placeholder.png'
       this.locationInfo.locationId= currentUser.location
       if(currentUser.building != null) {
         await this.getBuildings(currentUser.location)
@@ -677,7 +679,6 @@ export default {
       e.preventDefault()
       this.$v.personalInfo.$touch()
       if (!this.$v.creds.$invalid) {
-        debugger
         this.$store.$axios.post('/changePassword', {
           password: this.creds.oldPassword,
           newPassword: this.creds.password
@@ -734,7 +735,7 @@ export default {
 }
 
 .nav-link {
-  color: #4a5568 !important;
+  color: #4a5568;
 }
 .nav-link.active {
   color: white !important;
@@ -824,16 +825,4 @@ input[type='file'] {
   /* Microsoft Edge */
   color: red;
 }
-.nav-link:hover, .nav-link:active {
-  color: #000 !important;
-  background: #ccc !important;
-}
-
-#not-show-on-large-screens .card-header ul a.nav-link:active {
-    color: #495057 !important;
-    background-color: #000 !important;
-}
-
-
-
 </style>
