@@ -1,6 +1,4 @@
 const env = require('dotenv').config()
-
-
 module.exports = {
   mode: 'universal',
   /*

@@ -299,7 +299,10 @@ export default {
       departments: state => state.departments.departments,
       securityRoles: state => state.securityRoles.securityRoles,
       formToOpen: state => state.formToOpen
-    })
+    }),
+     baseUrl(){
+      return process.env.baseURL
+    }
   },
   data() {
     return {
@@ -326,7 +329,7 @@ export default {
         useFirstNameAlias: false,
         email: '',
         phone: '',
-        image: null,
+        image: '/img/avatar-placeholder.png',
         locationId: null,
         departmentId: null,
         buildingId: null,
@@ -334,7 +337,7 @@ export default {
         securityRoleId: null,
         isActive: false
       },
-      imagePlaceholder: 'http://ssl.gstatic.com/accounts/ui/avatar_1x.png',
+      imagePlaceholder: '/img/avatar-placeholder.png',
       spinner: false,
       foundContacts: false,
       selectedContact: null,
@@ -428,8 +431,7 @@ export default {
       this.user.firstNameAlias = contact.firstNameAlias
       this.user.email = contact.email
       this.user.phone = contact.phone
-      this.imagePlaceholder =
-        contact.imageUrl || 'http://ssl.gstatic.com/accounts/ui/avatar_1x.png'
+      this.imagePlaceholder = contact.imageUrl ? this.baseUrl+contact.imageUrl : '/img/avatar-placeholder.png'
       this.user.locationId = contact.location._id || contact.location
       if (contact.department)
         this.user.departmentId = contact.department_id || contact.department
