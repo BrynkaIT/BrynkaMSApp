@@ -42,6 +42,20 @@
     "_name": "_5c64e9ed"
   },
   {
+    "name": "internal-inventory",
+    "path": "/internal/inventory",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/internal/inventory.vue",
+    "chunkName": "pages/internal/inventory",
+    "_name": "_10273976"
+  },
+  {
+    "name": "internal-rma",
+    "path": "/internal/rma",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/internal/rma.vue",
+    "chunkName": "pages/internal/rma",
+    "_name": "_65146f2f"
+  },
+  {
     "name": "system-securityRoles",
     "path": "/system/securityRoles",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/system/securityRoles.vue",

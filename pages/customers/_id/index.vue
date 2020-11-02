@@ -226,9 +226,9 @@
             </form>
         </div>
           </b-tab>
-          <b-tab title="Carriers">
+          <!-- <b-tab title="Carriers">
             <Carriers />
-          </b-tab>
+          </b-tab> -->
           <!-- <b-tab title="Departments">
             <Departments />
           </b-tab> -->
@@ -253,7 +253,7 @@
 <script>
 import SideNav from '@/components/shared/SideNav.vue'
 import FullWidthModal from '@/components/shared/FullWidthModal.vue'
-import Carriers from '@/components/customerLandingPage/CarrierTab'
+// import Carriers from '@/components/customerLandingPage/CarrierTab'
 import AddEditCarrier from '@/components/AddEditCarrier'
 import Locations from '@/components/customerLandingPage/LocationTab'
 import SecurityRole from '@/components/customerLandingPage/SecurityRoleTab'
@@ -268,7 +268,7 @@ export default {
    middleware: ['authenticated', 'is-manager'],
   components: {
     SideNav,
-    Carriers,
+    // Carriers,
     AddEditCarrier,
     Locations,
     FullWidthModal,
