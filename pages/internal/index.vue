@@ -1,5 +1,6 @@
 <template>
   <div class="content-container">
+     <SideNav page="customers" app="customers"></SideNav>
     <div class="content-right">
 
       <b-card  class="overflow-scroll">

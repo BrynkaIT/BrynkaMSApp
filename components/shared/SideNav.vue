@@ -142,14 +142,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import url('https://fonts.googleapis.com/css?family=Assistant&display=swap');
 
 .sidenav-wrapper {
   margin-left: -250px;
   width: 250px;
   padding: 15px;
-
+  background-color: #343a40 !important;
 }
 
 #sidebar .sidebar-header {
@@ -167,6 +167,23 @@ export default {
   display: none;
 }
 
+.sidebar .nav-link {
+  display: -webkit-flex !important;
+  display: flex !important;
+  -webkit-align-items: center;
+  align-items: center;
+  white-space: nowrap;
+  padding: 0.8rem 1.188rem;
+  color: #a3a3a3 !important;
+  -webkit-transition-duration: 0.45s;
+  -moz-transition-duration: 0.45s;
+  -o-transition-duration: 0.45s;
+  transition-duration: 0.45s;
+  transition-property: color;
+  -webkit-transition-property: color;
+  height: 46px;
+  padding-left:30px
+}
 a[data-toggle='collapse'] {
   position: relative;
 }
