@@ -108,10 +108,10 @@
 <script>
 
 import SideNav from '@/components/shared/SideNav.vue'
-import LineChart from '@/components/LineChart'
-import BarChart from '@/components/BarChart'
-import BubbleChart from '@/components/BubbleChart'
-import DoughnutChart from '@/components/DoughnutChart'
+import LineChart from '@/components/charts/LineChart'
+import BarChart from '@/components/charts/BarChart'
+import BubbleChart from '@/components/charts/BubbleChart'
+import DoughnutChart from '@/components/charts/DoughnutChart'
 
 export default {
   middleware: ['authenticated', 'is-manager'],

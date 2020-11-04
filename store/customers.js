@@ -1,4 +1,8 @@
-const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+const config = {
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+};
 let URL;
 
 export const state = () => {

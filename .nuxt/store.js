@@ -19,7 +19,6 @@ let store = {};
   // Enforce store modules
   store.modules = store.modules || {}
 
-  resolveStoreModules(require('../store/itemTypes.js'), 'itemTypes.js')
   resolveStoreModules(require('../store/buildings.js'), 'buildings.js')
   resolveStoreModules(require('../store/contacts.js'), 'contacts.js')
   resolveStoreModules(require('../store/customers.js'), 'customers.js')
@@ -27,9 +26,9 @@ let store = {};
   resolveStoreModules(require('../store/events.js'), 'events.js')
   resolveStoreModules(require('../store/floors.js'), 'floors.js')
   resolveStoreModules(require('../store/carriers.js'), 'carriers.js')
+  resolveStoreModules(require('../store/itemTypes.js'), 'itemTypes.js')
   resolveStoreModules(require('../store/locations.js'), 'locations.js')
   resolveStoreModules(require('../store/notifications.js'), 'notifications.js')
-  resolveStoreModules(require('../store/search.js'), 'search.js')
   resolveStoreModules(require('../store/securityRoles.js'), 'securityRoles.js')
   resolveStoreModules(require('../store/services.js'), 'services.js')
   resolveStoreModules(require('../store/users.js'), 'users.js')
@@ -40,18 +39,17 @@ let store = {};
   if (process.client && module.hot) {
     // Whenever any Vuex module is updated...
     module.hot.accept([
-      '../store/itemTypes.js',
+      '../store/index.js',
       '../store/buildings.js',
       '../store/contacts.js',
       '../store/customers.js',
       '../store/departments.js',
       '../store/events.js',
       '../store/floors.js',
-      '../store/index.js',
       '../store/carriers.js',
+      '../store/itemTypes.js',
       '../store/locations.js',
       '../store/notifications.js',
-      '../store/search.js',
       '../store/securityRoles.js',
       '../store/services.js',
       '../store/users.js',
