@@ -28,7 +28,7 @@ export const actions = {
 
 	},
 	getUser({ commit }, userId) {
-		return this.$axios.$get('/users', userId)
+		return this.$axios.$get(`/users/${userId}`)
 			.then(res => {
 				return Promise.resolve(res)
 			})
@@ -51,12 +51,16 @@ export const actions = {
 			.catch(e => Promise.reject(e.response))
 	},
 	async patchUser({ dispatch }, data) {
+      debugger
 			const userToEdit = await dispatch('createFormData', data)
 			return this.$axios.$patch(`/users/${data.id}`, userToEdit, config)
 			.then(res => {
+        debugger
 				return Promise.resolve(res)
 			})
-			.catch(e => Promise.reject(e.response))
+			.catch(e => {
+        debugger
+        Promise.reject(e.response)})
 
 
 	},

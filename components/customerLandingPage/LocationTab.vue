@@ -73,32 +73,15 @@
         >
 
           <template v-slot:cell(actions)="row">
-            <div class="action-buttons">
-             <b-icon
-            icon="info"
-            class="bg-primary rounded p-1 "
-            variant="light"
-              @click="info(row.item)"
-            ></b-icon>
-            <b-icon
-            icon="pencil"
-            class="bg-warning rounded p-1"
-            variant="dark"
-             @click="
-                $store.commit('switchForm', {
-                  title:'Edit Location',
-                  to:'AddEditLocation',
-                  data: row.item
-                })
-              "
-            ></b-icon>
-             <b-icon
-             icon="trash"
-             class="rounded bg-danger p-1"
-             variant="light"
-             @click="onDelete(row.item)"
-             ></b-icon>
-          </div>
+            <ActionButtons
+              :infoLink="`./${row.item.customer._id}/locations/${row.item._id}`"
+              editModalTitle="Edit Location"
+              editModalToOpen="AddEditLocation"
+              :editModalData="row.item"
+              :id="row.item._id"
+              :showDeleteBtn="true"
+              @onDelete="onDelete"
+            ></ActionButtons>
 
           </template>
 
@@ -132,9 +115,12 @@
 <script>
 
 import { mapState } from 'vuex'
+import ActionButtons from '@/components/shared/ActionButtons'
 
 export default {
-
+  components:{
+    ActionButtons
+  },
   data() {
     return {
       items: [],
@@ -190,41 +176,21 @@ export default {
           this.totalRows = this.items.length
         })
     },
-    info(item){
-    this.$router.push(`./${item.customer._id}/locations/${item._id}`)
-    },
-    onDelete(item) {
-      this.$bvModal.msgBoxConfirm(`Please confirm that you want to delete ${item.name}`, {
-        title: 'Confirm',
-        size: 'sm',
-        buttonSize: 'sm',
-        okVariant: 'danger',
-        okTitle: 'YES',
-        cancelTitle: 'NO',
-        footerClass: 'p-2',
-        hideHeaderClose: false,
-        centered: true
-      })
-      .then(async (value) => {
-        if(!value){
-          return
-        }else{
-          try {
-            debugger
-            const res = await this.$store.dispatch('locations/deleteLocation', item._id)
-            debugger
-             this.fetchLocations()
-            this.$brynkaToast(res.message, 'success')
-          } catch (error) {
-            this.$brynkaToast(error, 'danger')
-          }
-        }
-      })
+
+    async onDelete(id) {
+      try {
+        const res = await this.$store.dispatch('locations/deleteLocation', id)
+          this.fetchLocations()
+        this.$brynkaToast(res.message, 'success')
+      } catch (error) {
+        this.$brynkaToast(error, 'danger')
+      }
+
     },
 
-    onHide(value) {
-      this.showModal = value
-    },
+    // onHide(value) {
+    //   this.showModal = value
+    // },
     onFiltered(filteredItems) {
 
       // Trigger pagination to update the number of buttons/pages due to filtering
@@ -234,16 +200,6 @@ export default {
   }
 }
 </script>
-<style scoped>
-.action-buttons {
-  font-size: 1.7rem;
-  text-align:center
-}
-@media(max-width:992px){
-  .action-buttons {
-    min-width:120px;
-  font-size: 1.5rem;
-  text-align:left
-  }
-}
+<style >
+
 </style>

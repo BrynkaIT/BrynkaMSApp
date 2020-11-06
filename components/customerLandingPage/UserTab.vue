@@ -81,26 +81,15 @@
         >
 
           <template v-slot:cell(actions)="row" >
-            <div class="action-buttons">
-              <b-icon
-              icon="pencil"
-              class="bg-warning rounded p-1"
-              variant="dark"
-              @click="
-                  $store.commit('switchForm', {
-                    title:'Edit User',
-                    to: 'AddEditUser',
-                    data: row.item
-                  })
-                "
-              ></b-icon>
-              <b-icon
-              icon="trash"
-              class="rounded bg-danger p-1"
-              variant="light"
-              @click="onDelete(row.item)"
-              ></b-icon>
-            </div>
+            <ActionButtons
+              :infoLink="`./${row.item._id}/users/${row.item._id}`"
+              editModalTitle="Edit User"
+              editModalToOpen="AddEditUser"
+              :editModalData="row.item"
+              :id="row.item._id"
+              :showDeleteBtn="true"
+              @onDelete="onDelete"
+            ></ActionButtons>
 
           </template>
 
@@ -133,9 +122,12 @@
 <script>
 
 import { mapState } from 'vuex'
+import ActionButtons from '@/components/shared/ActionButtons'
 
 export default {
-
+  components:{
+    ActionButtons
+  },
   data() {
     return {
       userToEdit: '',
@@ -222,10 +214,10 @@ export default {
         .catch(err => (this.message = err.response.data.message))
     },
 
-    onDelete(item) {
+    onDelete(id) {
 
       this.$store
-        .dispatch('users/deleteUser', item._id)
+        .dispatch('users/deleteUser', id)
         .then(res => {
           this.fetchUsers()
           this.$toasted.show(res.message, {

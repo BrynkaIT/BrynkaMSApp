@@ -4,32 +4,13 @@
 
     <div class="content-right">
       <b-card>
-        <b-icon icon="arrow-left-square" scale="1.5" variant="info" @click="() =>{this.$router.back()}"></b-icon>
-        <div class="top-panel mt-3">
-          <div class="row">
-            <div style="font-size: 3rem;">
-              <b-icon
-                icon="building"
-                class="rounded-circle border p-2"
-                variant="light"
-              ></b-icon>
-            </div>
-            <div v-if="location">
-              <h3 class="mt-3 ml-1">{{ location.name }}</h3>
-              <p class="ml-2">
-                <span v-if="location.address.street1"
-                  >{{ location.address.street1 }}<br />
-                </span>
-                <span v-if="location.address.street2"
-                  >{{ location.address.street2 }}<br
-                /></span>
-                <span>{{ location.address.city }},&nbsp;</span
-                ><span>{{ location.address.state }},&nbsp;</span>
-                <span>{{ location.address.postalCode }}</span>
-              </p>
-            </div>
-          </div>
-        </div>
+
+        <RibbonHeader
+          icon="building"
+          :name="location.name"
+          :address="location.address"
+        ></RibbonHeader>
+
         <div class="mt-2" >
           <b-tabs small>
             <b-tab title="Buildings">
@@ -49,42 +30,19 @@
               </div>
 
               <div v-if="location.buildings && location.buildings.length > 0">
-                <b-list-group
-                v-for="building in location.buildings"
-                :key="building._id"
-              >
-                <b-list-group-item class="flex-column align-items-start m-2">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{ building.name }}</h5>
-                    <b-dropdown right variant="outline-primary" class="right">
-                        <template v-slot:button-content>
-                          <b-icon icon="gear-fill" aria-hidden="true"></b-icon>
-                        </template>
-                        <b-dropdown-item-button variant="info"
-                        @click="() =>{ $router.push(`/customers/${customerInContext._id}/buildings/${building._id}`)}"
-                        >
-                          <b-icon icon="info-circle" aria-hidden="true"></b-icon>
-                          Show Building
-                        </b-dropdown-item-button>
-                        <b-dropdown-divider></b-dropdown-divider>
-                        <b-dropdown-item-button variant="default"
-                          @click="$store.commit('switchForm', {
-                          title: 'Edit Building',
-                          to:'AddEditBuilding',
-                          data: building
-                            })
-                          ">
-
-                          <b-icon icon="pencil" aria-hidden="true"></b-icon>
-                          Edit
-                        </b-dropdown-item-button>
-                      </b-dropdown>
-                  </div>
-
-                  <small>building ID: {{ building._id }}</small>
-                </b-list-group-item>
-              </b-list-group>
-
+                <ListGroup
+                  v-for="building in location.buildings"
+                  :key="building._id"
+                  :name="building.name"
+                  :lastUpdated="building.updatedAt"
+                  :id="building._id"
+                  :inactive="building.inactive"
+                  editModalTitle="Edit Building"
+                  editModalToOpen="AddEditBuilding"
+                  :editModalData="building"
+                  :infoLink="`/customers/${customerInContext._id}/buildings/${building._id}`"
+                  :showDeleteBtn="false"
+                ></ListGroup>
               </div>
               <div class="text-center" v-else>
                 <h4>This Location currently has no buildings</h4>
@@ -108,35 +66,19 @@
               </b-row>
               </div>
               <div v-if="location.departments && location.departments.length > 0">
-              <b-list-group
-                v-for="department in location.departments"
-                :key="department._id"
-              >
-                <b-list-group-item
-                  href="#"
-                  class="flex-column align-items-start m-2"
-                >
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{ department.name }}</h5>
-                    <b-button
-                      size="sm"
-                      variant="outline-secondary"
-                      class="mb-2"
-                      @click="$store.commit('switchForm', {
-                          title: 'Edit Department',
-                          to:'AddEditDepartment',
-                          data: department
-                            })
-                          ">
-                      <b-icon icon="gear-fill" aria-hidden="true"></b-icon>
-                    </b-button>
-                  </div>
-
-                  <p class="mb-1">Last Update : {{ department.updatedAt }}</p>
-
-                  <small>Department ID: {{ department._id }}</small>
-                </b-list-group-item>
-              </b-list-group>
+                <ListGroup
+                  v-for="department in location.departments"
+                  :key="department._id"
+                  :name="department.name"
+                  :lastUpdated="department.updatedAt"
+                  :id="department._id"
+                  :inactive="department.inactive"
+                  editModalTitle="Edit Department"
+                  editModalToOpen="AddEditDepartment"
+                  :editModalData="department"
+                  :showDeleteBtn="false"
+                ></ListGroup>
+            
               </div>
               <div class="text-center" v-else>
                 <h4>This Location currently has no departments</h4>
@@ -162,6 +104,8 @@ import FullWidthModal from '@/components/shared/FullWidthModal.vue'
 import AddEditBuilding from '@/components/AddEditBuilding'
 import AddEditFloor from '@/components/AddEditFloor'
 import AddEditDepartment from '@/components/AddEditDepartment'
+import RibbonHeader from '@/components/shared/RibbonHeader'
+import ListGroup from '@/components/shared/ListGroup'
 
 export default {
   computed: {
@@ -175,7 +119,9 @@ export default {
     FullWidthModal,
     AddEditBuilding,
     AddEditFloor,
-    AddEditDepartment
+    AddEditDepartment,
+    RibbonHeader,
+    ListGroup
   },
 
   data() {

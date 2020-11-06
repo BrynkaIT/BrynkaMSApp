@@ -15,6 +15,7 @@ const _24f8fff8 = () => interopDefault(import('../pages/system/securityRoles.vue
 const _9b6e0950 = () => interopDefault(import('../pages/customers/_id/index.vue' /* webpackChunkName: "pages/customers/_id/index" */))
 const _163cd678 = () => interopDefault(import('../pages/customers/_id/buildings/_bid.vue' /* webpackChunkName: "pages/customers/_id/buildings/_bid" */))
 const _02e926c3 = () => interopDefault(import('../pages/customers/_id/locations/_lid.vue' /* webpackChunkName: "pages/customers/_id/locations/_lid" */))
+const _84e1c4bc = () => interopDefault(import('../pages/customers/_id/users/_uid.vue' /* webpackChunkName: "pages/customers/_id/users/_uid" */))
 const _6cf31c67 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 
 // TODO: remove in Nuxt 3
@@ -81,6 +82,10 @@ export const routerOptions = {
     path: "/customers/:id/locations/:lid?",
     component: _02e926c3,
     name: "customers-id-locations-lid"
+  }, {
+    path: "/customers/:id/users/:uid?",
+    component: _84e1c4bc,
+    name: "customers-id-users-uid"
   }, {
     path: "/",
     component: _6cf31c67,

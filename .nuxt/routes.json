@@ -84,6 +84,13 @@
     "_name": "_02e926c3"
   },
   {
+    "name": "customers-id-users-uid",
+    "path": "/customers/:id/users/:uid?",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/customers/_id/users/_uid.vue",
+    "chunkName": "pages/customers/_id/users/_uid",
+    "_name": "_84e1c4bc"
+  },
+  {
     "name": "index",
     "path": "/",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/index.vue",

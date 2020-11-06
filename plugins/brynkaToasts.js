@@ -2,7 +2,6 @@
 
 export default ({ store }, inject) => {
     inject('brynkaToast', (payload, variant)=> {
-debugger
         let options = {
             title: 'Brynka Notification',
             toaster: 'b-toaster-top-center',
