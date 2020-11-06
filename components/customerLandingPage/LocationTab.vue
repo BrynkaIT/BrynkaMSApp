@@ -74,7 +74,7 @@
 
           <template v-slot:cell(actions)="row">
             <ActionButtons
-              :infoLink="`./${row.item.customer._id}/locations/${row.item._id}`"
+              :infoLink="`./${row.item.customer}/locations/${row.item._id}`"
               editModalTitle="Edit Location"
               editModalToOpen="AddEditLocation"
               :editModalData="row.item"

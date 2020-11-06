@@ -45,9 +45,7 @@ export default {
     'showDeleteBtn'
   ],
   methods: {
-    info(item) {
-      this.$router.push(`./${item.customer._id}/locations/${item._id}`)
-    },
+   
     onDelete() {
       this.$bvModal
         .msgBoxConfirm(`Really Delete?`, {
