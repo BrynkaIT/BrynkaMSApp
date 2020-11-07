@@ -73,26 +73,16 @@
         >
 
           <template v-slot:cell(actions)="row">
-            <div class="action-buttons">
-              <b-icon
-              icon="pencil"
-              class="bg-warning rounded p-1"
-              variant="dark"
-              @click="
-                  $store.commit('switchForm', {
-                    title:'Edit Security Role',
-                    to:'AddEditSecurityRole',
-                    data: row.item
-                  })
-                "
-              ></b-icon>
-              <b-icon
-              icon="trash"
-              class="rounded bg-danger p-1"
-              variant="light"
-              @click="onDelete(row.item)"
-              ></b-icon>
-            </div>
+            <ActionButtons
+
+              editModalTitle="Edit Security Role"
+              editModalToOpen="AddEditSecurityRole"
+              :editModalData="row.item"
+              :id="row.item._id"
+              :showDeleteBtn="true"
+              @onDelete="onDelete"
+            ></ActionButtons>
+           
           </template>
 
           <template v-slot:row-details="row">
@@ -125,9 +115,12 @@
 <script>
 
 import { mapState } from 'vuex'
+import ActionButtons from '@/components/shared/ActionButtons'
 
 export default {
-
+   components:{
+    ActionButtons
+  },
   data() {
     return {
       items: [],

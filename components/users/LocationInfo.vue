@@ -2,13 +2,13 @@
   <b-card class="bg-light">
     <form>
       <div class="text-right">
-        <b-button variant="light" @click.stop="userToEdit = !userToEdit">
+        <b-button variant="light" @click="userToEdit = !userToEdit">
           <b-icon icon="pencil" variant="primary" scale="1.5"></b-icon>
         </b-button>
       </div>
 
       <b-form-group label="Location:">
-        <!-- <span v-if="!userToEdit" class="text-primary text-bolder">{{ locationName }}</span> -->
+        <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.location }}</span>
         <b-form-select
           v-if="userToEdit"
           size="sm"
@@ -22,7 +22,7 @@
         ></b-form-select>
       </b-form-group>
       <b-form-group label="Building:">
-        <!-- <span v-if="!userToEdit" class="text-primary text-bolder">{{ buildingName }}</span> -->
+        <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.building}}</span>
         <b-form-select
           v-if="userToEdit"
           size="sm"
@@ -39,7 +39,7 @@
       <b-row>
         <div class="col-md-6">
           <b-form-group label="floor:">
-            <!-- <span v-if="!userToEdit" class="text-primary text-bolder">{{ floorName }}</span> -->
+            <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.floor }}</span>
             <b-form-select
               v-if="userToEdit"
               size="sm"
@@ -52,9 +52,11 @@
         </div>
         <div class="col-md-6">
           <b-form-group label="Room / Mail Stop:">
-          <!-- <span v-if="!userToEdit" class="text-primary text-bolder">{{ roomName }}</span> -->
+          <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.room }}</span>
             <b-form-input
               v-if="userToEdit"
+              value-field="_id"
+              text-field="name"
               size="sm"
               class="mb-2">
             </b-form-input>
@@ -63,7 +65,7 @@
       </b-row>
 
       <b-form-group label="Department:">
-        <!-- <span v-if="!userToEdit" class="text-primary text-bolder">{{ departmentName }}</span> -->
+        <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.department }}</span>
         <b-form-select
           v-if="userToEdit"
           size="sm"
@@ -75,8 +77,8 @@
           text-field="name"
         ></b-form-select>
       </b-form-group>
+
       <div class="float-right mb-3" v-if="userToEdit">
-        <button type="reset" class="btn btn-light">Reset</button>
         <button type="submit" class="btn btn-primary">
           Update
         </button>
@@ -105,6 +107,14 @@ export default {
       disable: true,
       tabIndex: 0,
       userToEdit: false,
+      locationName:'',
+      staticFields:{
+        location:'',
+        building:'',
+        floor:'',
+        department:'',
+        room:''
+      },
       locationInfo: {
         id: '',
         locationId: null,
@@ -122,13 +132,44 @@ export default {
       },
     },
   },
-  mounted() {
-    this.getLocations()
-},
+
+  async mounted() {
+    await this.getLocations()
+    await this.getBuildings()
+    await this.getFloors()
+    await this.getLocationInfo(this.user)
+    await this.displayStaticfields()
+  },
 methods:{
-   async getSecurityRoles() {
-      await this.$store.dispatch('securityRoles/getSecurityRoles')
+  async displayStaticfields(){
+     const { location } = await this.$store.dispatch('locations/getLocation', this.user.location)
+     const { building } = await this.$store.dispatch('buildings/getBuilding', this.user.building)
+    const { department } = await this.$store.dispatch('departments/getDepartment', this.user.department)
+    const { floor } = await this.$store.dispatch('floors/getFloor', this.user.floor)
+    this.staticFields.location = location.name
+    this.staticFields.building = building.name
+    this.staticFields.department = department.name
+    this.staticFields.floor= floor.name
+  },
+  async getLocationInfo(user){
+
+      this.locationInfo.locationId= user.location
+
+      if(user.building != null) {
+        await this.getBuildings(user.location)
+        this.locationInfo.buildingId= user.building
+        this.locationInfo.floorId= user.floor
+      }
+      if(user.department != null) {
+        await this.getDepartments(user.location)
+        this.locationInfo.departmentId= user.department
+      }
+      if(user.floor != null) {
+        await this.getFloors(user.building)
+        this.locationInfo.floorId= user.floor
+      }
     },
+
     async getLocations() {
       await this.$store.dispatch('locations/getLocations')
     },

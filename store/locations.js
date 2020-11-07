@@ -41,15 +41,18 @@ export const actions = {
 	getLocation({ rootState, commit }, locationId) {
 
     if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
-      URL= "/manage/brynka/locations"
+      URL= "/manage/brynka/location"
     }else{
-      URL = "/manage/locations"
+      URL = "/manage/location"
     }
 		return this.$axios.$get(`${URL}/${locationId}`)
 			.then(res => {
+
 				return Promise.resolve(res)
 			})
-			.catch(e => Promise.reject(e.response));
+			.catch(e => {
+
+        Promise.reject(e.response)});
 	},
 
 	postLocation({ rootState }, location) {
