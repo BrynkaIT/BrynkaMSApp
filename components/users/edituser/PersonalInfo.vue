@@ -1,5 +1,7 @@
 <template>
+<b-overlay :show="overlay" rounded="sm">
   <b-card class="bg-light">
+
     <form @submit="updatePersonalInfo">
       <div class="text-right">
         <b-button
@@ -36,9 +38,12 @@
         </div>
         <div class="col-md-9">
           <div class="row">
+
             <div class="col-md-6">
-              <b-form-group label="First Name:">
-                <span v-if="!userToEdit" class="text-primary text-bolder">{{ firstName }}</span>
+              <b-form-group>
+                <label for="">First Name:
+                  <span v-if="!userToEdit" class="text-primary text-bolder">{{ user.firstName }}</span>
+                </label>
                 <b-form-input
                  v-if="userToEdit"
                   size="sm"
@@ -47,9 +52,12 @@
                 ></b-form-input>
               </b-form-group>
             </div>
+
             <div class="col-md-6">
-              <b-form-group label="First Name Alias:">
-                <span v-if="!userToEdit" class="text-primary text-bolder">{{ firstNameAlias }}</span>
+              <b-form-group >
+                <label for="">First Name Alias:
+                  <span v-if="!userToEdit" class="text-primary text-bolder">{{ user.firstNameAlias }}</span>
+                </label>
                 <b-form-input
                   v-if="userToEdit"
                   size="sm"
@@ -59,16 +67,22 @@
               </b-form-group>
             </div>
           </div>
-          <b-form-group label="Middle Name:">
-            <span v-if="!userToEdit" class="text-primary text-bolder">{{ middleName }}</span>
+
+          <b-form-group >
+            <label for="">Middle Name:
+              <span v-if="!userToEdit" class="text-primary text-bolder">{{ user.middleName }}</span>
+            </label>
             <b-form-input
               v-if="userToEdit"
               size="sm"
               v-model="personalInfo.middleName"
             ></b-form-input>
           </b-form-group>
-          <b-form-group label="Last Name:">
-             <span v-if="!userToEdit" class="text-primary text-bolder">{{ lastName }}</span>
+
+          <b-form-group >
+            <label for="">Last Name:
+              <span v-if="!userToEdit" class="text-primary text-bolder">{{ user.lastName }}</span>
+            </label>
             <b-form-input
               v-if="userToEdit"
               v-model="personalInfo.lastName"
@@ -76,10 +90,13 @@
               required
             ></b-form-input>
           </b-form-group>
+
           <div class="row">
             <div class="col-md-6">
-              <b-form-group label="Phone:">
-                 <span v-if="!userToEdit" class="text-primary text-bolder">{{ phone }}</span>
+              <b-form-group>
+                <label for="">Phone:
+                  <span v-if="!userToEdit" class="text-primary text-bolder">{{ user.phone }}</span>
+                </label>
                 <b-form-input
                   v-if="userToEdit"
                   v-model="personalInfo.phone"
@@ -89,8 +106,10 @@
               </b-form-group>
             </div>
             <div class="col-md-6">
-              <b-form-group label="Email:">
-                 <span v-if="!userToEdit" class="text-primary text-bolder">{{ email }}</span>
+              <b-form-group>
+                <label for="">Email:
+                  <span v-if="!userToEdit" class="text-primary text-bolder">{{ user.email }}</span>
+                </label>
                 <b-form-input
                   v-if="userToEdit"
                   size="sm"
@@ -108,6 +127,7 @@
 
     </form>
   </b-card>
+</b-overlay>
 </template>
 
 <script>
@@ -115,18 +135,7 @@ import { mapState } from 'vuex'
 import vueMask from 'v-mask'
 import { required, sameAs, minLength, email } from 'vuelidate/lib/validators'
 export default {
-  props:[
-    'id',
-    'firstName',
-    'middleName',
-    'lastName',
-    'firstNameAlias',
-    'useFirstNameAlias',
-    'email',
-    'phone',
-    'imageUrl'
-
-  ],
+  props:['user'],
   computed: {
 
      baseUrl(){
@@ -135,8 +144,7 @@ export default {
   },
   data() {
     return {
-      disable: true,
-      tabIndex: 0,
+      overlay:false,
       userToEdit:false,
       imagePlaceholder:'',
       personalInfo: {
@@ -172,29 +180,32 @@ export default {
       this.getPersonalInfo()
     },
     getPersonalInfo() {
-      this.personalInfo.id = this.id
-      this.personalInfo.firstName = this.firstName
-      this.personalInfo.middleName = this.middleName
-      this.personalInfo.lastName = this.lastName
-      this.personalInfo.firstNameAlias = this.firstNameAlias
-      this.personalInfo.useFirstNameAlias = this.useFirstNameAlias
-      this.personalInfo.email= this.email
-      this.personalInfo.phone= this.phone
-      this.personalInfo.image= this.imageUrl
-      this.imagePlaceholder= this.imageUrl ? this.baseUrl+this.imageUrl : '/img/avatar-placeholder.png'
+      this.personalInfo.id = this.user._id
+      this.personalInfo.firstName = this.user.firstName
+      this.personalInfo.middleName = this.user.middleName
+      this.personalInfo.lastName = this.user.lastName
+      this.personalInfo.firstNameAlias = this.user.firstNameAlias
+      this.personalInfo.useFirstNameAlias = this.user.useFirstNameAlias
+      this.personalInfo.email= this.user.email
+      this.personalInfo.phone= this.user.phone
+      this.personalInfo.image= this.user.imageUrl
+      this.imagePlaceholder= this.user.imageUrl ? this.baseUrl+this.user.imageUrl : '/img/avatar-placeholder.png'
     },
     async updatePersonalInfo(e) {
       e.preventDefault()
       this.$v.personalInfo.$touch()
       if (!this.$v.personalInfo.$invalid) {
+        this.overlay = true
         this.personalInfo.useFirstNameAlias = this.personalInfo.firstNameAlias != '' ? true : false
         try {
           const res = await this.$store.dispatch('contacts/patchContact', this.personalInfo)
           this.$emit('refresh', res.contact._id)
           this.$brynkaToast(res.message, 'success')
           this.userToEdit = false
+           this.overlay = false
         } catch (error) {
           this.$brynkaToast(error, 'danger')
+          this.overlay = false
         }
       }else{
         this.$brynkaToast('Please fill in required field(s)', 'danger')

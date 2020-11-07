@@ -5,31 +5,16 @@
 
 <script>
 export default {
-  head() {
-    return {
-      link: [
-        {
-          rel: 'stylesheet',
-          href: `/${this.theme}.css`
-        }
-      ]
-    }
-  },
 
-  data() {
-    return {
-      theme: 'default'
-    }
-  }
 }
 </script>
 
-<style scoped>
-@import url('https://fonts.googleapis.com/css?family=Assistant&display=swap');
+<style >
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,400;0,600;0,800;1,300&display=swap');
 
 body {
-  font-family: 'Assistant', sans-serif;
-  background:#343a40
+  font-family: 'Nunito Sans', sans-serif;
+  background:#343a40 !important
 }
 .wrapper {
   display: flex;

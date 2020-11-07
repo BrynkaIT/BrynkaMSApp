@@ -1,14 +1,17 @@
 <template>
+<b-overlay :show="overlay" rounded="sm">
   <b-card class="bg-light">
-    <form>
+    <form @submit="updateLocationInfo">
       <div class="text-right">
         <b-button variant="light" @click="userToEdit = !userToEdit">
           <b-icon icon="pencil" variant="primary" scale="1.5"></b-icon>
         </b-button>
       </div>
 
-      <b-form-group label="Location:">
-        <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.location }}</span>
+      <b-form-group>
+        <label for="">Location:
+          <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.location }}</span>
+        </label>
         <b-form-select
           v-if="userToEdit"
           size="sm"
@@ -21,8 +24,11 @@
           @input="getBuildings"
         ></b-form-select>
       </b-form-group>
-      <b-form-group label="Building:">
-        <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.building}}</span>
+
+      <b-form-group>
+        <label for="">Building:
+          <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.building}}</span>
+        </label>
         <b-form-select
           v-if="userToEdit"
           size="sm"
@@ -36,10 +42,13 @@
           @change="getFloors"
         ></b-form-select>
       </b-form-group>
+
       <b-row>
         <div class="col-md-6">
-          <b-form-group label="floor:">
-            <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.floor }}</span>
+          <b-form-group>
+            <label for="">Floor:
+              <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.floor }}</span>
+            </label>
             <b-form-select
               v-if="userToEdit"
               size="sm"
@@ -50,9 +59,12 @@
             ></b-form-select>
           </b-form-group>
         </div>
+
         <div class="col-md-6">
-          <b-form-group label="Room / Mail Stop:">
-          <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.room }}</span>
+          <b-form-group>
+          <label for="">Room / Mail Stop:
+            <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.room }}</span>
+          </label>
             <b-form-input
               v-if="userToEdit"
               value-field="_id"
@@ -64,8 +76,10 @@
         </div>
       </b-row>
 
-      <b-form-group label="Department:">
-        <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.department }}</span>
+      <b-form-group >
+        <label for="">Department:
+          <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.department }}</span>
+        </label>
         <b-form-select
           v-if="userToEdit"
           size="sm"
@@ -85,6 +99,7 @@
       </div>
     </form>
   </b-card>
+</b-overlay>
 </template>
 
 <script>
@@ -100,12 +115,12 @@ export default {
       floors: state => state.floors.floors,
       departments: state => state.departments.departments,
       securityRoles: state => state.securityRoles.securityRoles,
-    }),
+    })
+
   },
   data() {
     return {
-      disable: true,
-      tabIndex: 0,
+     overlay:false,
       userToEdit: false,
       locationName:'',
       staticFields:{
@@ -140,6 +155,7 @@ export default {
     await this.getLocationInfo(this.user)
     await this.displayStaticfields()
   },
+
 methods:{
   async displayStaticfields(){
      const { location } = await this.$store.dispatch('locations/getLocation', this.user.location)
@@ -199,8 +215,30 @@ methods:{
         this.$store.commit('departments/setDepartments', [])
       }
     },
+    async updateLocationInfo(e) {
+      e.preventDefault()
+      this.$v.locationInfo.$touch()
+      if (!this.$v.locationInfo.$invalid) {
+         this.overlay = true
+        this.locationInfo.id = this.user._id
 
-}
+        try {
+          const res = await this.$store.dispatch('contacts/patchContact', this.locationInfo)
+          this.$emit('refresh', res.contact._id)
+          this.$brynkaToast(res.message, 'success')
+          this.displayStaticfields()
+          this.userToEdit = false
+          this.overlay = false
+        } catch (error) {
+          this.$brynkaToast(error, 'danger')
+          this.overlay = false
+        }
+      }else{
+        this.$brynkaToast('Please fill in required field(s)', 'danger')
+      }
+    },
+
+  }
 }
 
 </script>

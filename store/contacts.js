@@ -57,7 +57,6 @@ export const actions = {
 
 	},
 	async patchContact({ dispatch },  data) {
-
 			const contactToEdit = await dispatch('createFormData', data)
 			return this.$axios.$patch(`/contacts/${data.id}`, contactToEdit, config)
 			.then(res => {

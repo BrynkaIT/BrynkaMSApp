@@ -27,21 +27,14 @@
 
             <b-tab title="Personal Info">
               <PersonalInfo
-              :id="user._id"
-              :firstName="user.firstName"
-              :middleName="user.middleName"
-              :lastName="user.lastName"
-              :firstNameAlias="user.firstNameAlias"
-              :useFirstNameAlias="user.useFirstNameAlias"
-              :email="user.email"
-              :phone="user.phone"
-              :imageUrl="user.imageUrl"
+               :user="user"
               @refresh="fetchUser"
               ></PersonalInfo>
             </b-tab>
              <b-tab title="Location">
               <LocationInfo
                 :user="user"
+                @refresh="fetchUser"
               ></LocationInfo>
             </b-tab>
             <b-tab title="Security">
@@ -71,10 +64,10 @@
 import { mapState } from 'vuex'
 import SideNav from '@/components/shared/SideNav.vue'
 import FullWidthModal from '@/components/shared/FullWidthModal.vue'
-import AddEditUser from '@/components/AddEditUser'
+import AddEditUser from '@/components/users/adduser/AddUserWizard'
 import RibbonHeader from '@/components/shared/RibbonHeader'
-import PersonalInfo from '@/components/users/PersonalInfo'
-import LocationInfo from '@/components/users/LocationInfo'
+import PersonalInfo from '@/components/users/edituser/PersonalInfo'
+import LocationInfo from '@/components/users/edituser/LocationInfo'
 
 
 export default {
