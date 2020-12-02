@@ -82,7 +82,7 @@
               :showDeleteBtn="true"
               @onDelete="onDelete"
             ></ActionButtons>
-           
+
           </template>
 
           <template v-slot:row-details="row">
@@ -139,13 +139,13 @@ export default {
           },
         sortable: true },
         { key: 'kind', label: 'Type', sortable: true },
-        { key: 'protectFromDeletion',
-        label: 'Protect From Deletion?',
-        sortable: true,
-        formatter: (value, key, item) => {
-          return value.toString()[0].toUpperCase()+ value.toString().slice(1);
-        },
-        },
+        // { key: 'protectFromDeletion',
+        // label: 'Protect From Deletion?',
+        // sortable: true,
+        // formatter: (value, key, item) => {
+        //   return value.toString()[0].toUpperCase()+ value.toString().slice(1);
+        // },
+        // },
          { key: 'actions', label: 'Actions' }
       ],
       totalRows: 1,

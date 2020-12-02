@@ -165,16 +165,15 @@ export default {
     this.fetchLocations()
   },
   methods: {
-    fetchLocations() {
+    async fetchLocations() {
+      try {
+        const {locations} = await this.$store.dispatch('locations/getLocations', {customerId: this.$route.params.id, query:'?deep=true'})
+        this.items = locations
+        this.totalRows = this.items.length
+      } catch (error) {
+        $brynkaToast('error', danger)
+      }
 
-      // this.$store.dispatch('locations/getLocations', `?cid=${this.$route.params.id}&deep=true`)
-      this.$store.dispatch('locations/getLocations')
-        .then(response => {
-
-          this.items = response.locations
-          // Set the initial number of items
-          this.totalRows = this.items.length
-        })
     },
 
     async onDelete(id) {
@@ -188,9 +187,6 @@ export default {
 
     },
 
-    // onHide(value) {
-    //   this.showModal = value
-    // },
     onFiltered(filteredItems) {
 
       // Trigger pagination to update the number of buttons/pages due to filtering
