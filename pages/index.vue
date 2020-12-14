@@ -6,7 +6,7 @@
           <div>
             <img src="../assets/images/brynkaManagerLogo-lg.png" />
           <br>
-            <p style="color:#fff">Verison 1.0</p>
+            <p style="color:#fff">Verison {{ version }}</p>
           </div>
         </div>
       </div>
@@ -138,8 +138,11 @@ export default {
       }
     }
   },
-  computed: {
+ computed: {
 
+     version(){
+      return process.env.version
+    },
   },
   methods: {
     async onLogin() {
@@ -151,6 +154,7 @@ export default {
         try {
           const res = await this.$store.dispatch('login', this.credentials)
           localStorage.setItem('currentUser', JSON.stringify(res.data.user));
+          await this.$store.dispatch('getVersion')
           this.loading.status = false
           this.$router.push(`/dashboard`)
         } catch (e) {

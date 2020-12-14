@@ -1,6 +1,7 @@
 const env = require('dotenv').config()
 module.exports = {
   mode: 'universal',
+  telemetry: false,
   /*
    ** Headers of the page
    */
@@ -15,7 +16,17 @@ module.exports = {
         content: process.env.npm_package_description || ''
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+    { rel: 'preconnect', href:'https://fonts.gstatic.com'},
+      {
+        rel:'stylesheet',
+        href:'https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700;800&display=swap'
+      },
+      {
+        rel:'stylesheet',
+        href:'https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i'
+      }
+    ]
   },
   /*
    ** Customize the progress-bar color
@@ -78,7 +89,8 @@ module.exports = {
   env: {
     baseURL: process.env.API_DOMAIN,
     username: process.env.BRYNKA_USER_USERNAME,
-    password: process.env.BRYNKA_USER_PASSWORD
+    password: process.env.BRYNKA_USER_PASSWORD,
+    version: process.env.WEB_APP_VERSION
   },
   /*
    ** Axios module configuration
