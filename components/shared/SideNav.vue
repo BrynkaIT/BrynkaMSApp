@@ -111,9 +111,9 @@ export default {
   },
   computed: {
     ...mapState({
-      auth: state => state.auth,
+      auth: state => state.auth.auth,
       customer: state => state.customer,
-      currentUser : state => state.currentUser,
+      currentUser : state => state.auth.currentUser,
       sideBarOpen: state => state.sideBarOpen
     }),
      baseUrl(){
@@ -130,7 +130,7 @@ export default {
   },
   methods: {
    logout () {
-      this.$store.dispatch('logOut')
+      this.$store.dispatch('auth/logOut')
       localStorage.clear()
       this.$router.push(`/`)
     },

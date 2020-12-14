@@ -152,9 +152,7 @@ export default {
         this.loading.status = true;
 
         try {
-          const res = await this.$store.dispatch('login', this.credentials)
-          localStorage.setItem('currentUser', JSON.stringify(res.data.user));
-          await this.$store.dispatch('getVersion')
+          await this.$store.dispatch('auth/login', this.credentials)
           this.loading.status = false
           this.$router.push(`/dashboard`)
         } catch (e) {

@@ -288,7 +288,9 @@ export default {
    baseUrl(){
       return process.env.baseURL
     },
-    ...mapGetters(['isBrynka'])
+    isBrynka(){
+      return this.$store.getters['auth/isBrynka']
+    }
   },
   data() {
     return {

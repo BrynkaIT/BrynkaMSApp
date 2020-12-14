@@ -282,7 +282,9 @@ export default {
     baseUrl() {
       return process.env.baseURL
     },
-    ...mapGetters(['isBrynka'])
+    isBrynka(){
+      return this.$store.getters['auth/isBrynka']
+    }
   },
   data() {
     return {
@@ -306,6 +308,7 @@ export default {
   created() {
     this.fetchCustomers()
   },
+
   methods: {
     info(item) {
       this.$store.commit('setCustomerInContext', item)

@@ -56,13 +56,13 @@ export default {
   computed: {
     ...mapState({
 
-      auth: state => state.auth,
+      auth: state => state.auth.auth,
       sideBarOpen: state => state.sideBarOpen,
-      currentUser : state => state.currentUser
+      currentUser : state => state.auth.currentUser
 
     }),
     ...mapGetters({
-      isAuth: 'isAuthenticated'
+      isAuth: 'auth/isAuthenticated'
     }),
      baseUrl(){
       return process.env.baseURL
@@ -82,7 +82,7 @@ export default {
       this.$store.commit('toggleSideBar', false)
     },
    logout () {
-      this.$store.dispatch('logOut')
+      this.$store.dispatch('auth/logOut')
       localStorage.clear()
       this.$router.push(`/`)
     }
