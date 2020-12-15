@@ -2,37 +2,31 @@
   <div class="content-container">
     <SideNav page="customers" app="customers"></SideNav>
     <div class="content-right">
-      <!-- view-all-customers-table -->
-      <b-card style="height:95%; overflow:scroll">
-        <b-row align-h="between">
-          <b-col cols="8">
-            <b-card-title>Your Customers</b-card-title>
-          </b-col>
-          <b-col cols="4">
-            <a
-              v-if="isBrynka"
-              href="#"
-              @click="$store.commit('switchForm', { title: 'Add Customer' })"
-              class="float-right align-items-center"
-              ><b-icon
-                icon="plus-circle-fill"
-                scale="2"
-                class="mx-3"
-                variant="primary"
-              ></b-icon
-            ></a>
-          </b-col>
-        </b-row>
 
-        <br />
-        <div class="row">
-          <div class="list-group-wrapper">
-            <b-input-group size="sm" class="mb-3">
+      <b-card style=" overflow:scroll">
+          <div class="top-panel mt-2 mb-5">
+            <div class="ml-2 pb-1" style="display:flex;flex-wrap: wrap;">
+              <b-avatar
+                size="3rem"
+                icon="diagram3"
+                class="border m-2"
+                variant="none"
+              ></b-avatar>
+              <div><h3 class="mt-3 ml-1">Your Customers</h3></div>
+            </div>
+          </div>
+
+
+          <div class="mt-3">
+            <div class="row">
+
+             <div class="col-md-5 col-sm-12">
+               <b-input-group
+               class="mb-3">
               <b-form-input
                 v-model="searchQuery"
                 type="search"
                 id="filterInput"
-
                 placeholder="Type to Search"
               ></b-form-input>
               <b-input-group-append>
@@ -41,11 +35,39 @@
                 >
               </b-input-group-append>
             </b-input-group>
+             </div>
+
+             <div class="col-md-5 col-sm-12">
+              <b-form-group
+              label="Per page"
+              label-cols-sm="2"
+              label-cols-md="4"
+              label-cols-lg="2"
+              label-for="perPageSelect"
+
+            >
+              <b-form-select
+              v-model="pageSize"
+                @input="perPage($event)"
+                id="perPageSelect"
+                :options="pageOptions"
+              ></b-form-select>
+            </b-form-group>
+             </div>
+
+             <div class="col-md-2 col-sm-12">
+                <b-button
+              v-if="isBrynka"
+              class="float-right mb-3"
+              variant="primary"
+              @click="$store.commit('switchForm', { title: 'Add Customer' })">New Customer</b-button>
+             </div>
+            </div>
+
 
             <b-list-group>
               <b-list-group-item
                 href="#"
-
                 v-for="item in pageOfItems"
                 :key="item.id"
               >
@@ -98,154 +120,15 @@
                 </b-row>
               </b-list-group-item>
             </b-list-group>
-
-
           </div>
-          <div class="mx-auto mt-3">
-             <jw-pagination
-                :items="resultQuery"
-                @changePage="onChangePage"
-                :pageSize="pageSize"
-              ></jw-pagination>
-            </div>
-          <div class="right-side-nav">
-            <ul>
-              <li class="">
-                <a href="#" @click="fetchCustomers()">Reset</a>
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('a')"
-                  >A</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('b')"
-                  >B</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('c')"
-                  >C</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('d')"
-                  >D</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('e')"
-                  >E</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('f')"
-                  >F</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('g')"
-                  >G</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('h')"
-                  >H</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('i')"
-                  >I</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('j')"
-                  >J</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('k')"
-                  >K</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('l')"
-                  >L</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('m')"
-                  >M</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('n')"
-                  >N</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('o')"
-                  >O</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('p')"
-                  >P</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('q')"
-                  >Q</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('r')"
-                  >R</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('s')"
-                  >S</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('t')"
-                  >T</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('u')"
-                  >U</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('v')"
-                  >V</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('w')"
-                  >W</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('x')"
-                  >X</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('y')"
-                  >Y</a
-                >
-              </li>
-              <li class="">
-                <a href="#" class="search-link" @click="fetchCustomers('z')"
-                  >Z</a
-                >
-              </li>
-            </ul>
+          <div class="text-center mt-3">
+            <jw-pagination
+              :items="resultQuery"
+              @changePage="onChangePage"
+              :pageSize="pageSize"
+              :labels="customLabels"
+            ></jw-pagination>
           </div>
-        </div>
       </b-card>
     </div>
     <FullWidthModal :show="this.formToOpen.showModal">
@@ -258,21 +141,30 @@
 import SideNav from '@/components/shared/SideNav.vue'
 import CustomerForm from '@/components/brynkaOnly/AddEditCustomer.vue'
 import FullWidthModal from '@/components/shared/FullWidthModal.vue'
+import RibbonHeader from '@/components/shared/RibbonHeader'
 import JwPagination from 'jw-vue-pagination'
 import { mapState, mapGetters } from 'vuex'
+
+const customLabels = {
+    first: '<<',
+    last: '>>',
+    previous: '<',
+    next: '>'
+};
+
 export default {
   middleware: ['authenticated', 'is-manager'],
   components: {
     SideNav,
     FullWidthModal,
     CustomerForm,
-    JwPagination
+    JwPagination,
+    RibbonHeader
 
   },
   computed: {
     resultQuery(){
       if(this.searchQuery){
-        console.log(this.searchQuery)
       return this.resources.filter((item)=>{
         return this.searchQuery.toLowerCase().split(' ').every(v => item.name.toLowerCase().includes(v))
       })
@@ -293,11 +185,13 @@ export default {
   },
   data() {
     return {
-
+      customLabels,
       fields: ['name','modules','emailDomain','kind',{ key: 'actions', label: 'Actions' }],
       resources:[],
       pageOfItems: [],
-      pageSize: 25,
+      pageSize: 15,
+      intialPageSize: 15,
+      pageOptions: [15, 30, 60],
       searchQuery: null,
     }
   },
@@ -310,7 +204,7 @@ export default {
       this.$store.commit('setCustomerInContext', item)
       this.$router.push(`/customers/${item._id}`)
     },
-    async fetchCustomers(l) {
+    async fetchCustomers() {
 
       try {
         const { customers } = await this.$store.dispatch(`customers/getCustomers`)
@@ -326,6 +220,10 @@ export default {
     onChangePage(pageOfItems) {
       this.pageOfItems = pageOfItems
     },
+    perPage(event){
+      this.pageSize = event
+      this.fetchCustomers()
+    },
     clearSearch() {
       this.searchQuery = null
       this.fetchCustomers()
@@ -335,9 +233,15 @@ export default {
 </script>
 
 <style scoped>
+.top-panel {
+  width: 100%;
+  background: #495057 !important;
+  border-radius: 5px;
+  color: #fff;
+}
 .list-group-wrapper {
-  width: 90%;
-  margin-left: 15px;
+  /* width: 90%; */
+  margin: 15px;
 }
 .middle {
   text-align: center;
