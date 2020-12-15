@@ -29,14 +29,14 @@
           <div class="list-group-wrapper">
             <b-input-group size="sm" class="mb-3">
               <b-form-input
-                v-model="searchCriteria"
+                v-model="searchQuery"
                 type="search"
                 id="filterInput"
-                @input="fetchCustomers"
+
                 placeholder="Type to Search"
               ></b-form-input>
               <b-input-group-append>
-                <b-button :disabled="!searchCriteria" @click="clearSearch"
+                <b-button :disabled="!searchQuery" @click="clearSearch"
                   >Clear</b-button
                 >
               </b-input-group-append>
@@ -45,6 +45,7 @@
             <b-list-group>
               <b-list-group-item
                 href="#"
+
                 v-for="item in pageOfItems"
                 :key="item.id"
               >
@@ -98,14 +99,15 @@
               </b-list-group-item>
             </b-list-group>
 
-            <div class="text-center mt-3">
-              <jw-pagination
-                :items="items"
+
+          </div>
+          <div class="mx-auto mt-3">
+             <jw-pagination
+                :items="resultQuery"
                 @changePage="onChangePage"
                 :pageSize="pageSize"
               ></jw-pagination>
             </div>
-          </div>
           <div class="right-side-nav">
             <ul>
               <li class="">
@@ -265,8 +267,19 @@ export default {
     FullWidthModal,
     CustomerForm,
     JwPagination
+
   },
   computed: {
+    resultQuery(){
+      if(this.searchQuery){
+        console.log(this.searchQuery)
+      return this.resources.filter((item)=>{
+        return this.searchQuery.toLowerCase().split(' ').every(v => item.name.toLowerCase().includes(v))
+      })
+      }else{
+        return this.resources;
+      }
+    },
     ...mapState({
       formToOpen: state => state.formToOpen
     }),
@@ -276,24 +289,16 @@ export default {
     isBrynka(){
       return this.$store.getters['auth/isBrynka']
     }
+
   },
   data() {
     return {
-      totalRows: 1,
-      currentPage: 1,
-      perPage: 25,
-      pageOptions: [25, 50, 100],
-      fields: [
-        'name',
-        'modules',
-        'emailDomain',
-        'kind',
-        { key: 'actions', label: 'Actions' }
-      ],
-      items: [],
+
+      fields: ['name','modules','emailDomain','kind',{ key: 'actions', label: 'Actions' }],
+      resources:[],
       pageOfItems: [],
       pageSize: 25,
-      searchCriteria: ''
+      searchQuery: null,
     }
   },
   created() {
@@ -306,14 +311,11 @@ export default {
       this.$router.push(`/customers/${item._id}`)
     },
     async fetchCustomers(l) {
-      const searchCriteria = l || this.searchCriteria
-
-      let query = searchCriteria == '' ? '' : `?name.bw=${searchCriteria}`
 
       try {
-        const { customers } = await this.$store.dispatch(`customers/getCustomers`,query )
-        this.items = customers
-        this.totalRows = this.items.length
+        const { customers } = await this.$store.dispatch(`customers/getCustomers`)
+        this.resources = customers
+        this.totalRows = this.resources.length
       } catch (err) {
         this.$toasted.error(err.message, {
           position: 'top-center',
@@ -321,14 +323,12 @@ export default {
         })
       }
     },
-
-    clearSearch() {
-      this.searchCriteria = ''
-      this.fetchCustomers()
-    },
     onChangePage(pageOfItems) {
-      // update page of items
       this.pageOfItems = pageOfItems
+    },
+    clearSearch() {
+      this.searchQuery = null
+      this.fetchCustomers()
     }
   }
 }
