@@ -12,6 +12,7 @@
       "
     ></b-icon>
     <b-icon
+      v-show="canEdit"
       v-if="editModalToOpen"
       icon="pencil"
       class="border rounded p-1"
@@ -20,12 +21,14 @@
         $store.commit('switchForm', {
           title: editModalTitle,
           to: editModalToOpen,
-          data: editModalData
+          from: editModalFrom,
+          data: editModalData,
+          isInternalContact: isInternalContact
         })
       "
     ></b-icon>
     <b-icon
-      v-if="showDeleteBtn"
+      v-if="canDelete"
       icon="trash"
       class="border rounded p-1"
       variant="secondary"
@@ -42,10 +45,13 @@ export default {
     'editModalToOpen',
     'editModalData',
     'infoLink',
-    'showDeleteBtn'
+    'canDelete',
+    'isInternalContact',
+    'editModalFrom',
+    'canEdit'
   ],
   methods: {
-   
+
     onDelete() {
       this.$bvModal
         .msgBoxConfirm(`Really Delete?`, {
@@ -63,7 +69,6 @@ export default {
           if (!value) {
             return
           } else {
-            debugger
             this.$emit('onDelete', this.id)
           }
         })

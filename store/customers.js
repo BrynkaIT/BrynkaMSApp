@@ -32,7 +32,7 @@ export const mutations = {
 export const actions = {
   async	getCustomers({ rootState, commit }, query) {
 
-    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= "/manage/brynka/customers"
     }else{
       URL = "/manage/customers"
@@ -50,7 +50,7 @@ export const actions = {
 
   async	getCustomer({ rootState, commit }, customerId) {
 
-    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= "/manage/brynka/customers"
     }else{
       URL = "/manage/customers"
@@ -66,7 +66,7 @@ export const actions = {
 
 	async postCustomer({ rootState, dispatch }, customer) {
 
-    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= "/manage/brynka/customers"
    }else{
      URL = "/manage/customers"
@@ -86,7 +86,7 @@ export const actions = {
 	},
   async patchCustomer({ rootState, dispatch }, customerToEdit) {
 
-    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= "/manage/brynka/customers"
     }else{
       URL = "/manage/customers"
@@ -99,7 +99,7 @@ export const actions = {
   },
 
 	async putCustomer({ rootState, dispatch }, customerToEdit) {
-    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= "/manage/brynka/customers"
    }else{
      URL = "/manage/customers"
@@ -110,7 +110,7 @@ export const actions = {
 	},
 
 	deleteCustomer({ rootState, commit }, customerId) {
-    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= "/manage/brynka/customers"
    }else{
      URL = "/manage/customers"

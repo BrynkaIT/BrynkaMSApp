@@ -41,6 +41,7 @@
                 >
               </b-input-group-append>
             </b-input-group>
+
             <b-list-group>
               <b-list-group-item
                 href="#"
@@ -48,7 +49,7 @@
                 :key="item.id"
               >
                 <b-row>
-                  <b-col md="4">
+                  <div class="col-md-4 col-sm-12">
                     <div class="d-flex align-items-center">
                       <img
                         :src="`${baseUrl}${item.logoUrl}`"
@@ -60,8 +61,8 @@
                         <small class="text-muted">{{ item.emailDomain }}</small>
                       </div>
                     </div>
-                  </b-col>
-                  <b-col md="4">
+                  </div>
+                   <div class="col-md-4 col-sm-12">
                     <p class="middle" v-if="item.address">
                       <span v-if="item.address.street1"
                         >{{ item.address.street1 }},</span
@@ -80,29 +81,19 @@
                       }}</span
                       ><br />
                     </p>
-                  </b-col>
-                  <b-col md="4">
-                    <b-dropdown right variant="outline-primary" class="right">
-                      <template v-slot:button-content>
-                        <b-icon icon="gear-fill" aria-hidden="true"></b-icon>
-                      </template>
-                      <b-dropdown-item-button
-                        variant="info"
+                  </div>
+                  <div class="col-md-4 col-sm-12">
+
+                    <div style="font-size: 1.75rem;margin: 15px;" class="right">
+                      <b-icon
+                        icon="info"
+                        class="border rounded"
+                        variant="secondary"
                         @click="info(item)"
-                      >
-                        <b-icon icon="info-circle" aria-hidden="true"></b-icon>
-                        More
-                      </b-dropdown-item-button>
-                      <b-dropdown-divider></b-dropdown-divider>
-                      <b-dropdown-item-button
-                        variant="danger"
-                        @click="onDelete(item)"
-                      >
-                        <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-                        Delete
-                      </b-dropdown-item-button>
-                    </b-dropdown>
-                  </b-col>
+                      ></b-icon>
+                    </div>
+
+                  </div>
                 </b-row>
               </b-list-group-item>
             </b-list-group>
@@ -320,10 +311,7 @@ export default {
       let query = searchCriteria == '' ? '' : `?name.bw=${searchCriteria}`
 
       try {
-        const { customers } = await this.$store.dispatch(
-          `customers/getCustomers`,
-          query
-        )
+        const { customers } = await this.$store.dispatch(`customers/getCustomers`,query )
         this.items = customers
         this.totalRows = this.items.length
       } catch (err) {
@@ -361,7 +349,7 @@ export default {
   padding: 5px;
   text-align: center;
   position: absolute;
-  right: 12px;
+  right: 21px;
 }
 .right-side-nav ul {
   list-style: none;
