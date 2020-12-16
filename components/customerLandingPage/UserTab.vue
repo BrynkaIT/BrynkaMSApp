@@ -66,8 +66,17 @@
 
         <br />
         <!-- Main table element -->
+        <b-skeleton-wrapper :loading="loading">
+          <template #loading>
+          <b-skeleton-table
+          :rows="15"
+          :columns="4"
+          :table-props="{ bordered: true, striped: true }"
+          ></b-skeleton-table>
+          </template>
         <b-table
-
+          striped
+          bordered
           head-variant="dark"
           stacked="md"
           :items="items"
@@ -78,31 +87,28 @@
           :sort-by.sync="sortBy"
           :sort-desc.sync="sortDesc"
           :sort-direction="sortDirection"
+          @filtered="onFiltered"
         >
 
           <template v-slot:cell(actions)="row" >
-            <ActionButtons
-              :infoLink="`./${row.item._id}/users/${row.item._id}`"
-              editModalTitle="Edit User"
-              editModalToOpen="AddEditUser"
-              :editModalData="row.item"
-              :id="row.item._id"
-              :showDeleteBtn="true"
-              @onDelete="onDelete"
-            ></ActionButtons>
-
+             <div class="text-center">
+              <b-badge  v-show="row.item.isPendingApproval && row.item.isInactive" variant="warning" pill>Pending</b-badge>
+              <b-badge  v-show="!row.item.isPendingApproval && row.item.isInactive" variant="danger" pill>Inactive </b-badge>
+              <ActionButtons
+                :infoLink="`./${row.item._id}/users/${row.item._id}`"
+                editModalTitle="Edit User"
+                editModalToOpen="AddEditUser"
+                :editModalData="row.item"
+                :id="row.item._id"
+                :showDeleteBtn="true"
+                @onDelete="onDelete"
+              ></ActionButtons>
+               </div>
           </template>
 
-          <template v-slot:row-details="row">
-            <b-card>
-              <ul>
-                <li v-for="(value, key) in row.item" :key="key">
-                  {{ key }}: {{ value }}
-                </li>
-              </ul>
-            </b-card>
-          </template>
+
         </b-table>
+        </b-skeleton-wrapper>
           <b-container>
             <b-row>
               <b-col sm="7" md="6" class="my-1 mx-auto">
@@ -131,22 +137,23 @@ export default {
   data() {
     return {
       userToEdit: '',
+      loading:true,
       items: [],
       showModal: false,
       formTitle: '',
       fields: [
-        { key: '_id', label: 'user ID', sortable: true },
-        { key: 'firstName', label: 'First Name', sortable: true },
-        { key: 'lastName', label: 'Last Name', sortable: true },
+       { key: 'fullName', label: 'Name', sortable: true },
+        // { key: 'firstName', label: 'First Name', sortable: true },
+        // { key: 'lastName', label: 'Last Name', sortable: true },
         { key: 'email', label: 'Email', sortable: true },
-        { key: 'securityRole.name', label: 'Security Role',sortable: true},
-        // { key: 'isActive', label: 'Is Active', sortable: true },
-        { key: 'actions', label: 'Actions', }
+        { key: 'userType', label: 'User Type', sortable: true },
+        { key: 'securityRole.name', label: 'Security Role', sortable: true },
+        { key: 'actions', label: '' }
       ],
       totalRows: 1,
       currentPage: 1,
       perPage: 15,
-      pageOptions: [5, 10, 15],
+      pageOptions: [15, 30, 60, 120],
       securityOptions: ['Admin', 'Ms User', 'Clerk'],
       isActiveOptions: ['True', 'False'],
       sortBy: '',
@@ -173,69 +180,39 @@ export default {
     this.fetchUsers()
   },
   methods: {
-    isActive(item) {
-      if (!item.isActive) {
-        this.$axios
-          .put('/users/activate', {
-            userId: item._id
-          })
-          .then(user => {
-            this.message = 'User Activated!'
-            if (item._rowVariant) {
-              item._rowVariant = null
-            }
-          })
-          .catch(err => console.log(err.response))
-      } else {
-        this.$axios
-          .put('/users/deactivate', {
-            userId: item._id
-          })
-          .then(user => (this.message = 'User Deactivated!'))
-          .catch(err => {
-            this.message = err.response.data.message
-            item.isActive = true
-          })
-      }
-    },
-    fetchUsers() {
-      this.$store
-        .dispatch('users/getUsers', '?deep=true')
-        .then(response => {
-          this.items = response.users
-          this.items.forEach(user => {
-            if (user.isPendingApproval) {
-              user._rowVariant = 'warning'
-            }
-          })
+
+    async fetchUsers() {
+      try {
+        const res = await this.$store.dispatch('users/getUsers', '?deep=true')
+        this.items = res.users
+        this.items.forEach(user => {
+          if (user.isPendingApproval) {
+            user._rowVariant = 'warning'
+          }
+        })
           // Set the initial number of items
           this.totalRows = this.items.length
-        })
-        .catch(err => (this.message = err.response.data.message))
+        this.loading = false
+      } catch (error) {
+         this.$brynkaToast(error, 'danger')
+      }
+
     },
 
-    onDelete(id) {
+    async onDelete(id) {
+      try {
+      const res = await this.$store.dispatch('users/deleteUser', id)
+      this.fetchUsers()
+      this.$brynkaToast(res.message, 'success')
 
-      this.$store
-        .dispatch('users/deleteUser', id)
-        .then(res => {
-          this.fetchUsers()
-          this.$toasted.show(res.message, {
-            theme: "outline",
-            duration: 3000,
-            position: 'top-center'
-          })
-        })
-        .catch(e => {
-          this.$toasted.error(e.data.message, {
-            duration: 3000,
-            position: 'top-center'
-          })
-        })
+      } catch (error) {
+        console.log(error)
+        debugger
+        this.$brynkaToast(error, 'danger')
+      }
+
     },
-    onHide(value) {
-      this.showModal = value
-    },
+
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length

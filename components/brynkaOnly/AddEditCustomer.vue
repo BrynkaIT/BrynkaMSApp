@@ -707,6 +707,10 @@ export default {
       this.form.subFolder = this.form.name.toLowerCase().replace(/\s/g, '')
     },
     async displaySelectedCustomerParents(ids) {
+ 
+      if(ids[0] == null) {
+        this.$brynkaToast("This customer is not assigned to a parent customer", "warning")
+      }
       ids.forEach(async (id) => {
 
         let URL;

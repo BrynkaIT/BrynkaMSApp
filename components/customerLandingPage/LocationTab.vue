@@ -58,8 +58,17 @@
 
         <br />
         <!-- Main table element -->
+        <b-skeleton-wrapper :loading="loading">
+          <template #loading>
+          <b-skeleton-table
+          :rows="15"
+          :columns="4"
+          :table-props="{ bordered: true, striped: true }"
+          ></b-skeleton-table>
+          </template>
         <b-table
-
+          striped
+          bordered
           head-variant="dark"
           stacked="md"
           :items="items"
@@ -70,31 +79,34 @@
           :sort-by.sync="sortBy"
           :sort-desc.sync="sortDesc"
           :sort-direction="sortDirection"
+          @filtered="onFiltered"
         >
+            <template #cell(address)="row">
+              <div v-if="row.item.address">
+              <span v-if="row.item.address.street1">{{ row.item.address.street1 }}</span>
+              <span v-if="row.item.address.street2"><br>{{ row.item.address.street2 }}</span>
+              <span><br>{{ row.item.address.city }},&nbsp;</span>
+              <span>{{ row.item.address.state}}&nbsp;</span>
+              <span>{{ row.item.address.postalCode}}&nbsp;</span>
+              </div>
+            </template>
 
           <template v-slot:cell(actions)="row">
-            <ActionButtons
-              :infoLink="`./${row.item.customer}/locations/${row.item._id}`"
-              editModalTitle="Edit Location"
-              editModalToOpen="AddEditLocation"
-              :editModalData="row.item"
-              :id="row.item._id"
-              :showDeleteBtn="true"
-              @onDelete="onDelete"
-            ></ActionButtons>
-
-          </template>
-
-          <template v-slot:row-details="row">
-            <b-card>
-              <ul>
-                <li v-for="(value, key) in row.item" :key="key">
-                  {{ key }}: {{ value }}
-                </li>
-              </ul>
-            </b-card>
+            <div class="text-center">
+              <ActionButtons
+                :infoLink="`./${row.item.customer}/locations/${row.item._id}`"
+                editModalTitle="Edit Location"
+                editModalToOpen="AddEditLocation"
+                :editModalData="row.item"
+                :id="row.item._id"
+                :canEdit="true"
+                :canDelete="true"
+                @onDelete="onDelete"
+              ></ActionButtons>
+            </div>
           </template>
         </b-table>
+        </b-skeleton-wrapper>
         <b-container>
           <b-row>
             <b-col sm="7" md="6" class="my-1 mx-auto">
@@ -125,26 +137,22 @@ export default {
     return {
       items: [],
       showModal: false,
-      formTitle: '',
+      loading:true,
       locationToEdit: null,
       fields: [
-        { key: 'name', label: 'Location Name', sortable: true },
-        { key: 'address.street1', label: 'Street', sortable: true },
-        { key: 'address.street2', label: 'Suite', sortable: true },
-        { key: 'address.city', label: 'City', sortable: true },
-        { key: 'address.state', label: 'State', sortable: true },
-        { key: 'address.postalCode', label: 'State'},
-        { key: 'actions', label: 'Actions' }
+       { key: 'name', label: 'Location Name', sortable: true },
+        // A virtual column made up from two fields
+        { key: 'address', label: 'Address' },
+        { key: 'actions', label: '' }
       ],
       totalRows: 1,
       currentPage: 1,
       perPage: 15,
-      pageOptions: [5, 10, 15],
+      pageOptions: [15, 30, 60],
       sortBy: '',
       sortDesc: false,
       sortDirection: 'asc',
       filter: null,
-      message: ''
     }
   },
   computed: {
@@ -170,6 +178,7 @@ export default {
         const {locations} = await this.$store.dispatch('locations/getLocations', {customerId: this.$route.params.id, query:'?deep=true'})
         this.items = locations
         this.totalRows = this.items.length
+        this.loading = false
       } catch (error) {
         $brynkaToast('error', danger)
       }

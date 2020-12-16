@@ -44,18 +44,19 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: [
-    { src: '~/plugins/brynkaToasts', ssr: false},
+    { src: '~/plugins/brynkaToasts',  mode: 'client'},
     { src: '~/plugins/vuelidate' },
     { src: '~/plugins/filters.js' },
     { src: '~/plugins/axios' },
     { src: '~/plugins/v-mask' },
-    { src: '~/plugins/toasted', ssr: false },
+    { src: '~/plugins/toasted',  mode: 'client' },
     { src: '~/plugins/bootstrapIcons' },
+    { src: '~/plugins/bootstrapSkeleton'},
     { src: '~/plugins/formHandler' },
     { src: '~/plugins/convertToUTC' },
     { src: '~/plugins/jwPagination' },
     { src: '~/plugins/moment' },
-    { src: '~/plugins/easyLightBox', ssr: false},
+    { src: '~/plugins/easyLightBox',  mode: 'client'},
   ],
   /*
    ** Nuxt.js dev-modules

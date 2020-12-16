@@ -78,7 +78,7 @@
                   :editModalData="department"
                   :showDeleteBtn="false"
                 ></ListGroup>
-            
+
               </div>
               <div class="text-center" v-else>
                 <h4>This Location currently has no departments</h4>
@@ -149,7 +149,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import url('https://fonts.googleapis.com/css?family=Assistant&display=swap');
 
 .top-panel {

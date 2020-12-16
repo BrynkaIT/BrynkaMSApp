@@ -24,7 +24,7 @@ export const mutations = {
 export const actions = {
 	getLocations({ rootState, commit }, payload) {
 
-    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/${payload.customerId}/locations`
     }else{
       URL = `/manage/customer/${payload.customerId}/locations`
@@ -43,7 +43,7 @@ export const actions = {
 	},
 	getLocation({ rootState, commit },  payload) {
 
-    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/${payload.customerId}/locations`
     }else{
       URL = `/manage/customer/${payload.customerId}/locations`
@@ -61,7 +61,7 @@ export const actions = {
 
 	postLocation({ rootState }, payload) {
 
-    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/${payload.customerId}/locations`
     }else{
       URL = `/manage/customer/${payload.customerId}/locations`
@@ -73,7 +73,7 @@ export const actions = {
 	},
 
 	putLocation({ rootState },  payload) {
-    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/${payload.customerId}/locations`
     }else{
       URL = `/manage/customer/${payload.customerId}/locations`
@@ -84,7 +84,7 @@ export const actions = {
 	},
 
 	deleteLocation({ rootState }, locationId) {
-    if(rootState.auth.customerSubFolder === 'brynka' && rootState.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/locations`
     }else{
       URL = `/manage/locations`

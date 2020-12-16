@@ -39,7 +39,7 @@
 
              <div class="col-md-5 col-sm-12">
               <b-form-group
-              label="Per page"
+              label="Display"
               label-cols-sm="2"
               label-cols-md="4"
               label-cols-lg="2"
@@ -58,9 +58,9 @@
              <div class="col-md-2 col-sm-12">
                 <b-button
               v-if="isBrynka"
-              class="float-right mb-3"
+              class="mb-3 new-btn"
               variant="primary"
-              @click="$store.commit('switchForm', { title: 'Add Customer' })">New Customer</b-button>
+              @click="$store.commit('switchForm', { title: 'Add Customer' })">New <span class="">Customer</span></b-button>
              </div>
             </div>
 
@@ -71,13 +71,13 @@
                 v-for="item in pageOfItems"
                 :key="item.id"
               >
-                <b-row>
-                  <div class="col-md-4 col-sm-12">
-                    <div class="d-flex align-items-center">
+                <b-row class="">
+                  <div class="col-md-4 name-and-logo">
+                    <div class="d-inline-flex">
                       <img
                         :src="`${baseUrl}${item.logoUrl}`"
-                        width="70px"
-                        class="mr-3"
+
+                        class="mr-3 logo-width"
                       />
                       <div>
                         <h5 class="mb-1">{{ item.name }}</h5>
@@ -85,7 +85,7 @@
                       </div>
                     </div>
                   </div>
-                   <div class="col-md-4 col-sm-12">
+                   <div class="col-md-4">
                     <p class="middle" v-if="item.address">
                       <span v-if="item.address.street1"
                         >{{ item.address.street1 }},</span
@@ -105,7 +105,7 @@
                       ><br />
                     </p>
                   </div>
-                  <div class="col-md-4 col-sm-12">
+                  <div class="col-md-4">
 
                     <div style="font-size: 1.75rem;margin: 15px;" class="right">
                       <b-icon
@@ -201,7 +201,7 @@ export default {
 
   methods: {
     info(item) {
-      this.$store.commit('setCustomerInContext', item)
+      this.$store.commit('customers/setCustomerInContext', item)
       this.$router.push(`/customers/${item._id}`)
     },
     async fetchCustomers() {
@@ -240,24 +240,19 @@ export default {
   color: #fff;
 }
 .list-group-wrapper {
-  /* width: 90%; */
   margin: 15px;
+}
+.logo-width{
+  width:20%;
 }
 .middle {
   text-align: center;
 }
 .right {
-  float: right;
+  text-align: right;
 }
-.right-side-nav {
-  padding: 5px;
-  text-align: center;
-  position: absolute;
-  right: 21px;
-}
-.right-side-nav ul {
-  list-style: none;
-  text-align: center;
+.new-btn{
+  float:right
 }
 .search-link:hover {
   font-size: 40px;
@@ -270,14 +265,30 @@ export default {
   }
 }
 @media (max-width: 992px) {
-  .middle {
-    text-align: left;
-  }
-  .right {
-    float: left;
+
+  .new-btn span{
+  display:none
   }
   .list-group-wrapper {
     width: 80%;
+  }
+}
+@media (max-width: 768px){
+  .name-and-logo{
+    text-align:center
+  }
+    .right {
+    text-align:center
+  }
+  .logo-width{
+    width:170px;
+  }
+  .new-btn {
+  float:left;
+  width:100%;
+}
+.new-btn span{
+  display:inline
   }
 }
 @media (max-width: 368px) {

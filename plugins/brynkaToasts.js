@@ -19,21 +19,28 @@ export default ({ store }, inject) => {
               } else {
                 store._vm._bv__toast.toast(error.description, options)
               }
-          }else if(payload.data){
-            const err = payload.data.error
 
-            if (err.multiple) {
-             err.errors.forEach(e => {
+        }else if(payload.data){
+          
+          const err = payload.data.error
+            if(payload.data.error){
+              if (err.multiple) {
+              err.errors.forEach(e => {
                 store._vm._bv__toast.toast(e.description, options)
               })
-            } else {
-                store._vm._bv__toast.toast(err.description, options)
+              } else {
+                  store._vm._bv__toast.toast(err.description, options)
+              }
+            }else if(payload.data.message){
+                store._vm._bv__toast.toast(payload.data.message, options)
             }
-            } else {
-                store._vm._bv__toast.toast(payload, options)
-            }
+          
+        } else {
+            store._vm._bv__toast.toast(payload, options)
+        }
 
     });
 
 
   }
+  

@@ -58,8 +58,17 @@
 
         <br />
         <!-- Main table element -->
+        <b-skeleton-wrapper :loading="loading">
+          <template #loading>
+            <b-skeleton-table
+              :rows="10"
+              :columns="3"
+              :table-props="{ bordered: true, striped: true }"
+            ></b-skeleton-table>
+          </template>
         <b-table
-
+        striped
+            bordered
           head-variant="dark"
           stacked="md"
           :items="items"
@@ -70,31 +79,25 @@
           :sort-by.sync="sortBy"
           :sort-desc.sync="sortDesc"
           :sort-direction="sortDirection"
+           @filtered="onFiltered"
         >
 
           <template v-slot:cell(actions)="row">
-            <ActionButtons
-
-              editModalTitle="Edit Security Role"
-              editModalToOpen="AddEditSecurityRole"
-              :editModalData="row.item"
-              :id="row.item._id"
-              :showDeleteBtn="true"
-              @onDelete="onDelete"
-            ></ActionButtons>
-
-          </template>
-
-          <template v-slot:row-details="row">
-            <b-card>
-              <ul>
-                <li v-for="(value, key) in row.item" :key="key">
-                  {{ key }}: {{ value }}
-                </li>
-              </ul>
-            </b-card>
+             <div class="text-center">
+              <ActionButtons
+                editModalTitle="Edit Security Role"
+                editModalToOpen="AddEditSecurityRole"
+                :editModalData="row.item"
+                :canEdit="true"
+                :id="row.item._id"
+                :canDelete="true"
+                @onDelete="onDelete"
+              ></ActionButtons>
+            </div>
           </template>
         </b-table>
+        </b-skeleton-wrapper>
+
           <b-container>
             <b-row>
               <b-col sm="7" md="6" class="my-1 mx-auto">
@@ -125,6 +128,7 @@ export default {
     return {
       items: [],
       showModal: false,
+      loading: true,
       formTitle: '',
       fields: [
         { key: 'name', label: 'Name', sortable: true },
@@ -139,13 +143,6 @@ export default {
           },
         sortable: true },
         { key: 'kind', label: 'Type', sortable: true },
-        // { key: 'protectFromDeletion',
-        // label: 'Protect From Deletion?',
-        // sortable: true,
-        // formatter: (value, key, item) => {
-        //   return value.toString()[0].toUpperCase()+ value.toString().slice(1);
-        // },
-        // },
          { key: 'actions', label: 'Actions' }
       ],
       totalRows: 1,
@@ -180,8 +177,8 @@ export default {
       this.$store.dispatch('securityRoles/getSecurityRoles')
       .then(response => {
         this.items = response.securityRoles
-      // Set the initial number of items
       this.totalRows = this.items.length
+      this.loading = false
       }).catch(err => console.log(err))
     },
      onDelete(item){

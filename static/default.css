@@ -68,11 +68,16 @@ thead {
   z-index: 1000000000000 !important;
 }
 .card-header {
-  /* background-color: #FF9800 !important; */
-  background-color: #efefef !important;
+  background-color: #FF9800 !important;
+  /* background-color: #efefef !important; */
   border-bottom: 1px solid #9E9E9E !important;
 }
+
 .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
   color: #fff !important;
   background-color: #007bff !important;
 }
+.nav-tabs .nav-items .nav-link  {
+  color: #000 !important;
+
+  }

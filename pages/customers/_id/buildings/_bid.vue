@@ -148,7 +148,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import url('https://fonts.googleapis.com/css?family=Assistant&display=swap');
 
 .top-panel {

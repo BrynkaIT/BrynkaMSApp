@@ -145,6 +145,7 @@ export default {
       }
 
       try {
+        debugger
         const res = await this.$axios.$patch(`/manage/customers/${this.customerToEditId}` , formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         })

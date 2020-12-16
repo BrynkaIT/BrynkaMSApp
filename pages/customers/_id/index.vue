@@ -6,7 +6,7 @@
         <div><h5 class="mb-1">{{ customer.name }}</h5></div>
         <b-tabs v-model="tabIndex" small card>
           <b-tab title="Overview">
-            <div class="emp-profile">
+            <div class="customer-profile">
             <form method="post">
                 <div class="row">
                     <div class="col-md-2">
@@ -18,7 +18,7 @@
                       <div class="profile-head">
                         <h5>{{ customer.name }}</h5>
                         <h6>{{ customer.emailDomain}}</h6>
-                        <p class="proile-rating"></span></p>
+
                         <b-tabs content-class="mt-3">
                           <b-tab title="Basic Info" active>
                             <div class="row" v-if="isBrynka">
@@ -309,6 +309,9 @@ export default {
   },
   methods:{
     async getCustomerParentName(ids) {
+         if(ids[0] == null) {
+        this.$brynkaToast("This customer is not assigned to a parent customer", "warning")
+        }
         ids.forEach(async (id) => {
           let { customers } = await this.$axios.$get(`/manage/customers?id=${id}`)
           if(customers.length > 0){
@@ -324,12 +327,8 @@ export default {
 </script>
 
 <style scoped>
-.nav-tabs .nav-link a {
-color: #000 !important;
 
-}
-
-.emp-profile{
+.customer-profile{
     /* padding: 3%; */
     margin-top: 3%;
     margin-bottom: 3%;
@@ -350,25 +349,7 @@ color: #000 !important;
 .profile-head h6{
     color: #0062cc;
 }
-.profile-edit-btn{
-    border: none;
-    border-radius: 1.5rem;
-    width: 70%;
-    padding: 2%;
-    font-weight: 600;
-    color: #6c757d;
-    cursor: pointer;
-}
-.proile-rating{
-    font-size: 12px;
-    color: #818182;
-    margin-top: 5%;
-}
-.proile-rating span{
-    color: #495057;
-    font-size: 15px;
-    font-weight: 600;
-}
+
 .profile-head .nav-tabs{
     margin-bottom:5%;
 }
@@ -379,25 +360,6 @@ color: #000 !important;
 .profile-head .nav-tabs .nav-link.active{
     border: none;
     border-bottom:2px solid #0062cc;
-}
-.profile-work{
-    padding: 14%;
-    margin-top: -15%;
-}
-.profile-work p{
-    font-size: 12px;
-    color: #818182;
-    font-weight: 600;
-    margin-top: 10%;
-}
-.profile-work a{
-    text-decoration: none;
-    color: #495057;
-    font-weight: 600;
-    font-size: 14px;
-}
-.profile-work ul{
-    list-style: none;
 }
 .profile-tab label{
     font-weight: 600;
