@@ -93,8 +93,9 @@
 
           <template v-slot:cell(actions)="row">
             <div class="text-center">
+              <b-badge  v-show="row.item.isInactive" variant="danger" pill>Inactive </b-badge>
               <ActionButtons
-                :infoLink="`./${row.item.customer}/locations/${row.item._id}`"
+                :infoLink="`./${$route.params.id}/locations/${row.item._id}`"
                 editModalTitle="Edit Location"
                 editModalToOpen="AddEditLocation"
                 :editModalData="row.item"

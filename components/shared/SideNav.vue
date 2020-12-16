@@ -113,7 +113,6 @@ export default {
     ...mapState({
       auth: state => state.auth.auth,
       customer: state => state.customer,
-      currentUser : state => state.auth.currentUser,
       sideBarOpen: state => state.sideBarOpen
     }),
      baseUrl(){
@@ -125,8 +124,12 @@ export default {
     return {
       isOpen: false,
       securityRole:null,
-
+      currentUser:''
     }
+  },
+  mounted() {
+    this.currentUser = JSON.parse(localStorage.getItem('managerApp_currentUser'))
+    this.loading = false
   },
   methods: {
    logout () {

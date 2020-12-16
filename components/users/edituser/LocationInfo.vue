@@ -1,105 +1,113 @@
 <template>
-<b-overlay :show="overlay" rounded="sm">
-  <b-card class="bg-light">
-    <form @submit="updateLocationInfo">
-      <div class="text-right">
-        <b-button variant="light" @click="userToEdit = !userToEdit">
-          <b-icon icon="pencil" variant="primary" scale="1.5"></b-icon>
-        </b-button>
-      </div>
+  <b-overlay :show="overlay" rounded="sm">
+    <b-skeleton-wrapper :loading="loading">
+        <template #loading>
+          <b-card>
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="55%"></b-skeleton>
+            <b-skeleton animation="wave" width="70%"></b-skeleton>
+            <br />
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="55%"></b-skeleton>
+            <b-skeleton animation="wave" width="70%"></b-skeleton>
+          </b-card>
+        </template>
+        <b-card class="bg-light">
+          <form @submit="updateLocationInfo">
 
-      <b-form-group>
-        <label for="">Location:
-          <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.location }}</span>
-        </label>
-        <b-form-select
-          v-if="userToEdit"
-          size="sm"
-          v-model="locationInfo.locationId"
-          :class="{ 'validation-error': $v.locationInfo.locationId.$error }"
-          :options="locations"
-          ref="locationInput"
-          value-field="_id"
-          text-field="name"
-          @input="getBuildings"
-        ></b-form-select>
-      </b-form-group>
+            <b-form-group>
+              <label for="">Location:
+                <span v-if="!canEdit" class="text-primary text-bolder">{{ staticFields.location }}</span>
+              </label>
+              <b-form-select
+                v-if="canEdit"
+                size="sm"
+                v-model="locationInfo.locationId"
+                :class="{ 'validation-error': $v.locationInfo.locationId.$error }"
+                :options="locations"
+                ref="locationInput"
+                value-field="_id"
+                text-field="name"
+                @input="getBuildings"
+              ></b-form-select>
+            </b-form-group>
 
-      <b-form-group>
-        <label for="">Building:
-          <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.building}}</span>
-        </label>
-        <b-form-select
-          v-if="userToEdit"
-          size="sm"
-          type="text"
-          placeholder="Building"
-          v-model="locationInfo.buildingId"
-          :options="buildings"
-          ref="buildingInput"
-          value-field="_id"
-          text-field="name"
-          @change="getFloors"
-        ></b-form-select>
-      </b-form-group>
+            <b-form-group>
+              <label for="">Building:
+                <span v-if="!canEdit" class="text-primary text-bolder">{{ staticFields.building}}</span>
+              </label>
+              <b-form-select
+                v-if="canEdit"
+                size="sm"
+                type="text"
+                placeholder="Building"
+                v-model="locationInfo.buildingId"
+                :options="buildings"
+                ref="buildingInput"
+                value-field="_id"
+                text-field="name"
+                @input="getFloors"
+              ></b-form-select>
+            </b-form-group>
 
-      <b-row>
-        <div class="col-md-6">
-          <b-form-group>
-            <label for="">Floor:
-              <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.floor }}</span>
-            </label>
-            <b-form-select
-              v-if="userToEdit"
-              size="sm"
-              v-model="locationInfo.floorId"
-              :options="floors"
-              value-field="_id"
-              text-field="name"
-            ></b-form-select>
-          </b-form-group>
-        </div>
+            <b-row>
+              <div class="col-md-6">
+                <b-form-group>
+                  <label for="">Floor:
+                    <span v-if="!canEdit" class="text-primary text-bolder">{{ staticFields.floor }}</span>
+                  </label>
+                  <b-form-select
+                    v-if="canEdit"
+                    size="sm"
+                    v-model="locationInfo.floorId"
+                    :options="floors"
+                    value-field="_id"
+                    text-field="name"
+                  ></b-form-select>
+                </b-form-group>
+              </div>
 
-        <div class="col-md-6">
-          <b-form-group>
-          <label for="">Room / Mail Stop:
-            <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.room }}</span>
-          </label>
-            <b-form-input
-              v-if="userToEdit"
-              value-field="_id"
-              text-field="name"
-              size="sm"
-              class="mb-2">
-            </b-form-input>
-          </b-form-group>
-        </div>
-      </b-row>
+              <div class="col-md-6">
+                <b-form-group>
+                <label for="">Room / Mail Stop:
+                  <span v-if="!canEdit" class="text-primary text-bolder">{{ staticFields.room }}</span>
+                </label>
+                  <b-form-input
+                    v-if="canEdit"
+                    value-field="_id"
+                    text-field="name"
+                    size="sm"
+                    class="mb-2">
+                  </b-form-input>
+                </b-form-group>
+              </div>
+            </b-row>
 
-      <b-form-group >
-        <label for="">Department:
-          <span v-if="!userToEdit" class="text-primary text-bolder">{{ staticFields.department }}</span>
-        </label>
-        <b-form-select
-          v-if="userToEdit"
-          size="sm"
-          type="text"
-          v-model="locationInfo.departmentId"
-          :options="departments"
-          placeholder="Department"
-          value-field="_id"
-          text-field="name"
-        ></b-form-select>
-      </b-form-group>
+            <b-form-group >
+              <label for="">Department:
+                <span v-if="!canEdit" class="text-primary text-bolder">{{ staticFields.department }}</span>
+              </label>
+              <b-form-select
+                v-if="canEdit"
+                size="sm"
+                type="text"
+                v-model="locationInfo.departmentId"
+                :options="departments"
+                placeholder="Department"
+                value-field="_id"
+                text-field="name"
+              ></b-form-select>
+            </b-form-group>
 
-      <div class="float-right mb-3" v-if="userToEdit">
-        <button type="submit" class="btn btn-primary">
-          Update
-        </button>
-      </div>
-    </form>
-  </b-card>
-</b-overlay>
+            <div class="float-right mb-3" v-if="canEdit">
+              <button type="submit" class="btn btn-primary">
+                Update
+              </button>
+            </div>
+          </form>
+        </b-card>
+    </b-skeleton-wrapper>
+  </b-overlay>
 </template>
 
 <script>
@@ -110,18 +118,19 @@ export default {
   props: ['user'],
   computed: {
     ...mapState({
+
       locations: state => state.locations.locations,
       buildings: state => state.buildings.buildings,
       floors: state => state.floors.floors,
       departments: state => state.departments.departments,
-      securityRoles: state => state.securityRoles.securityRoles,
-    })
 
+    }),
   },
   data() {
     return {
      overlay:false,
-      userToEdit: false,
+      canEdit: false,
+      loading:true,
       locationName:'',
       staticFields:{
         location:'',
@@ -140,6 +149,20 @@ export default {
       }
     }
   },
+  async mounted(){
+    var currentUser = JSON.parse(localStorage.getItem('managerApp_currentUser'))
+
+    setTimeout(async () => {
+      if(this.user._id == currentUser._id){
+      this.canEdit = true
+      }else{
+        this.canEdit = currentUser.securityRole.canModifyUsers
+      }
+      await this.loadSelectFieldOptions()
+      // await this.getLocationInfo()
+      }, 900)
+
+  },
   validations: {
    locationInfo:{
       locationId: {
@@ -148,54 +171,53 @@ export default {
     },
   },
 
-  async mounted() {
-    await this.getLocations()
-    await this.getBuildings()
-    await this.getFloors()
-    await this.getLocationInfo(this.user)
-    await this.displayStaticfields()
-  },
 
 methods:{
-  async displayStaticfields(){
-     const { location } = await this.$store.dispatch('locations/getLocation', this.user.location)
-     const { building } = await this.$store.dispatch('buildings/getBuilding', this.user.building)
-    const { department } = await this.$store.dispatch('departments/getDepartment', this.user.department)
-    const { floor } = await this.$store.dispatch('floors/getFloor', this.user.floor)
-    this.staticFields.location = location.name
-    this.staticFields.building = building.name
-    this.staticFields.department = department.name
-    this.staticFields.floor= floor.name
-  },
-  async getLocationInfo(user){
 
-      this.locationInfo.locationId= user.location
+  async getLocationInfo(){
 
-      if(user.building != null) {
-        await this.getBuildings(user.location)
-        this.locationInfo.buildingId= user.building
-        this.locationInfo.floorId= user.floor
+      if(this.user.location){
+      this.locationInfo.locationId = this.user.location._id
+      this.staticFields.location = this.user.location.name
+      this.staticFields.location = this.user.location.name
+      // this.staticFields.building = this.user.building.name
       }
-      if(user.department != null) {
-        await this.getDepartments(user.location)
-        this.locationInfo.departmentId= user.department
+
+      if(this.user.building && this.user.building != null) {
+        this.locationInfo.buildingId= this.user.building._id
+        this.staticFields.building = this.user.building.name
       }
-      if(user.floor != null) {
-        await this.getFloors(user.building)
-        this.locationInfo.floorId= user.floor
+
+      if(this.user.department && this.user.department != null) {
+
+        const { department } = await this.$store.dispatch('departments/getDepartment', this.user.department)
+        this.staticFields.department =  department.name
+        this.locationInfo.departmentId= this.user.department
       }
+      if(this.user.floor && this.user.floor != null) {
+        this.locationInfo.floorId= this.user.floor
+        const { floor } = await this.$store.dispatch('floors/getFloor', this.user.floor)
+        this.staticFields.floor= floor.name
+      }
+      this.loading = false
     },
-
+    async loadSelectFieldOptions(){
+      await this.$store.dispatch('locations/getLocations', {customerId:this.$route.params.id})
+      await this.$store.dispatch('buildings/getBuildings')
+      await this.$store.dispatch('floors/getFloors', )
+      await this.$store.dispatch('departments/getDepartments')
+    },
     async getLocations() {
-      await this.$store.dispatch('locations/getLocations')
+      await this.$store.dispatch('locations/getLocations', {customerId:this.$route.params.id})
     },
     async getBuildings(lid) {
+      debugger
       const locationId = lid || this.locationInfo.locationId
       if (locationId != null) {
       await this.$store.dispatch('buildings/getBuildings', `?lid=${locationId}`)
 
       } else {
-        this.$store.commit('buildings/setBuildings', [])
+       await this.$store.commit('buildings/setBuildings', [])
       }
       this.getDepartments(locationId)
     },
@@ -204,7 +226,7 @@ methods:{
       if (buildingId != null) {
         await this.$store.dispatch('floors/getFloors', `?bid=${buildingId}`)
       } else {
-         this.$store.commit('floors/setFloors', [])
+        await this.$store.commit('floors/setFloors', [])
       }
     },
     async getDepartments(lid) {
@@ -212,7 +234,7 @@ methods:{
       if (locationId != null) {
         await this.$store.dispatch('departments/getDepartments', `?lid=${locationId}`)
       } else {
-        this.$store.commit('departments/setDepartments', [])
+        await this.$store.commit('departments/setDepartments', [])
       }
     },
     async updateLocationInfo(e) {
@@ -221,13 +243,12 @@ methods:{
       if (!this.$v.locationInfo.$invalid) {
          this.overlay = true
         this.locationInfo.id = this.user._id
-
+        debugger
         try {
           const res = await this.$store.dispatch('contacts/patchContact', this.locationInfo)
           this.$emit('refresh', res.contact._id)
           this.$brynkaToast(res.message, 'success')
-          this.displayStaticfields()
-          this.userToEdit = false
+          setTimeout(async () => await this.getLocationInfo(), 900)
           this.overlay = false
         } catch (error) {
           this.$brynkaToast(error, 'danger')

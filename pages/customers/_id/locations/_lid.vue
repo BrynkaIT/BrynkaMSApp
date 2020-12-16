@@ -9,6 +9,7 @@
           icon="building"
           :name="location.name"
           :address="location.address"
+          :isInactive="location.isInactive"
         ></RibbonHeader>
 
         <div class="mt-2" >
@@ -40,8 +41,9 @@
                   editModalTitle="Edit Building"
                   editModalToOpen="AddEditBuilding"
                   :editModalData="building"
-                  :infoLink="`/customers/${customerInContext._id}/buildings/${building._id}`"
-                  :showDeleteBtn="false"
+                  :infoLink="`/customers/${$route.params.id}/buildings/${building._id}`"
+                  :canEdit="true"
+                  :canDelete="true"
                 ></ListGroup>
               </div>
               <div class="text-center" v-else>
@@ -76,7 +78,9 @@
                   editModalTitle="Edit Department"
                   editModalToOpen="AddEditDepartment"
                   :editModalData="department"
-                  :showDeleteBtn="false"
+                  :infoLink="`/customers/${$route.params.id}/departments/${department._id}`"
+                  :canEdit="true"
+                  :canDelete="true"
                 ></ListGroup>
 
               </div>
@@ -138,7 +142,12 @@ export default {
   methods: {
    async fetchLocations() {
       try {
-      const { location } = await this.$axios.$get(`/location/${this.$route.params.lid}?deep=true`)
+
+      const { location } = await this.$store.dispatch("locations/getLocation",{
+        customerId:this.$route.params.id,
+        locationId:this.$route.params.lid,
+        query: `?deep=true`
+      })
       this.location = location
 
       } catch (error) {
@@ -152,13 +161,7 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Assistant&display=swap');
 
-.top-panel {
-  width: 100%;
-  padding-left: 25px;
-  background: #495057 !important;
-  /* border-bottom: 1px solid #ccc !important; */
-  color: #fff;
-}
+
 .side-panel {
   width: 200px !important;
   padding: 15px !important;

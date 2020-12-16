@@ -21,7 +21,7 @@
             <nuxt-link to="/internal" class="nav-link">Internal</nuxt-link>
           </li>
           <li>
-            <nuxt-link to="/system" class="nav-link">System Settings</nuxt-link>
+            <nuxt-link to="/system" class="nav-link">System </nuxt-link>
           </li>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto" v-if="currentUser">
@@ -58,7 +58,7 @@ export default {
 
       auth: state => state.auth.auth,
       sideBarOpen: state => state.sideBarOpen,
-      currentUser : state => state.auth.currentUser
+      // currentUser : state => state.auth.currentUser
 
     }),
     ...mapGetters({
@@ -70,8 +70,13 @@ export default {
   },
   data(){
     return{
-      open:false
+      open:false,
+      currentUser:''
     }
+  },
+  mounted() {
+    this.currentUser = JSON.parse(localStorage.getItem('managerApp_currentUser'))
+    this.loading = false
   },
   methods: {
     toogleSideBar(){

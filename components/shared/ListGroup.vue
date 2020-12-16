@@ -4,13 +4,7 @@
       <div class="d-flex w-100 justify-content-between">
         <h5 class="text-dark">{{ name }}</h5>
         <div>
-          <strong>Active</strong>
-          <b-icon
-            v-if="!inactive"
-            icon="circle-fill"
-            variant="success"
-          ></b-icon>
-          <b-icon v-if="inactive" icon="circle"></b-icon>
+           <b-badge  v-if="isInactive" variant="danger" pill>Inactive </b-badge>
         </div>
       </div>
 
@@ -22,7 +16,9 @@
           :editModalToOpen="editModalToOpen"
           :editModalData="editModalData"
           :id="id"
-          :showDeleteBtn="false"
+          :canEdit="canEdit"
+          :canDelete="canDelete"
+          @onDelete="$emit('on-delete', id)"
         ></ActionButtons>
       </div>
       <small class="id">System ID: {{ id }} </small>
@@ -32,28 +28,31 @@
 
 <script>
 import ActionButtons from '@/components/shared/ActionButtons'
+
 export default {
   props: [
     'name',
     'lastUpdated',
     'id',
-    'inactive',
+    'isInactive',
     'editModalTitle',
     'editModalToOpen',
     'editModalData',
     'infoLink',
-    'showDeleteBtn'
+    'canEdit',
+    'canDelete'
   ],
   components:{
     ActionButtons
   }
+
 }
 </script>
 
 <style scoped>
-.id {
+/* .id {
   position: relative;
   bottom: 15px;
-}
+} */
 
 </style>

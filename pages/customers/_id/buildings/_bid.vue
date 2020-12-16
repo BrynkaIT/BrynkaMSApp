@@ -4,32 +4,13 @@
 
     <div class="content-right">
       <b-card>
-        <b-icon icon="arrow-left-square" scale="1.5" variant="info" @click="() =>{this.$router.back()}"></b-icon>
-        <div class="top-panel mt-3">
-          <div class="row">
-            <div style="font-size: 3rem;">
-              <b-icon
-                icon="geo"
-                class="rounded-circle border p-2"
-                variant="light"
-              ></b-icon>
-            </div>
-            <div v-if="building">
-              <h3 class="mt-3 ml-1">{{ building.name }}</h3>
-              <!-- <p class="ml-2">
-                <span v-if="building.address.street1"
-                  >{{ building.address.street1 }}<br />
-                </span>
-                <span v-if="building.address.street2"
-                  >{{ building.address.street2 }}<br
-                /></span>
-                <span>{{ building.address.city }},&nbsp;</span
-                ><span>{{ building.address.state }},&nbsp;</span>
-                <span>{{ building.address.postalCode }}</span>
-              </p> -->
-            </div>
-          </div>
-        </div>
+        <RibbonHeader
+          icon="geo"
+          :name="building.name"
+          :address="building.address"
+          :isInactive="building.isInactive"
+        ></RibbonHeader>
+
         <div class="mt-2" >
           <b-tabs small>
             <b-tab title="Floors">
@@ -48,29 +29,19 @@
           </b-row>
           </div>
           <div v-if="floors.length > 0">
-              <b-list-group
-              v-for="floor in floors"
+              <ListGroup
+               v-for="floor in floors"
               :key="floor._id"
-            >
-              <b-list-group-item class="flex-column align-items-start m-2">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">{{ floor.name }}</h5>
-                  <b-button
-                    size="sm"
-                    variant="outline-secondary"
-                    class="mb-2"
-                    @click="$store.commit('switchForm', {
-                          title: 'Edit Floor',
-                          to: 'AddEditFloor',
-                          data: floor
-                          })
-                        ">
-                    <b-icon icon="gear-fill" aria-hidden="true"></b-icon>
-                  </b-button>
-                </div>
-                <small>Floor ID: {{ floor._id }}</small>
-              </b-list-group-item>
-            </b-list-group>
+              :name="floor.name"
+              :lastUpdated="floor.updatedAt"
+              :id="floor._id"
+              :isInactive="floor.isInactive"
+              editModalTitle="Edit Floor"
+              editModalToOpen="AddEditFloor"
+              :editModalData="floor"
+              :canEdit="true"
+              :canDelete="true"
+            ></ListGroup>
           </div>
             <div class="text-center" v-else>
                 <h4>This Building currently has no floors</h4>
@@ -95,6 +66,8 @@ import { mapState } from 'vuex'
 import SideNav from '@/components/shared/SideNav.vue'
 import FullWidthModal from '@/components/shared/FullWidthModal.vue'
 import AddEditFloor from '@/components/AddEditFloor'
+import RibbonHeader from '@/components/shared/RibbonHeader'
+import ListGroup from '@/components/shared/ListGroup'
 
 export default {
   computed: {
@@ -107,6 +80,8 @@ export default {
     SideNav,
     FullWidthModal,
     AddEditFloor,
+    RibbonHeader,
+    ListGroup
   },
 
   data() {

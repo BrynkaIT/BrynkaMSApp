@@ -34,10 +34,12 @@ export const actions = {
 
 		return this.$axios.$get(`${URL}${query}`)
 			.then(res => {
+        debugger
 				commit('setLocations', res.locations )
 				return Promise.resolve(res)
 			})
 			.catch(e => {
+        debugger
         Promise.reject(e.response)
       });
 	},
@@ -48,8 +50,9 @@ export const actions = {
     }else{
       URL = `/manage/customer/${payload.customerId}/locations`
     }
+    const query = payload.query || ''
 
-		return this.$axios.$get(`${URL}/${payload.locationId}`)
+		return this.$axios.$get(`${URL}/${payload.locationId}${query}`)
 			.then(res => {
 
 				return Promise.resolve(res)

@@ -309,9 +309,7 @@ export default {
   },
   methods:{
     async getCustomerParentName(ids) {
-         if(ids[0] == null) {
-        this.$brynkaToast("This customer is not assigned to a parent customer", "warning")
-        }
+         if(ids[0] == null) return
         ids.forEach(async (id) => {
           let { customers } = await this.$axios.$get(`/manage/customers?id=${id}`)
           if(customers.length > 0){

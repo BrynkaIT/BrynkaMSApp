@@ -4,57 +4,51 @@
 
     <div class="content-right">
       <b-card>
-
         <RibbonHeader
           :avatar="this.baseUrl+user.imageUrl"
           :name="user.fullName"
+          :isInactive="user.isInactive"
         ></RibbonHeader>
-        <!-- <pre>{{user}}</pre> -->
+
         <div class="mt-2" >
           <b-tabs small>
             <div class="pr-3 pl-3">
                 <b-row align-h="between" class="mt-4 mb-2">
                 <b-col cols="4">
-
                 </b-col>
                 <b-col cols="4" class="text-right">
                   <b-button size="sm"
-                variant="primary"
-                @click="$store.commit('switchForm',{ title:'Add User', to:'AddEditUser',})">New User</b-button>
+                  variant="primary"
+                  @click="$store.commit('switchForm',{ title:'Add User', to:'AddEditUser',})">New User</b-button>
                 </b-col>
               </b-row>
               </div>
 
-            <b-tab title="Personal Info">
+            <b-tab title="Personal Info" v-if="securityRole.canViewUsers">
               <PersonalInfo
                :user="user"
               @refresh="fetchUser"
+
               ></PersonalInfo>
             </b-tab>
-             <b-tab title="Location">
+             <b-tab title="Location" v-if="securityRole.canViewLocations">
               <LocationInfo
                 :user="user"
                 @refresh="fetchUser"
               ></LocationInfo>
             </b-tab>
-            <b-tab title="Security">
-               <div >
-               User Security Info
-              </div>
+            <b-tab title="Security" v-if="securityRole.canModifySecurityRoles">
+              <SecurityInfo :user="user" @refresh="fetchUser"> </SecurityInfo>
             </b-tab>
-            <b-tab title="Preferences">
-               <div >
-               User Preferences
-              </div>
-            </b-tab>
+
           </b-tabs>
         </div>
       </b-card>
 
       <FullWidthModal :show="this.formToOpen.showModal">
-      <transition name="fade">
+        <transition name="fade">
           <component :is="this.formToOpen.to" @refresh="fetchUser"/>
-          </transition>
+        </transition>
     </FullWidthModal>
     </div>
   </div>
@@ -68,7 +62,7 @@ import AddEditUser from '@/components/users/adduser/AddUserWizard'
 import RibbonHeader from '@/components/shared/RibbonHeader'
 import PersonalInfo from '@/components/users/edituser/PersonalInfo'
 import LocationInfo from '@/components/users/edituser/LocationInfo'
-
+import SecurityInfo from '@/components/users/edituser/SecurityInfo'
 
 export default {
   computed: {
@@ -86,29 +80,33 @@ export default {
     AddEditUser,
     RibbonHeader,
     PersonalInfo,
-    LocationInfo
-
+    LocationInfo,
+    SecurityInfo
   },
 
   data() {
     return {
       tabIndex: 0,
       user: '',
+      loading: true,
+      securityRole:''
     }
   },
   async created() {
     this.fetchUser(this.$route.params.uid);
+  },
+  mounted(){
+      const currentUser = JSON.parse(localStorage.getItem('managerApp_currentUser'))
+      this.securityRole = currentUser.securityRole
   },
   methods: {
    async fetchUser(id) {
       try {
 
       const {user } = await this.$store.dispatch('users/getUser', id)
-
       this.user = user
-
+      this.loading = false;
       } catch (error) {
-
          this.$brynkaToast(error, 'danger')
       }
     }
@@ -117,15 +115,7 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Assistant&display=swap');
 
-.top-panel {
-  width: 100%;
-  padding-left: 25px;
-  background: #495057 !important;
-  /* border-bottom: 1px solid #ccc !important; */
-  color: #fff;
-}
 .side-panel {
   width: 200px !important;
   padding: 15px !important;

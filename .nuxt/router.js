@@ -11,7 +11,8 @@ const _f76dc466 = () => interopDefault(import('../pages/preferences.vue' /* webp
 const _5c64e9ed = () => interopDefault(import('../pages/system/index.vue' /* webpackChunkName: "pages/system/index" */))
 const _10273976 = () => interopDefault(import('../pages/internal/inventory.vue' /* webpackChunkName: "pages/internal/inventory" */))
 const _65146f2f = () => interopDefault(import('../pages/internal/rma.vue' /* webpackChunkName: "pages/internal/rma" */))
-const _24f8fff8 = () => interopDefault(import('../pages/system/securityRoles.vue' /* webpackChunkName: "pages/system/securityRoles" */))
+const _68f02ed3 = () => interopDefault(import('../pages/system/preferences.vue' /* webpackChunkName: "pages/system/preferences" */))
+const _0ff3d0a2 = () => interopDefault(import('../pages/system/releaseNotes.vue' /* webpackChunkName: "pages/system/releaseNotes" */))
 const _9b6e0950 = () => interopDefault(import('../pages/customers/_id/index.vue' /* webpackChunkName: "pages/customers/_id/index" */))
 const _163cd678 = () => interopDefault(import('../pages/customers/_id/buildings/_bid.vue' /* webpackChunkName: "pages/customers/_id/buildings/_bid" */))
 const _02e926c3 = () => interopDefault(import('../pages/customers/_id/locations/_lid.vue' /* webpackChunkName: "pages/customers/_id/locations/_lid" */))
@@ -67,9 +68,13 @@ export const routerOptions = {
     component: _65146f2f,
     name: "internal-rma"
   }, {
-    path: "/system/securityRoles",
-    component: _24f8fff8,
-    name: "system-securityRoles"
+    path: "/system/preferences",
+    component: _68f02ed3,
+    name: "system-preferences"
+  }, {
+    path: "/system/releaseNotes",
+    component: _0ff3d0a2,
+    name: "system-releaseNotes"
   }, {
     path: "/customers/:id",
     component: _9b6e0950,

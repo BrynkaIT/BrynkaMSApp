@@ -51,11 +51,11 @@ export const actions = {
       commit('setAuth', auth.data) // mutating to store for client rendering
       Cookie.set('managerApp_auth', auth.data) // saving token in cookie for server rendering
 
-      const currentuser = await this.$axios.get(`/users/${auth.data.userId}`) // get current user
+      const currentuser = await this.$axios.get(`/users/${auth.data.userId}?deep=true`) // get current user
       if (!currentuser) { return Promise.reject(e) }
 
       commit('setCurrentUser', currentuser.data.user) // mutating to store for client rendering
-      Cookie.set('managerApp_currentUser', currentuser.data.user) // saving token in cookie for server rendering
+      // Cookie.set('managerApp_currentUser', currentuser.data.user) // saving token in cookie for server rendering
       localStorage.setItem('managerApp_currentUser', JSON.stringify(currentuser.data.user));
 
       // await this.$store.dispatch('getVersion') // Fetch version
@@ -68,7 +68,7 @@ export const actions = {
   logOut({ commit }) {
     if(Cookie){
       Cookie.remove('managerApp_auth')
-      Cookie.remove('managerApp_currentUser')
+      // Cookie.remove('managerApp_currentUser')
     }
 
     commit('auth/setAuth', null, { root: true })

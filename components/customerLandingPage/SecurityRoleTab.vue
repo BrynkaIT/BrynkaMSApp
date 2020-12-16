@@ -81,7 +81,14 @@
           :sort-direction="sortDirection"
            @filtered="onFiltered"
         >
-
+           <!-- A custom formatted column -->
+            <template #cell(name)="data">
+              <b>{{ data.value }} </b>
+              <b-badge v-if="data.item.isDefault" pill variant="primary"
+                >Default</b-badge
+              >
+            </template>
+            
           <template v-slot:cell(actions)="row">
              <div class="text-center">
               <ActionButtons

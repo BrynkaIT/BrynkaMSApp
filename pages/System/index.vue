@@ -1,119 +1,48 @@
 <template>
   <div class="content-container">
-    <SideNav page="system" app="system"></SideNav>
+     <SideNav page="customers" app="customers"></SideNav>
     <div class="content-right">
-      <b-card title="Theme" class="overflow-scroll">
-        <b-list-group>
-          <b-list-group-item
-            class="d-flex justify-content-between align-items-center"
-          >
-            <b-avatar class="mr-3" icon="people-fill"></b-avatar>
-            <span class="mr-auto">J. Circlehead</span>
-            <b-form-checkbox :v-model="true" name="check-button" switch>
-            </b-form-checkbox>
-          </b-list-group-item>
 
-          <b-list-group-item
-            class="d-flex justify-content-between align-items-center"
-          >
-            <b-avatar class="mr-3" icon="star-fill"></b-avatar>
-            <span class="mr-auto">J. Circlehead</span>
-            <b-form-checkbox :v-model="true" name="check-button" switch>
-            </b-form-checkbox>
-          </b-list-group-item>
+      <b-card  class="overflow-scroll">
+        <b-container>
+          <b-card-title class="mb-4">
+            <span style="font-size: 2.5rem;">
+               <img src="../../assets/images/bryka_b.png" width="32px" alt />
+            </span><span class="pl-1  align-text-top">System</span>
+          </b-card-title>
+           <div class="row mt-2">
 
-          <b-list-group-item
-            class="d-flex justify-content-between align-items-center"
-          >
-            <b-avatar class="mr-3" icon="music-note"></b-avatar>
-            <span class="mr-auto">J. Circlehead</span>
-            <b-form-checkbox :v-model="true" name="check-button" switch>
-            </b-form-checkbox>
-          </b-list-group-item>
-        </b-list-group>
+          <div class="col-md-4 p-4">
+            <nuxt-link to="system/releaseNotes"><h5 class="text-primary">Release Notes</h5></nuxt-link>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur aliquid quaerat.</p>
+          </div>
+          <div class="col-md-4 p-4">
+           <nuxt-link to="system/"><h5 class="text-primary">Inventory</h5></nuxt-link>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur aliquid quaerat.</p>
+          </div>
+          <div class="col-md-4 p-4">
+            <nuxt-link to="system/"><h5 class="text-primary">Blah</h5></nuxt-link>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur aliquid quaerat.</p>
+          </div>
+        </div>
+
+        <div class="row mt-2 ">
+          <div class="col-md-4 p-4">
+            <nuxt-link to="system/"><h5 class="text-primary">Blah</h5></nuxt-link>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur aliquid quaerat.</p>
+          </div>
+          <div class="col-md-4 p-4">
+            <nuxt-link to="system/"><h5 class="text-primary">Blah</h5></nuxt-link>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur aliquid quaerat.</p>
+          </div>
+          <div class="col-md-4 p-4">
+            <nuxt-link to="system/"><h5 class="text-primary">Blah</h5></nuxt-link>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur aliquid quaerat.</p>
+          </div>
+        </div>
+        </b-container>
       </b-card>
-      <b-card title="Notifications" class="overflow-scroll">
-        <b-list-group>
-          <b-list-group-item
-            class="d-flex justify-content-between align-items-center"
-          >
-            <b-avatar class="mr-3" icon="people-fill"></b-avatar>
-            <span class="mr-auto">J. Circlehead</span>
-            <b-form-checkbox :v-model="true" name="check-button" switch>
-            </b-form-checkbox>
-          </b-list-group-item>
 
-          <b-list-group-item
-            class="d-flex justify-content-between align-items-center"
-          >
-            <b-avatar class="mr-3" icon="star-fill"></b-avatar>
-            <span class="mr-auto">J. Circlehead</span>
-            <b-form-checkbox :v-model="true" name="check-button" switch>
-            </b-form-checkbox>
-          </b-list-group-item>
-
-          <b-list-group-item
-            class="d-flex justify-content-between align-items-center"
-          >
-            <b-avatar class="mr-3" icon="music-note"></b-avatar>
-            <span class="mr-auto">J. Circlehead</span>
-            <b-form-checkbox :v-model="true" name="check-button" switch>
-            </b-form-checkbox>
-          </b-list-group-item>
-        </b-list-group>
-      </b-card>
-      <b-card>
-        <b-list-group>
-          <b-list-group-item
-            href="#"
-            class="flex-column align-items-start"
-          >
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">List group item heading</h5>
-              <small>3 days ago</small>
-            </div>
-
-            <p class="mb-1">
-              Donec id elit non mi porta gravida at eget metus. Maecenas sed
-              diam eget risus varius blandit.
-            </p>
-
-            <small>Donec id elit non mi porta.</small>
-          </b-list-group-item>
-
-          <b-list-group-item href="#" class="flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">List group item heading</h5>
-              <small class="text-muted">3 days ago</small>
-            </div>
-
-            <p class="mb-1">
-              Donec id elit non mi porta gravida at eget metus. Maecenas sed
-              diam eget risus varius blandit.
-            </p>
-
-            <small class="text-muted">Donec id elit non mi porta.</small>
-          </b-list-group-item>
-
-          <b-list-group-item
-            href="#"
-            disabled
-            class="flex-column align-items-start"
-          >
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">Disabled List group item</h5>
-              <small class="text-muted">3 days ago</small>
-            </div>
-
-            <p class="mb-1">
-              Donec id elit non mi porta gravida at eget metus. Maecenas sed
-              diam eget risus varius blandit.
-            </p>
-
-            <small class="text-muted">Donec id elit non mi porta.</small>
-          </b-list-group-item>
-        </b-list-group>
-      </b-card>
     </div>
   </div>
 </template>
@@ -121,31 +50,25 @@
 <script>
 import SideNav from '@/components/shared/SideNav.vue'
 export default {
-  //  transition: "tile",
+
   middleware: ['authenticated'],
+  // transition: "tile",
   components: {
-    SideNav
+    SideNav,
   },
   data() {
-    return {}
+    return {
+
+    }
   },
 
-  methods: {}
+  methods: {
+
+  }
 }
 </script>
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;1,400;1,500&display=swap');
 .card {
   margin: 15px;
-}
-.card-title {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  font-size: 1.2rem;
-}
-.list-group {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 100;
-  font-size: 1rem;
 }
 </style>

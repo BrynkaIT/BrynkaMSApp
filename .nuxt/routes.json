@@ -56,11 +56,18 @@
     "_name": "_65146f2f"
   },
   {
-    "name": "system-securityRoles",
-    "path": "/system/securityRoles",
-    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/system/securityRoles.vue",
-    "chunkName": "pages/system/securityRoles",
-    "_name": "_24f8fff8"
+    "name": "system-preferences",
+    "path": "/system/preferences",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/system/preferences.vue",
+    "chunkName": "pages/system/preferences",
+    "_name": "_68f02ed3"
+  },
+  {
+    "name": "system-releaseNotes",
+    "path": "/system/releaseNotes",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/system/releaseNotes.vue",
+    "chunkName": "pages/system/releaseNotes",
+    "_name": "_0ff3d0a2"
   },
   {
     "name": "customers-id",

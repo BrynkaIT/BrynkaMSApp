@@ -95,12 +95,10 @@
               <b-badge  v-show="row.item.isPendingApproval && row.item.isInactive" variant="warning" pill>Pending</b-badge>
               <b-badge  v-show="!row.item.isPendingApproval && row.item.isInactive" variant="danger" pill>Inactive </b-badge>
               <ActionButtons
-                :infoLink="`./${row.item._id}/users/${row.item._id}`"
-                editModalTitle="Edit User"
-                editModalToOpen="AddEditUser"
-                :editModalData="row.item"
+                :infoLink="`./${$route.params.id}/users/${row.item._id}`"
                 :id="row.item._id"
-                :showDeleteBtn="true"
+                :canEdit="true"
+                :canDelete="true"
                 @onDelete="onDelete"
               ></ActionButtons>
                </div>
