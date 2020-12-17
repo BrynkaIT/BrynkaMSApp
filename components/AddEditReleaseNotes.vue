@@ -15,6 +15,7 @@
             type="text"
             v-model="form.application"
             :options="applications"
+            :class="{ 'validation-error': $v.form.application.$error }"
           ></b-form-select>
         </b-form-group>
 
@@ -45,6 +46,7 @@
                 v-model="form.releaseDate"
                 class="mb-2"
                 size="sm"
+                :class="{ 'validation-error': $v.form.releaseDate.$error }"
               >
               </b-form-datepicker>
             </b-form-group>
@@ -59,6 +61,7 @@
                 v-model="form.primaryVersion"
                 type="text"
                 placeholder="Primary Version"
+                :class="{ 'validation-error': $v.form.primaryVersion.$error }"
               ></b-form-input>
             </b-form-group>
           </b-col>
@@ -69,6 +72,7 @@
                 v-model="form.subVersion"
                 type="text"
                 placeholder="Subversion"
+                :class="{ 'validation-error': $v.form.subVersion.$error }"
               ></b-form-input>
             </b-form-group>
           </b-col>
@@ -79,6 +83,7 @@
                 v-model="form.buildNumber"
                 type="text"
                 placeholder="Build Number"
+                :class="{ 'validation-error': $v.form.buildNumber.$error }"
               ></b-form-input>
             </b-form-group>
           </b-col>
@@ -101,7 +106,10 @@
                   block
                   v-b-toggle="[`accordion-${index}`]"
                   variant="light"
-                  >Note {{ index + 1 }}</b-button
+                  >
+                  <span v-if="form.releaseNotes[index].title == ''">Note {{ index + 1 }}</span>
+                  <span v-else>{{ form.releaseNotes[index].title }}</span>
+                  </b-button
                 >
               </b-card-header>
               <b-collapse
@@ -124,17 +132,17 @@
                     </b-col>
                     <b-col sm>
                       <b-form-group>
-                        <b-form-input
+                        <b-form-select
                           size="sm"
                           v-model="form.releaseNotes[index].module"
-                          type="text"
+                          :options="modules"
                           placeholder="Module"
-                        ></b-form-input>
+                        ></b-form-select>
                       </b-form-group>
                     </b-col>
                   </b-row>
                   <b-row v-for="(note, x) in releaseNote.notes" :key="x">
-                    <div class="col-md-7">
+                    <div class="col-md-8">
                       <b-form-group>
                         <b-form-input
                           placeholder="Details..."
@@ -152,7 +160,7 @@
                         ></b-form-input>
                       </b-form-group>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
 
                       <b-button-toolbar size="sm" v-if=" x == releaseNote.notes.length-1">
                         <b-button-group class="mr-1" size="sm">
@@ -190,7 +198,7 @@
           <div>
             <a
               href="#"
-              @click="form.releaseNotes.push({ title: '', module: '', notes: [{text: '', mediaUrl:''}] })"
+              @click="form.releaseNotes.push({ title: '', module: null, notes: [{text: '', mediaUrl:''}] })"
               variant="transparent"
               class="font-italic text-primary"
               size="sm"
@@ -201,7 +209,7 @@
       </b-form>
       <template #footer>
         <b-row class="float-right mt-2">
-          <b-button type="reset" class="mr-1" size="sm">Reset</b-button>
+          <b-button  class="mr-1" @click="onReset" size="sm">Reset</b-button>
 
           <b-button type="submit" variant="light" @click="onSubmit" size="sm">Submit</b-button>
         </b-row>
@@ -212,7 +220,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { email, required } from 'vuelidate/lib/validators'
+import { required } from 'vuelidate/lib/validators'
 
 export default {
   computed: {
@@ -223,7 +231,6 @@ export default {
   data() {
     return {
       form: {
-        id: '',
         application: null,
         build: '',
         buildNumber: '',
@@ -238,14 +245,35 @@ export default {
         { value: 'api', text: 'Brynka API' },
         { value: 'webApp', text: 'Brynka Web App' },
         { value: 'managerApp', text: 'Brynka Manager' }
-      ]
+      ],
+      modules: [
+        { value: null, text: 'Module' },
+        { value: 'All', text: 'All' },
+        { value: 'Receiving', text:'Receiving'},
+        { value: 'Shipping', text:'Shipping'},
+        { value: 'Outbound', text:'Outbound'},
+        { value: 'Forwarding', text:'Forwarding'},
+        { value: 'Inventory', text:'Inventory'}
+        ]
     }
   },
   validations: {
-    releaseNote: {
-      name: {
+    form: {
+      application: {
         required
-      }
+      },
+       primaryVersion: {
+        required
+      },
+       subVersion: {
+        required
+      },
+       releaseDate: {
+        required
+      },
+       buildNumber: {
+        required
+      },
     }
   },
   created() {},
@@ -253,20 +281,42 @@ export default {
   methods: {
     async onSubmit(e) {
       e.preventDefault()
-      // this.$v.releaseNote.name.$touch()
-      // if (!this.$v.releaseNote.name.$invalid) {
-      // } else {
-      //   this.$brynkaToast('Please fill in required field(s)', 'danger')
-      // }
-      console.log(this.form)
-      console.log(this.$refs)
+      this.$v.form.$touch()
+      if (!this.$v.form.$invalid) {
+        debugger
+        try {
+          const res = await this.$store.dispatch('releaseNotes/postReleaseNote', this.form)
+          // const res = await this.$axios.$post('/manage/brynka/versions', this.form)
+          debugger
+          this.$emit('refresh')
+          this.$brynkaToast(res.message, 'success')
+          this.onReset()
+          this.$store.commit('closeModal')
+
+        } catch (error) {
+          debugger
+          this.$brynkaToast(error, 'danger')
+        }
+      } else {
+        this.$brynkaToast('Please fill in required field(s)', 'danger')
+      }
+
 
     },
     async onUpdate(releaseNote) {},
     onReset(evt) {
+       this.form.application= null,
+        this.form.build= '',
+        this.form.buildNumber= '',
+        this.form.primaryVersion= '',
+        this.form.subVersion= '',
+        this.form.releaseDate= '',
+        this.form.version= '',
+        this.form.releaseNotes= []
+
       this.$nextTick(() => {
         this.show = true
-        this.$v.releaseNote.$reset()
+        this.$v.form.$reset()
       })
     },
     addANote() {

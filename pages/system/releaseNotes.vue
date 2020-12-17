@@ -26,8 +26,11 @@
                   >
                     <b-card-text>
                       <div class="release-header">
+                        <b-button class="float-right" variant="light" @click="showEditBtns = !showEditBtns"><b-icon   icon="pencil" ></b-icon></b-button>
+
                         <h2 class="mt-4">v {{ version.build }}
-                          <b-button variant="outline-secondary" pill size="sm">Edit</b-button>
+                          <b-button variant="outline-secondary" @click="edit(version, index, $event.target)" pill size="sm" v-show="showEditBtns">Edit</b-button>
+                          <b-button variant="outline-danger" pill size="sm" v-show="showEditBtns">Delete</b-button>
                         </h2>
                         <ul>
                           <li>
@@ -42,6 +45,8 @@
                         >
                           <h6 class="mt-4">
                             <strong>{{ releaseNote.title }}</strong>
+                            <b-button variant="outline-secondary" @click="edit(releaseNote, index, $event.target)" pill size="sm" v-show="showEditBtns">Edit</b-button>
+                              <b-button variant="outline-danger" pill size="sm" v-show="showEditBtns">Delete</b-button>
                           </h6>
                           <ul>
                             <li
@@ -71,8 +76,11 @@
                   >
                     <b-card-text>
                       <div class="release-header">
+                         <b-button class="float-right" variant="light" @click="showEditBtns = !showEditBtns"><b-icon   icon="pencil" ></b-icon></b-button>
+
                         <h2 class="mt-4">v {{ version.build }}
-                          <b-button variant="outline-secondary" pill size="sm">Edit</b-button>
+                         <b-button variant="outline-secondary" @click="edit(version, index, $event.target)" pill size="sm" v-show="showEditBtns">Edit</b-button>
+                              <b-button variant="outline-danger" pill size="sm" v-show="showEditBtns">Delete</b-button>
                         </h2>
                         <ul>
                           <li>
@@ -87,6 +95,8 @@
                         >
                           <h6 class="mt-4">
                             <strong>{{ releaseNote.title }}</strong>
+                            <b-button variant="outline-secondary"  @click="edit(releaseNote, index, $event.target)" pill size="sm" v-show="showEditBtns">Edit</b-button>
+                              <b-button variant="outline-danger" pill size="sm" v-show="showEditBtns">Delete</b-button>
                           </h6>
                           <ul>
                             <li
@@ -116,8 +126,11 @@
                   >
                     <b-card-text>
                       <div class="release-header">
+                        <b-button class="float-right" variant="light" @click="showEditBtns = !showEditBtns"><b-icon   icon="pencil" ></b-icon></b-button>
                         <h2 class="mt-4">v {{ version.build }}
-                          <b-button variant="outline-secondary" pill size="sm">Edit</b-button>
+
+                           <b-button variant="outline-secondary" @click="edit(version, index, $event.target)" pill size="sm" v-show="showEditBtns">Edit</b-button>
+                              <b-button variant="outline-danger" pill size="sm" v-show="showEditBtns">Delete</b-button>
                         </h2>
                         <ul>
                           <li>
@@ -132,6 +145,8 @@
                         >
                           <h6 class="mt-4">
                             <strong>{{ releaseNote.title }}</strong>
+                             <b-button variant="outline-secondary"  @click="edit(releaseNote, index, $event.target)" pill size="sm" v-show="showEditBtns">Edit</b-button>
+                              <b-button variant="outline-danger" pill size="sm" v-show="showEditBtns">Delete</b-button>
                           </h6>
                           <ul>
                             <li
@@ -153,8 +168,11 @@
         </div>
       </b-card>
        <FullWidthModal :show="this.formToOpen.showModal">
-        <ReleaseNotes @refresh="fetchVersion"/>
+        <ReleaseNotes @refresh="fetchAllVersions"/>
     </FullWidthModal>
+    <b-modal :id="infoModal.id" :title="infoModal.title" ok-only @hide="resetInfoModal">
+      <pre>{{ infoModal.content }}</pre>
+    </b-modal>
     </div>
   </div>
 </template>
@@ -183,16 +201,25 @@ export default {
     return {
       webAppVersions: '',
       managerAppVersions: '',
-      apiVersions:''
+      apiVersions:'',
+      showEditBtns: false,
+      infoModal: {
+          id: 'info-modal',
+          title: '',
+          content: ''
+        }
     }
   },
   async mounted() {
-    this.webAppVersions = await this.fetchVersion('webApp')
-    this.managerAppVersions = await this.fetchVersion('managerApp')
-    this.apiVersions = await this.fetchVersion('api')
+    this.fetchAllVersions()
   },
 
   methods: {
+    async fetchAllVersions(){
+      this.webAppVersions = await this.fetchVersion('webApp')
+      this.managerAppVersions = await this.fetchVersion('managerApp')
+      this.apiVersions = await this.fetchVersion('api')
+    },
     async fetchVersion(app) {
       try {
         const { versions } = await this.$axios.$get(`/versions?app=${app}` )
@@ -200,7 +227,12 @@ export default {
       } catch (error) {
         this.$brynkaToast(error.response, 'danger')
       }
-    }
+    },
+     edit(item, index, button) {
+        this.infoModal.title = `Row index: ${index}`
+        this.infoModal.content = JSON.stringify(item, null, 2)
+        this.$root.$emit('bv::show::modal', this.infoModal.id, button)
+      },
   }
 }
 </script>
