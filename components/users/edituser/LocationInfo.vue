@@ -159,7 +159,7 @@ export default {
         this.canEdit = currentUser.securityRole.canModifyUsers
       }
       await this.loadSelectFieldOptions()
-      // await this.getLocationInfo()
+      await this.getLocationInfo()
       }, 900)
 
   },
@@ -175,7 +175,7 @@ export default {
 methods:{
 
   async getLocationInfo(){
-
+    debugger
       if(this.user.location){
       this.locationInfo.locationId = this.user.location._id
       this.staticFields.location = this.user.location.name

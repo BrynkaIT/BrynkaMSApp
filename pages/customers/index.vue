@@ -22,8 +22,10 @@
 
              <div class="col-md-5 col-sm-12">
                <b-input-group
+               size="sm"
                class="mb-3">
               <b-form-input
+                size="sm"
                 v-model="searchQuery"
                 type="search"
                 id="filterInput"
@@ -39,6 +41,7 @@
 
              <div class="col-md-5 col-sm-12">
               <b-form-group
+              size="sm"
               label="Display"
               label-cols-sm="2"
               label-cols-md="4"
@@ -47,6 +50,7 @@
 
             >
               <b-form-select
+              size="sm"
               v-model="pageSize"
                 @input="perPage($event)"
                 id="perPageSelect"
@@ -58,6 +62,7 @@
              <div class="col-md-2 col-sm-12">
                 <b-button
               v-if="isBrynka"
+              size="sm"
               class="mb-3 new-btn"
               variant="primary"
               @click="$store.commit('switchForm', { title: 'Add Customer' })">New <span class="">Customer</span></b-button>
@@ -245,8 +250,17 @@ export default {
 .logo-width{
   width:20%;
 }
+.list-group-item {
+    padding: 0.5rem 1rem !important;
+}
+h5{
+  font-weight: 300;
+  font-size: 16px;
+}
 .middle {
   text-align: center;
+  font-size: 14px;
+  font-weight: 300;
 }
 .right {
   text-align: right;

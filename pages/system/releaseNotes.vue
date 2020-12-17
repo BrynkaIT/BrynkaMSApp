@@ -2,100 +2,201 @@
   <div class="content-container">
     <SideNav page="Realease Notes" app="Realease Notes"></SideNav>
     <div class="content-right">
-      <div class="accordion" role="tablist">
-    <b-card no-body class="mb-1">
-      <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-button block v-b-toggle.accordion-1 variant="warning">Brynka Web App</b-button>
-      </b-card-header>
-      <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
-        <b-card >
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <h1 class="h3 mb-0 text-gray-800">Release Notes</h1>
-          
-        </div>
-        <b-card no-body>
-          <b-tabs pills card vertical>
-          <b-tab class="tabs" v-for="(version, index)  in versions" :title="version.build"  :key="version._id" :class=" 'active' ? index == 0 : ''">
-            <b-card-text>
-              <div class="release-header">
-                  <h1 class="mt-4">v {{version.build}} </h1>
-                  <ul>
-                    <li>
-                      Released: {{$moment(version.releaseDate).format('LLLL')}}
-                    </li>
+      <b-card>
+        <RibbonHeader
+          icon="list-nested"
+          name="Version Release Notes"
+        ></RibbonHeader>
+        <div class="mt-4">
+          <b-tabs content-class="mt-3" justified>
+            <div class="m-3 text-right">
+              <b-button pill variant="dark"
+              @click="$store.commit('switchForm',{ title:'Add Release Note', to:'ReleaseNotes',})"
+              >New</b-button></div>
 
-                  </ul>
-                  <div class="note" v-for="(releaseNote, index) in version.releaseNotes" :key="index">
-                    <h5 class="mt-4"><strong>{{releaseNote.title}}</strong></h5>
-                  <ul>
-                    <li v-for="note in releaseNote.notes" :key="note._id">{{note.text}}</li>
-
-                  </ul>
-                  </div>
-
-              </div>
-            </b-card-text>
-          </b-tab>
+            <b-tab title="Manager App" active>
+              <b-card no-body>
+                <b-tabs pills card vertical>
+                  <b-tab
+                    class="tabs"
+                    v-for="(version, index) in managerAppVersions"
+                    :title="version.build"
+                    :key="version._id"
+                    :class="'active' ? index == 0 : ''"
+                  >
+                    <b-card-text>
+                      <div class="release-header">
+                        <h2 class="mt-4">v {{ version.build }}
+                          <b-button variant="outline-secondary" pill size="sm">Edit</b-button>
+                        </h2>
+                        <ul>
+                          <li>
+                            Released:
+                            {{ $moment(version.releaseDate).format('LLLL') }}
+                          </li>
+                        </ul>
+                        <div
+                          class="note"
+                          v-for="(releaseNote, index) in version.releaseNotes"
+                          :key="index"
+                        >
+                          <h6 class="mt-4">
+                            <strong>{{ releaseNote.title }}</strong>
+                          </h6>
+                          <ul>
+                            <li
+                              v-for="note in releaseNote.notes"
+                              :key="note._id"
+                               class="note-text"
+                            >
+                              {{ note.text }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </b-card-text>
+                  </b-tab>
+                </b-tabs>
+              </b-card>
+            </b-tab>
+            <b-tab title="Web App">
+              <b-card no-body>
+                <b-tabs pills card vertical>
+                  <b-tab
+                    class="tabs"
+                    v-for="(version, index) in webAppVersions"
+                    :title="version.build"
+                    :key="version._id"
+                    :class="'active' ? index == 0 : ''"
+                  >
+                    <b-card-text>
+                      <div class="release-header">
+                        <h2 class="mt-4">v {{ version.build }}
+                          <b-button variant="outline-secondary" pill size="sm">Edit</b-button>
+                        </h2>
+                        <ul>
+                          <li>
+                            Released:
+                            {{ $moment(version.releaseDate).format('LLLL') }}
+                          </li>
+                        </ul>
+                        <div
+                          class="note"
+                          v-for="(releaseNote, index) in version.releaseNotes"
+                          :key="index"
+                        >
+                          <h6 class="mt-4">
+                            <strong>{{ releaseNote.title }}</strong>
+                          </h6>
+                          <ul>
+                            <li
+                              v-for="note in releaseNote.notes"
+                              :key="note._id"
+                              class="note-text"
+                            >
+                              {{ note.text }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </b-card-text>
+                  </b-tab>
+                </b-tabs>
+              </b-card>
+            </b-tab>
+            <b-tab title="API">
+              <b-card no-body>
+                <b-tabs pills card vertical>
+                  <b-tab
+                    class="tabs"
+                    v-for="(version, index) in apiVersions"
+                    :title="version.build"
+                    :key="version._id"
+                    :class="'active' ? index == 0 : ''"
+                  >
+                    <b-card-text>
+                      <div class="release-header">
+                        <h2 class="mt-4">v {{ version.build }}
+                          <b-button variant="outline-secondary" pill size="sm">Edit</b-button>
+                        </h2>
+                        <ul>
+                          <li>
+                            Released:
+                            {{ $moment(version.releaseDate).format('LLLL') }}
+                          </li>
+                        </ul>
+                        <div
+                          class="note"
+                          v-for="(releaseNote, index) in version.releaseNotes"
+                          :key="index"
+                        >
+                          <h6 class="mt-4">
+                            <strong>{{ releaseNote.title }}</strong>
+                          </h6>
+                          <ul>
+                            <li
+                              v-for="note in releaseNote.notes"
+                              :key="note._id"
+                               class="note-text"
+                            >
+                              {{ note.text }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </b-card-text>
+                  </b-tab>
+                </b-tabs>
+              </b-card>
+            </b-tab>
           </b-tabs>
-        </b-card>
+        </div>
       </b-card>
-      </b-collapse>
-    </b-card>
-
-    <b-card no-body class="mb-1">
-      <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-button block v-b-toggle.accordion-2 variant="warning">Brynka API</b-button>
-      </b-card-header>
-      <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
-        <b-card-body>
-          <!-- <b-card-text>{{ text }}</b-card-text> -->
-        </b-card-body>
-      </b-collapse>
-    </b-card>
-
-    <b-card no-body class="mb-1">
-      <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-button block v-b-toggle.accordion-3 variant="warning">Brynka Manager</b-button>
-      </b-card-header>
-      <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
-        <b-card-body>
-          <!-- <b-card-text>{{ text }}</b-card-text> -->
-        </b-card-body>
-      </b-collapse>
-    </b-card>
-
-
-
-
-      <br />
+       <FullWidthModal :show="this.formToOpen.showModal">
+        <ReleaseNotes @refresh="fetchVersion"/>
+    </FullWidthModal>
     </div>
-  </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import SideNav from '@/components/shared/SideNav.vue'
+import RibbonHeader from '@/components/shared/RibbonHeader'
+import FullWidthModal from '@/components/shared/FullWidthModal.vue'
+import ReleaseNotes from '@/components/AddEditReleaseNotes'
 
 export default {
   middleware: ['authenticated'],
-
+   computed: {
+    ...mapState({
+      formToOpen: state => state.formToOpen,
+    })
+  },
   components: {
-    SideNav
+    SideNav,
+    RibbonHeader,
+    FullWidthModal,
+    ReleaseNotes
   },
   data() {
     return {
-      versions:''
+      webAppVersions: '',
+      managerAppVersions: '',
+      apiVersions:''
     }
   },
-  mounted(){
-    this.fetchVersion()
+  async mounted() {
+    this.webAppVersions = await this.fetchVersion('webApp')
+    this.managerAppVersions = await this.fetchVersion('managerApp')
+    this.apiVersions = await this.fetchVersion('api')
   },
 
   methods: {
-    async fetchVersion(){
+    async fetchVersion(app) {
       try {
-        const { versions } = await this.$axios.$get(`/versions?app=webApp&build=^${process.env.version}`)
-        this.versions = versions.reverse();
+        const { versions } = await this.$axios.$get(`/versions?app=${app}` )
+        return versions.reverse()
       } catch (error) {
         this.$brynkaToast(error.response, 'danger')
       }
@@ -105,7 +206,11 @@ export default {
 </script>
 
 <style scoped>
-.tabs{
+.tabs {
   padding-top: 0px;
+}
+.note-text{
+  font-weight: 200;
+    font-size: 14px;
 }
 </style>

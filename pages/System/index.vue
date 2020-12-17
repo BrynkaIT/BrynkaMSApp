@@ -17,26 +17,26 @@
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur aliquid quaerat.</p>
           </div>
           <div class="col-md-4 p-4">
-           <nuxt-link to="system/"><h5 class="text-primary">Inventory</h5></nuxt-link>
+           <nuxt-link to="system/"><h5 class="text-primary">Themes</h5></nuxt-link>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur aliquid quaerat.</p>
           </div>
           <div class="col-md-4 p-4">
-            <nuxt-link to="system/"><h5 class="text-primary">Blah</h5></nuxt-link>
+            <nuxt-link to="system/"><h5 class="text-primary">Maintaince</h5></nuxt-link>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur aliquid quaerat.</p>
           </div>
         </div>
 
         <div class="row mt-2 ">
           <div class="col-md-4 p-4">
-            <nuxt-link to="system/"><h5 class="text-primary">Blah</h5></nuxt-link>
+            <nuxt-link to="system/"><h5 class="text-primary">Reports</h5></nuxt-link>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur aliquid quaerat.</p>
           </div>
           <div class="col-md-4 p-4">
-            <nuxt-link to="system/"><h5 class="text-primary">Blah</h5></nuxt-link>
+            <nuxt-link to="system/"><h5 class="text-primary">Performance</h5></nuxt-link>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur aliquid quaerat.</p>
           </div>
           <div class="col-md-4 p-4">
-            <nuxt-link to="system/"><h5 class="text-primary">Blah</h5></nuxt-link>
+            <nuxt-link to="system/"><h5 class="text-primary">Development</h5></nuxt-link>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur aliquid quaerat.</p>
           </div>
         </div>

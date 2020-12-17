@@ -63,6 +63,7 @@ import RibbonHeader from '@/components/shared/RibbonHeader'
 import PersonalInfo from '@/components/users/edituser/PersonalInfo'
 import LocationInfo from '@/components/users/edituser/LocationInfo'
 import SecurityInfo from '@/components/users/edituser/SecurityInfo'
+import Notifications from '@/components/users/edituser/Notifications'
 
 export default {
   computed: {
@@ -81,7 +82,8 @@ export default {
     RibbonHeader,
     PersonalInfo,
     LocationInfo,
-    SecurityInfo
+    SecurityInfo,
+    Notifications
   },
 
   data() {

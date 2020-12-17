@@ -28,11 +28,11 @@
 
         <div class="row mt-2 ">
           <div class="col-md-4 p-4">
-            <nuxt-link to="internal/"><h5 class="text-primary">Blah</h5></nuxt-link>
+            <nuxt-link to="internal/"><h5 class="text-primary">Sales</h5></nuxt-link>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur aliquid quaerat.</p>
           </div>
           <div class="col-md-4 p-4">
-            <nuxt-link to="internal/"><h5 class="text-primary">Blah</h5></nuxt-link>
+            <nuxt-link to="internal/"><h5 class="text-primary">Development</h5></nuxt-link>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur aliquid quaerat.</p>
           </div>
           <div class="col-md-4 p-4">

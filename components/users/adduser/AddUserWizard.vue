@@ -265,7 +265,7 @@
           ></b-form-select>
         </b-form-group>
         <b-form-group id="input-group-3" label="Is Active?" label-for="input-3">
-          <b-form-checkbox switch size="md" v-model="user.isActive"
+          <b-form-checkbox switch size="md" v-model="isActive"
             >Active</b-form-checkbox
           >
         </b-form-group>
@@ -309,6 +309,7 @@ export default {
       hidden: true,
       disable: false,
       show: true,
+      isActive: false,
       message: {
         text: 'testing',
         variant: ''
@@ -335,7 +336,7 @@ export default {
         buildingId: null,
         floorId: null,
         securityRoleId: null,
-        isActive: false
+        isInactive: false
       },
       imagePlaceholder: '/img/avatar-placeholder.png',
       spinner: false,
@@ -440,7 +441,7 @@ export default {
         this.user.buildingId = contact.building._id || contact.building
       if (contact.floor) this.user.floorId = contact.floor._id || contact.floor
       this.user.securityRoleId = contact.securityRole || null
-      this.user.isActive = contact.isActive || false
+      this.isActive = !contact.isInactive
     },
     async getSecurityRole() {
       await this.$store.dispatch('securityRoles/getSecurityRoles')
@@ -493,49 +494,35 @@ export default {
         return false
       }
     },
-    onSubmit() {
-      if(this.user.isActive){
-         this.user.isPendingApproval = false
-       }
-      if (
-        this.user.firstNameAlias == undefined ||
-        this.user.firstNameAlias == ''
-      ) {
-        this.user.useFirstNameAlias = false
-      } else {
-        this.user.useFirstNameAlias = true
-      }
+    async onSubmit() {
+      this.user.isInactive = !this.isActive
+      this.user.isPendingApproval = !this.isActive
+      this.user.useFirstNameAlias = this.user.firstNameAlias == undefined || this.user.firstNameAlias == '' ? false: true
+
       if (this.isUserToEdit) return this.onUpdate()
 
-      this.$store
-        .dispatch('users/postUser', this.user)
-       .then(response => {
+      try {
+        const res = await this.$store.dispatch('users/postUser', this.user)
 
-          this.$emit('refreshUsers')
-          this.$store.commit('closeModal')
-            this.$toasted.success(response.message, {
-              position: "top-center",
-              duration : 5000
-            });
+        this.$emit('refreshUsers')
+        this.$brynkaToast(res.message, 'success')
+        this.$store.commit('closeModal')
 
-        })
-        .catch(e => console.log(e))
+       } catch (error) {
+          this.$brynkaToast(error, 'danger')
+       }
     },
-    onUpdate() {
+    async onUpdate() {
 
+       try {
+        const res = await this.$store.dispatch('users/patchUser', this.user)
+        this.$emit('refreshUsers')
+        this.$brynkaToast(res.message, 'success')
+        this.$store.commit('closeModal')
 
-      this.$store
-        .dispatch('users/patchUser', this.user)
-        .then(response => {
-
-          this.$emit('refreshUsers')
-          this.$store.commit('closeModal')
-            this.$toasted.success(response.message, {
-              position: "top-center",
-              duration : 5000
-            })
-        })
-        .catch(e => console.log(e))
+       } catch (error) {
+          this.$brynkaToast(error, 'danger')
+       }
     },
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown
