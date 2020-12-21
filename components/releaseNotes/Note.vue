@@ -8,10 +8,28 @@
         </b-input>
       </b-form-group>
       <b-form-group label="Media">
+         <b-form-file >
         <b-form-input
          v-model="form.media">
         </b-form-input>
+      </b-form-file>
+      <b-row v-if="mediaFiles.length > 0">
+            <div
+              style="max-width:120px; margin:3px"
+              v-for="(media, index) in mediaFiles"
+              :key="index"
+            >
+              <b-img
+                thumbnail
+                @click="showMultiple(media, index)"
+                fluid
+                :src="`${baseUrl}${media.imageURL}`"
+                alt="attached Image"
+              ></b-img>
+            </div>
+          </b-row>
       </b-form-group>
+
 
         <div class="text-right">
           <b-button variant="secondary"  size="sm" @click="$bvModal.hide('note-modal')" >  Close  </b-button>
@@ -27,6 +45,7 @@ export default {
   props:['note', 'releaseNoteId'],
   data(){
     return{
+      mediaFiles:[],
       form:{
         releaseNoteId:'',
         noteId:'',
@@ -36,11 +55,11 @@ export default {
     }
   },
   mounted(){
-
+    debugger
     this.form.releaseNoteId = this.releaseNoteId
     this.form.noteId = this.note._id
     this.form.text = this.note.text
-    this.form.media = this.note.media
+    this.mediaFiles = this.note.media
   },
   methods:{
     async submit(e){
