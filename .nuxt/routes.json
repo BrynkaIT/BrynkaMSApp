@@ -63,11 +63,11 @@
     "_name": "_68f02ed3"
   },
   {
-    "name": "system-releaseNotes",
-    "path": "/system/releaseNotes",
-    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/system/releaseNotes.vue",
-    "chunkName": "pages/system/releaseNotes",
-    "_name": "_0ff3d0a2"
+    "name": "system-versions",
+    "path": "/system/versions",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/system/versions.vue",
+    "chunkName": "pages/system/versions",
+    "_name": "_24ce5d60"
   },
   {
     "name": "customers-id",

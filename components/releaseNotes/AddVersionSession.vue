@@ -153,11 +153,11 @@
                     </div>
                     <div class="col-md-3">
                       <b-form-group>
-                        <b-form-input
+                        <b-form-tags
                           size="sm"
                           placeholder="Media Url"
-                         v-model="form.releaseNotes[index].notes[x].mediaUrl"
-                        ></b-form-input>
+                         v-model="form.releaseNotes[index].notes[x].media"
+                        ></b-form-tags>
                       </b-form-group>
                     </div>
                     <div class="col-md-1">
@@ -180,6 +180,8 @@
                             title="Subtract Note"
                             variant="outline-dark"
                             size="sm"
+                            :disabled="releaseNote.notes.length < 2"
+                            @click="releaseNote.notes.pop() "
                           >
                             <b-icon
                               icon="dash"
@@ -285,8 +287,7 @@ export default {
       if (!this.$v.form.$invalid) {
         debugger
         try {
-          const res = await this.$store.dispatch('releaseNotes/postReleaseNote', this.form)
-          // const res = await this.$axios.$post('/manage/brynka/versions', this.form)
+          const res = await this.$store.dispatch('versions/postVersion', this.form)
           debugger
           this.$emit('refresh')
           this.$brynkaToast(res.message, 'success')
@@ -303,7 +304,6 @@ export default {
 
 
     },
-    async onUpdate(releaseNote) {},
     onReset(evt) {
        this.form.application= null,
         this.form.build= '',

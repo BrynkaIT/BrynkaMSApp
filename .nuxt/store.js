@@ -30,11 +30,11 @@ let store = {};
   resolveStoreModules(require('../store/itemTypes.js'), 'itemTypes.js')
   resolveStoreModules(require('../store/locations.js'), 'locations.js')
   resolveStoreModules(require('../store/notifications.js'), 'notifications.js')
-  resolveStoreModules(require('../store/releaseNotes.js'), 'releaseNotes.js')
   resolveStoreModules(require('../store/securityRoles.js'), 'securityRoles.js')
   resolveStoreModules(require('../store/services.js'), 'services.js')
   resolveStoreModules(require('../store/users.js'), 'users.js')
   resolveStoreModules(require('../store/usStates.js'), 'usStates.js')
+  resolveStoreModules(require('../store/versions.js'), 'versions.js')
 
   // If the environment supports hot reloading...
 
@@ -53,11 +53,11 @@ let store = {};
       '../store/itemTypes.js',
       '../store/locations.js',
       '../store/notifications.js',
-      '../store/releaseNotes.js',
       '../store/securityRoles.js',
       '../store/services.js',
       '../store/users.js',
       '../store/usStates.js',
+      '../store/versions.js',
     ], () => {
       // Update `root.modules` with the latest definitions.
       updateModules()

@@ -81,9 +81,11 @@
             </b-input-group>
           </b-col>
         </b-row>
-        <b-row class="float-right mt-2">
-          <b-button type="submit" variant="outline-secondary" @click="onSubmit" size="sm">Update</b-button>
-        </b-row>
+        <div class="text-right mt-2">
+          <b-button type="submit" variant="outline-secondary" @click="$emit('cancel')" size="sm" class="mr-1">Cancel</b-button>
+          <b-button type="submit" variant="success" @click="onSubmit" size="sm">Update</b-button>
+
+        </div>
       </b-form>
   </div>
 </template>
@@ -93,7 +95,7 @@ import { mapState } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
 
 export default {
-  props:['rn'],
+  props:['vs'],
   computed: {
     ...mapState({
       formToOpen: state => state.formToOpen
@@ -102,6 +104,7 @@ export default {
   data() {
     return {
       form: {
+        id:'',
         application: null,
         build: '',
         buildNumber: '',
@@ -140,26 +143,26 @@ export default {
     }
   },
   mounted() {
-    this.form.application = this.rn.application;
-    this.form.build =  this.rn.build;
-    this.form.buildNumber =  this.rn.buildNumber;
-    this.form.primaryVersion =  this.rn.primaryVersion;
-    this.form.subVersion =  this.rn.subVersion;
-    this.form.releaseDate =  this.rn.releaseDate;
-    this.form.version =  this.rn.version
+    this.form.id = this.vs._id
+    this.form.application = this.vs.application;
+    this.form.build =  this.vs.build;
+    this.form.buildNumber =  this.vs.buildNumber;
+    this.form.primaryVersion =  this.vs.primaryVersion;
+    this.form.subVersion =  this.vs.subVersion;
+    this.form.releaseDate =  this.vs.releaseDate;
+    this.form.version =  this.vs.version
   },
   methods: {
     async onSubmit(e) {
       e.preventDefault()
       this.$v.form.$touch()
       if (!this.$v.form.$invalid) {
-        debugger
         try {
-          const res = await this.$store.dispatch('releaseNotes/putReleaseNote', this.form)
+          const res = await this.$store.dispatch('versions/patchVersion', this.form)
           this.$emit('refresh')
           this.$brynkaToast(res.message, 'success')
           this.onReset()
-          this.$store.commit('closeModal')
+          // this.$store.commit('closeModal')
 
         } catch (error) {
           this.$brynkaToast(error, 'danger')
@@ -167,8 +170,6 @@ export default {
       } else {
         this.$brynkaToast('Please fill in required field(s)', 'danger')
       }
-
-
     },
 
     onReset(evt) {

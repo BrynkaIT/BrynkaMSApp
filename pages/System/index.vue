@@ -13,7 +13,7 @@
            <div class="row mt-2">
 
           <div class="col-md-4 p-4">
-            <nuxt-link to="system/releaseNotes"><h5 class="text-primary">Release Notes</h5></nuxt-link>
+            <nuxt-link to="system/versions"><h5 class="text-primary">App Versions</h5></nuxt-link>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur aliquid quaerat.</p>
           </div>
           <div class="col-md-4 p-4">
