@@ -116,9 +116,28 @@ export const actions = {
 			.catch(e => Promise.reject(e.response))
 
 	},
-	async deleteVersion({ rootState }, locationId) {
-
+	async deleteReleaseNote({ rootState }, payload) {
+    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+      URL= `/manage/brynka/versions/${payload.versionId}/releaseNotes/${payload.releaseNoteId}`
+    }else{
+      throw "You are not authorized"
+    }
+    return this.$axios.$delete(URL)
+			.then(res =>  Promise.resolve(res))
+			.catch(e => Promise.reject(e.response))
   },
+  async deleteNote({ rootState }, payload) {
+    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+      URL= `/manage/brynka/versions/${payload.releaseNoteId}/notes/${payload.noteId}`
+      
+    }else{
+      throw "You are not authorized"
+    }
+    return this.$axios.$delete(URL)
+			.then(res =>  Promise.resolve(res))
+			.catch(e => Promise.reject(e.response))
+  },
+
   createFormData({ context }, form){
 		let formData = new FormData()
       if(form.application != null) formData.append('application', form.application)

@@ -24,7 +24,7 @@
                     :key="version._id"
                     :class="'active' ? index == 0 : ''"
                   >
-                  <div class="my-2 text-right">
+                  <div class="mt-2 text-right">
                     <b-button  variant="light" size="sm" @click="showEditBtns = !showEditBtns"><b-icon  icon="tools" variant="danger"></b-icon></b-button>
                   </div>
                     <b-card-text>
@@ -67,7 +67,12 @@
                                 class="p-0"
                                 size="sm"
                                 v-show="showEditBtns"><b-icon  icon="pencil" variant="info" ></b-icon></b-button>
-                              <b-button variant="transparent"  class="p-0" size="sm" v-show="showEditBtns"><b-icon  icon="trash" variant="danger"></b-icon></b-button>
+                              <b-button
+                                variant="transparent"
+
+                                class="p-0"
+                                size="sm"
+                                v-show="showEditBtns"><b-icon  icon="trash" variant="danger"></b-icon></b-button>
                             </h6>
                           </div>
                           <div class="edit-release-note-session" v-else>
@@ -95,7 +100,12 @@
                                   v-show="showEditBtns">
                                   <b-icon icon="pencil" variant="info"></b-icon>
                                   </b-button>
-                              <b-button class="p-0" variant="transparent"  size="sm" v-show="showEditBtns"><b-icon  icon="trash" variant="danger"></b-icon></b-button>
+                              <b-button
+                                class="p-0"
+                                variant="transparent"
+                                @click="deleteNote(releaseNote._id, note._id)"
+                                size="sm"
+                                v-show="showEditBtns"><b-icon  icon="trash" variant="danger"></b-icon></b-button>
 
                               </span>
 
@@ -387,13 +397,13 @@ export default {
       editVersionSession(version) {
         this.versionSession = version
     },
-      editReleaseNote(releaseNote) {
-        this.releaseNote = releaseNote
-        this.showReleaseNotes = true
+    editReleaseNote(releaseNote) {
+      this.releaseNote = releaseNote
+      this.showReleaseNotes = true
     },
-      cancelReleaseNote() {
-        this.releaseNote = ''
-        this.showReleaseNotes = false
+    cancelReleaseNote() {
+      this.releaseNote = ''
+      this.showReleaseNotes = false
     },
     refreshReleaseNotes(){
       this.fetchAllVersions()
@@ -411,6 +421,37 @@ export default {
       this.note.content = note
       this.note.releaseNoteId = releaseNoteId
       this.$root.$emit('bv::show::modal', 'note-modal', button)
+    },
+    async deleteNote(releaseNoteId, noteId) {
+      this.$bvModal
+        .msgBoxConfirm(`Really Delete?`, {
+          title: 'Confirm',
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'danger',
+          okTitle: 'YES',
+          cancelTitle: 'NO',
+          footerClass: 'p-2',
+          hideHeaderClose: false,
+          centered: true
+        })
+        .then(async value => {
+          if (!value) {
+            return
+          } else {
+            try {
+        const res = await this.$store.dispatch('versions/deleteNote', {
+          releaseNoteId: releaseNoteId,
+           noteId : noteId,
+        })
+        this.$brynkaToast(res.message, 'success')
+        this.fetchAllVersions()
+      } catch (error) {
+         this.$brynkaToast(error, 'danger')
+      }
+      }
+    })
+
     },
   }
 }
