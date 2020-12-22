@@ -39,7 +39,8 @@
                 v-model="form.releaseDate"
                 class="mb-2"
                 size="sm"
-                :class="{ 'validation-error': $v.form.releaseDate.$error }"
+                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+
               >
               </b-form-datepicker>
             </b-input-group>

@@ -1,17 +1,17 @@
 const config = { headers: {'Content-Type': 'multipart/form-data'}};
-export const state = () => {
-	return {
-		// versions: null,
+// export const state = () => {
+// 	return {
+// 		// versions: null,
 
-	}
-}
+// 	}
+// }
 // Mutations
-export const mutations = {
-	setReleaseNotes(state, versions) {
-    state.versions = versions
-	},
+// export const mutations = {
+// 	setReleaseNotes(state, versions) {
+//     state.versions = versions
+// 	},
 
-}
+// }
 
 // Actions
 export const actions = {
@@ -23,17 +23,8 @@ export const actions = {
 
 	},
 
-	postVersion({ rootState }, payload) {
 
-    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
-      URL= `/manage/brynka/versions`
-    }else{
-      throw "You are not authorized"
-    }
-		return this.$axios.$post(URL, payload)
-			.then(res =>  Promise.resolve(res))
-			.catch(e => Promise.reject(e.response))
-	},
+  //Patch Routes
   async patchVersion({ rootState, dispatch },  payload) {
 
     const version = await dispatch('createFormData', payload)
@@ -55,6 +46,7 @@ export const actions = {
     }else{
       throw "You are not authorized"
     }
+
 		return this.$axios.$patch(`${URL}`, rn,  config)
 			.then(res =>  Promise.resolve(res))
 			.catch(e => Promise.reject(e.response))
@@ -73,21 +65,46 @@ export const actions = {
 			.catch(e => Promise.reject(e.response))
 
   },
-  async postNotes({ rootState, dispatch },  payload) {
 
+  // Post Routes
+  postVersion({ rootState }, payload) {
+debugger
+    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+      URL= `/manage/brynka/versions`
+    }else{
+      throw "You are not authorized"
+    }
+		return this.$axios.$post(URL, payload)
+			.then(res =>  Promise.resolve(res))
+			.catch(e => Promise.reject(e.response))
+	},
+
+  postReleaseNotes({ rootState }, payload){
 
     if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
-      URL= `/manage/brynka/versions/${payload.versionId}/releaseNotes/${payload.releaseNoteId}`
+      URL= `/manage/brynka/versions/releaseNotes/${payload.versionId}`
 
     }else{
       throw "You are not authorized"
     }
+		return this.$axios.$post(`${URL}`, payload )
+			.then(res =>  Promise.resolve(res))
+			.catch(e => Promise.reject(e.response))
+  },
+  async postNotes({ rootState, dispatch },  payload) {
 
+    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+      URL= `/manage/brynka/versions/${payload.versionId}/releaseNotes/${payload.releaseNoteId}`
+    }else{
+      throw "You are not authorized"
+    }
 		return this.$axios.$post(`${URL}`, payload )
 			.then(res =>  Promise.resolve(res))
 			.catch(e => Promise.reject(e.response))
 
-	},
+  },
+
+  //Put Routes
 	async putVersion({ rootState, dispatch },  payload) {
 
     const version = await dispatch('createFormData', payload)
@@ -96,7 +113,6 @@ export const actions = {
     }else{
       throw "You are not authorized"
     }
-
 		return this.$axios.$put(`${URL}/${payload.id}`, version,  config)
 			.then(res =>  Promise.resolve(res))
 			.catch(e => Promise.reject(e.response))
@@ -104,18 +120,28 @@ export const actions = {
 	},
   async putReleaseNotes({ rootState, dispatch },  payload) {
 
-
     if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/versions/${payload.versionId}/releaseNotes/${payload.releaseNoteId}`
     }else{
       throw "You are not authorized"
     }
-
 		return this.$axios.$put(URL)
 			.then(res =>  Promise.resolve(res))
 			.catch(e => Promise.reject(e.response))
 
-	},
+  },
+
+  //Delete routes
+  async deleteVersion({ rootState }, payload) {
+    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+      URL= `/manage/brynka/versions/${payload.versionId}/`
+    }else{
+      throw "You are not authorized"
+    }
+    return this.$axios.$delete(URL)
+			.then(res =>  Promise.resolve(res))
+			.catch(e => Promise.reject(e.response))
+  },
 	async deleteReleaseNote({ rootState }, payload) {
     if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/versions/${payload.versionId}/releaseNotes/${payload.releaseNoteId}`
@@ -129,7 +155,7 @@ export const actions = {
   async deleteNote({ rootState }, payload) {
     if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/versions/${payload.releaseNoteId}/notes/${payload.noteId}`
-      
+
     }else{
       throw "You are not authorized"
     }
@@ -138,6 +164,7 @@ export const actions = {
 			.catch(e => Promise.reject(e.response))
   },
 
+  //Convert to Form Data
   createFormData({ context }, form){
 		let formData = new FormData()
       if(form.application != null) formData.append('application', form.application)
@@ -159,10 +186,10 @@ export const actions = {
       }
 
 
-		console.log(Array.from(formData))
-		for(let obj of formData) {
-			console.log(obj)
-		}
+		// console.log(Array.from(formData))
+		// for(let obj of formData) {
+		// 	console.log(obj)
+		// }
 		return formData
 	}
 }

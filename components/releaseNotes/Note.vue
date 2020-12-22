@@ -87,9 +87,7 @@ export default {
           this.$brynkaToast(error, 'danger')
         }
     },
-    async onUpdate(e){
-      e.preventDefault()
-        debugger
+    async onUpdate(){
         try {
           const res = await this.$store.dispatch('versions/patchNotes',this.form)
 

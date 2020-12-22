@@ -11,7 +11,7 @@
           <b-tabs content-class="mt-3" justified>
             <div class="m-3 text-right">
               <b-button pill variant="dark"
-              @click="$store.commit('switchForm',{ title:'Add Release Note', to:'AddVersionSession',})"
+              @click="$store.commit('switchForm',{ title:'Add Release Note', to:'AddVersion',})"
               >New</b-button></div>
 
             <b-tab title="Manager App" active>
@@ -33,11 +33,18 @@
                           <h2 class="mt-4">v {{ version.build }}
                             <b-button
                               variant="transparent"
-                              @click="editVersionSession(version)"
+                              @click="editVersion(version)"
                               class="p-0"
                               size="sm"
                               v-show="showEditBtns"><b-icon  icon="pencil" variant="info" ></b-icon></b-button>
-                            <b-button variant="transparent"  class="p-0" size="sm" v-show="showEditBtns"><b-icon  icon="trash" variant="danger"></b-icon></b-button>
+                            <b-button
+                              variant="transparent"
+                              @click="deleteVersion(version._id)"
+                              class="p-0"
+                              size="sm"
+                              v-show="showEditBtns"><b-icon
+                              icon="trash"
+                              variant="danger"></b-icon></b-button>
                           </h2>
                           <ul>
                             <li>
@@ -47,7 +54,7 @@
                           </ul>
                         </div >
                         <div class="edit-version-session mr-5" v-else>
-                          <VersionSession
+                          <EditVersion
                             :vs="versionSession"
                             @refresh="fetchAllVersions"
                             @cancel="versionSession = ''"
@@ -57,32 +64,31 @@
                           class="note"
                           v-for="(releaseNote, index) in version.releaseNotes"
                           :key="index"
-                        >
-                          <div class="release-note-session" v-if="!showReleaseNotes">
+                          ><b-button
+                            class="p-0"
+                            v-show="showEditBtns"
+                            variant="transparent"
+                            @click="addNewReleaseNote(version._id)">
+                            <b-icon icon="plus"></b-icon>
+                            <small class="text-primary"><i>Add a New ReleaseNote</i></small>
+                        </b-button>
+
+                          <div class="release-note-session" >
                             <h6 class="mt-4" >
                               <strong >{{ releaseNote.title }}</strong>
                               <b-button
                                 variant="transparent"
-                                @click="editReleaseNote(releaseNote)"
+                                @click="editReleaseNote(releaseNote, version._id)"
                                 class="p-0"
                                 size="sm"
                                 v-show="showEditBtns"><b-icon  icon="pencil" variant="info" ></b-icon></b-button>
                               <b-button
                                 variant="transparent"
-
+                                @click="deleteReleaseNote(version._id, releaseNote._id)"
                                 class="p-0"
                                 size="sm"
                                 v-show="showEditBtns"><b-icon  icon="trash" variant="danger"></b-icon></b-button>
                             </h6>
-                          </div>
-                          <div class="edit-release-note-session" v-else>
-                              <ReleaseNote
-                              @refresh="refreshReleaseNotes"
-                              @cancel="cancelReleaseNote"
-                              :versionId="version._id"
-                              :releaseNote="releaseNote"
-                               />
-
                           </div>
 
                             <ul class="mb-0">
@@ -149,7 +155,7 @@
                             variant="outline-secondary"
                             pill
                             size="sm"
-                            @click="editVersionSession(version)"
+                            @click="editVersion(version)"
                             v-show="showEditBtns">Edit</b-button>
                           <b-button variant="outline-danger" pill size="sm" v-show="showEditBtns">Delete</b-button>
                           </h2>
@@ -161,7 +167,7 @@
                           </ul>
                         </div>
                         <div class="edit-main-release-note-session mr-5" v-else>
-                          <VersionSession
+                          <EditVersion
                             :vs="versionSession"
                             @refresh="fetchAllVersions"
                             @cancel="versionSession = ''"
@@ -239,7 +245,7 @@
                           <h2 class="mt-4">v {{ version.build }}
                             <b-button
                               variant="outline-secondary"
-                              @click="editVersionSession(version)"
+                              @click="editVersion(version)"
                               pill
                               size="sm"
                               v-show="showEditBtns">Edit</b-button>
@@ -253,7 +259,7 @@
                           </ul>
                         </div>
                         <div class="edit-main-release-note-session mr-5" v-else>
-                          <VersionSession
+                          <EditVersion
                             :vs="versionSession"
                             @refresh="fetchAllVersions"
                             @cancel="versionSession = ''"
@@ -316,10 +322,13 @@
         </div>
       </b-card>
        <FullWidthModal :show="this.formToOpen.showModal">
-        <AddVersionSession @refresh="fetchAllVersions"/>
+        <AddVersion @refresh="fetchAllVersions"/>
     </FullWidthModal>
     <b-modal id="note-modal" :title="note.title" :hide-footer="true">
       <Note :note="note.content" :releaseNoteId="note.releaseNoteId" :versionId="note.versionId" @refresh="fetchAllVersions"/>
+    </b-modal>
+    <b-modal id="releaseNote-modal" :title="releaseNote.title" :hide-footer="true">
+      <ReleaseNote :releaseNote="releaseNote.content" :versionId="releaseNote.versionId" @refresh="fetchAllVersions"/>
     </b-modal>
     </div>
   </div>
@@ -330,8 +339,8 @@ import { mapState } from 'vuex'
 import SideNav from '@/components/shared/SideNav.vue'
 import RibbonHeader from '@/components/shared/RibbonHeader'
 import FullWidthModal from '@/components/shared/FullWidthModal.vue'
-import AddVersionSession from '@/components/releaseNotes/AddVersionSession'
-import VersionSession from '@/components/releaseNotes/EditVersionSession'
+import AddVersion from '@/components/releaseNotes/AddVersion'
+import EditVersion from '@/components/releaseNotes/EditVersion'
 import ReleaseNote from '@/components/releaseNotes/ReleaseNote'
 import Note from '@/components/releaseNotes/Note'
 
@@ -350,8 +359,8 @@ export default {
     SideNav,
     RibbonHeader,
     FullWidthModal,
-    AddVersionSession,
-    VersionSession,
+    AddVersion,
+    EditVersion,
     ReleaseNote,
     Note
   },
@@ -364,7 +373,11 @@ export default {
       showReleaseNotes: false,
       noteIndex:'',
       versionSession:'',
-      releaseNote:'',
+      releaseNote:{
+        title:'',
+        content:null,
+        versionId:''
+      },
       note:{
         title:'',
         content:null,
@@ -379,6 +392,7 @@ export default {
   },
 
   methods: {
+    //Version
     async fetchAllVersions(){
       this.versionSession = ''
       this.showEditBtns = false
@@ -394,12 +408,51 @@ export default {
         this.$brynkaToast(error.response, 'danger')
       }
     },
-      editVersionSession(version) {
-        this.versionSession = version
+    editVersion(version) {
+      this.versionSession = version
     },
-    editReleaseNote(releaseNote) {
-      this.releaseNote = releaseNote
+    async deleteVersion(versionId) {
+      this.$bvModal
+        .msgBoxConfirm(`Really Delete?`, {
+          title: 'Confirm',
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'danger',
+          okTitle: 'YES',
+          cancelTitle: 'NO',
+          footerClass: 'p-2',
+          hideHeaderClose: false,
+          centered: true
+        })
+        .then(async value => {
+          if (!value) {
+            return
+          } else {
+            try {
+        const res = await this.$store.dispatch('versions/deleteVersion', {
+          versionId: versionId,
+        })
+        this.$brynkaToast(res.message, 'success')
+        this.fetchAllVersions()
+      } catch (error) {
+         this.$brynkaToast(error, 'danger')
+      }
+      }
+    })
+    },
+    //Release Note
+    addNewReleaseNote(versionId, button){
+    this.releaseNote.title = `Add New Release Note`
+     this.releaseNote.content = ''
+     this.releaseNote.versionId = versionId
+     this.$bvModal.show('releaseNote-modal')
+    },
+    editReleaseNote(releaseNote, versionId) {
+      this.releaseNote.content = releaseNote
       this.showReleaseNotes = true
+      this.releaseNote.title = `Edit Release Note`
+      this.releaseNote.versionId = versionId
+      this.$bvModal.show( 'releaseNote-modal')
     },
     cancelReleaseNote() {
       this.releaseNote = ''
@@ -409,6 +462,38 @@ export default {
       this.fetchAllVersions()
       this.cancelReleaseNote()
     },
+    async deleteReleaseNote(versionId, releaseNoteId) {
+      this.$bvModal
+        .msgBoxConfirm(`Really Delete?`, {
+          title: 'Confirm',
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'danger',
+          okTitle: 'YES',
+          cancelTitle: 'NO',
+          footerClass: 'p-2',
+          hideHeaderClose: false,
+          centered: true
+        })
+        .then(async value => {
+          if (!value) {
+            return
+          } else {
+            try {
+        const res = await this.$store.dispatch('versions/deleteReleaseNote', {
+          versionId: versionId,
+          releaseNoteId: releaseNoteId,
+        })
+        this.$brynkaToast(res.message, 'success')
+        this.fetchAllVersions()
+      } catch (error) {
+         this.$brynkaToast(error, 'danger')
+      }
+      }
+    })
+    },
+
+    //Note
     addNewNote(versionId, releaseNoteId, button){
      this.note.title = `Add New Note`
      this.note.content = ''

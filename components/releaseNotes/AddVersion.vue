@@ -43,12 +43,24 @@
           <b-col sm>
             <b-form-group>
               <b-form-datepicker
-                v-model="form.releaseDate"
+                v-model="releaseDate"
                 class="mb-2"
                 size="sm"
-                :class="{ 'validation-error': $v.form.releaseDate.$error }"
+                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
               >
               </b-form-datepicker>
+            </b-form-group>
+          </b-col>
+          <b-col sm>
+            <b-form-group>
+              <b-form-timepicker
+              v-model="releaseTime"
+                size="sm"
+                placeholder="Choose a time"
+                now-button
+                reset-button
+                locale="en"
+              ></b-form-timepicker>
             </b-form-group>
           </b-col>
         </b-row>
@@ -137,6 +149,7 @@
                           v-model="form.releaseNotes[index].module"
                           :options="modules"
                           placeholder="Module"
+
                         ></b-form-select>
                       </b-form-group>
                     </b-col>
@@ -242,6 +255,8 @@ export default {
         version: '',
         releaseNotes: []
       },
+      releaseDate: '',
+      releaseTime:'',
       applications: [
         { value: null, text: 'Application' },
         { value: 'api', text: 'Brynka API' },
@@ -270,9 +285,6 @@ export default {
        subVersion: {
         required
       },
-       releaseDate: {
-        required
-      },
        buildNumber: {
         required
       },
@@ -285,6 +297,8 @@ export default {
       e.preventDefault()
       this.$v.form.$touch()
       if (!this.$v.form.$invalid) {
+        const dateString = this.releaseDate + 'T' + this.releaseTime
+        this.form.releaseDate = dateString
         debugger
         try {
           const res = await this.$store.dispatch('versions/postVersion', this.form)

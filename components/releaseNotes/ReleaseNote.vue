@@ -1,110 +1,28 @@
 <template>
  <div >
-   <b-form class="mt-2">
-     <b-row>
-      <div class="col-md-5">
-        <b-input-group prepend="Title" size="sm" >
+   <b-form >
+        <b-form-group label="Title" size="sm" >
           <b-form-input
             size="sm"
             v-model="form.title"
-            type="text"
+            required
             placeholder="Title"
           ></b-form-input>
+        </b-form-group>
 
-        </b-input-group>
-      </div>
-      <div class="col-md-5">
-        <b-input-group prepend="Module" size="sm">
-
+        <b-form-group label="Module" size="sm">
         <b-form-select
           size="sm"
           v-model="form.module"
           :options="modules"
           placeholder="Module"
         ></b-form-select>
-
-        </b-input-group>
-      </div>
-      <div class="col-md-2">
-
-       <div class="text-right mr-5">
-      <b-button type="submit" variant="outline-secondary" @click="$emit('cancel')" size="sm" class="mr-1">Cancel</b-button>
-      <b-button type="submit" variant="success" @click="onSubmit" size="sm">Update</b-button>
+        </b-form-group>
+       <div class="text-right ">
+      <b-button type="submit" variant="outline-secondary" @click="$bvModal.hide('releaseNote-modal')" size="sm">Close</b-button>
+      <b-button type="submit" variant="primary" @click="onSubmit" size="sm">Submit</b-button>
 
       </div>
-
-
-       <!-- <label class="text-secondary">Add Row</label>
-        <b-button-toolbar size="sm" class="float-right">
-          <b-button-group class="mr-1" size="sm">
-            <b-button
-              title="Add Note"
-              variant="outline-dark"
-              size="sm"
-              @click="form.notes.push({ text: '', mediaUrl: [], }) "
-            >
-              <b-icon
-                icon="plus"
-                scale=".7"
-                aria-hidden="true"
-              ></b-icon>
-            </b-button>
-            <b-button
-              title="Subtract Note"
-              variant="outline-dark"
-              size="sm"
-              :disabled="form.notes.length < 2"
-              @click="form.notes.pop() "
-            >
-              <b-icon
-                icon="dash"
-                scale=".7"
-                aria-hidden="true"
-              ></b-icon>
-            </b-button>
-          </b-button-group>
-        </b-button-toolbar> -->
-      </div>
-     </b-row>
-
-
-    <!-- <ul>
-      <li
-        v-for="n in form.notes"
-        :key="n._id"
-          class="note-text"
-      >
-      <b-row>
-        <div class="col-md-6">
-          <b-input-group prepend="Text" size="sm"  class="mt-3">
-          <b-form-input
-            size="sm"
-            v-model="n.text"
-            type="text"
-            placeholder="Title"
-          ></b-form-input>
-
-          </b-input-group>
-        </div>
-        <div class="col-md-6">
-          <b-input-group prepend="Media" size="sm"  class="mt-3">
-          <b-form-tags
-            size="sm"
-            v-model="n.media"
-            type="text"
-            placeholder="Title"
-          ></b-form-tags>
-
-          </b-input-group>
-        </div>
-      </b-row>
-      </li>
-    </ul> -->
-    <!-- <div class="text-right mt-2">
-      <b-button type="submit" variant="outline-secondary" @click="$emit('cancel')" size="sm" class="mr-1">Cancel</b-button>
-      <b-button type="submit" variant="success" @click="onSubmit" size="sm">Update</b-button>
-
-      </div> -->
    </b-form>
  </div>
 </template>
@@ -117,16 +35,15 @@ export default {
 
   data() {
     return {
+      releaseNoteToEdit:false,
       form: {
         versionId:'',
         releaseNoteId:'',
         title:'',
-        module:'',
-        notes:[]
+        module:'All',
       },
 
       modules: [
-        { value: null, text: 'Module' },
         { value: 'All', text: 'All' },
         { value: 'Receiving', text: 'Receiving' },
         { value: 'Shipping', text: 'Shipping' },
@@ -137,16 +54,37 @@ export default {
     }
   },
   mounted() {
+
     this.form.versionId =  this.versionId
     this.form.releaseNoteId = this.releaseNote._id
-    this.form.title = this.releaseNote.title
-    this.form.module = this.releaseNote.module
-    this.form.notes = this.releaseNote.notes
+    if(this.releaseNote){
+      this.releaseNoteToEdit = true
+      this.form.title = this.releaseNote.title
+      this.form.module = this.releaseNote.module
+    }
+
+
   },
 
   methods: {
     async onSubmit(e) {
+
       e.preventDefault()
+       if (this.releaseNoteToEdit) return this.onUpdate()
+
+        try {
+          const res = await this.$store.dispatch('versions/postReleaseNotes',this.form)
+
+          this.$emit('refresh')
+          this.$brynkaToast(res.message, 'success')
+          this.onReset()
+          this.$bvModal.hide('releaseNote-modal')
+        } catch (error) {
+          this.$brynkaToast(error, 'danger')
+        }
+
+    },
+    async onUpdate(){
 
         try {
           const res = await this.$store.dispatch('versions/patchReleaseNotes',this.form)
@@ -154,19 +92,17 @@ export default {
           this.$emit('refresh')
           this.$brynkaToast(res.message, 'success')
           this.onReset()
-
+          this.$bvModal.hide('releaseNote-modal')
         } catch (error) {
 
           this.$brynkaToast(error, 'danger')
         }
-
     },
-
     onReset(evt) {
       this.form.versionId =  ''
       this.form.releaseNoteId = ''
       this.form.title = ''
-      this.form.module = null
+      this.form.module = 'All'
       this.form.notes = []
 
       this.$nextTick(() => {
