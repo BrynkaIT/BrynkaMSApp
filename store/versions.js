@@ -1,7 +1,7 @@
 const config = { headers: {'Content-Type': 'multipart/form-data'}};
 export const state = () => {
 	return {
-		versions: null,
+		// versions: null,
 
 	}
 }
@@ -69,6 +69,21 @@ export const actions = {
       throw "You are not authorized"
     }
 		return this.$axios.$patch(`${URL}`, note,  config)
+			.then(res =>  Promise.resolve(res))
+			.catch(e => Promise.reject(e.response))
+
+  },
+  async postNotes({ rootState, dispatch },  payload) {
+
+
+    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+      URL= `/manage/brynka/versions/${payload.versionId}/releaseNotes/${payload.releaseNoteId}`
+
+    }else{
+      throw "You are not authorized"
+    }
+
+		return this.$axios.$post(`${URL}`, payload )
 			.then(res =>  Promise.resolve(res))
 			.catch(e => Promise.reject(e.response))
 

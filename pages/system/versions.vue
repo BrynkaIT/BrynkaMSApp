@@ -70,16 +70,17 @@
                               <b-button variant="transparent"  class="p-0" size="sm" v-show="showEditBtns"><b-icon  icon="trash" variant="danger"></b-icon></b-button>
                             </h6>
                           </div>
-                          <div class="edit-release-note-sessio" v-else>
+                          <div class="edit-release-note-session" v-else>
                               <ReleaseNote
                               @refresh="refreshReleaseNotes"
                               @cancel="cancelReleaseNote"
                               :versionId="version._id"
                               :releaseNote="releaseNote"
                                />
+
                           </div>
 
-                            <ul>
+                            <ul class="mb-0">
                               <li
                                 v-for="note in releaseNote.notes"
                                 :key="note._id"
@@ -99,6 +100,14 @@
                               </span>
 
                               </li>
+                              <b-button
+                                class="p-0"
+                                v-show="showEditBtns"
+                                variant="transparent"
+                                @click="addNewNote(version._id, releaseNote._id)">
+                                <b-icon icon="plus"></b-icon>
+                                <small class="text-primary"><i>Add a New Note</i></small>
+                              </b-button>
                             </ul>
 
                         </div>
@@ -300,7 +309,7 @@
         <AddVersionSession @refresh="fetchAllVersions"/>
     </FullWidthModal>
     <b-modal id="note-modal" :title="note.title" :hide-footer="true">
-      <Note :note="note.content" :releaseNoteId="note.releaseNoteId"/>
+      <Note :note="note.content" :releaseNoteId="note.releaseNoteId" :versionId="note.versionId" @refresh="fetchAllVersions"/>
     </b-modal>
     </div>
   </div>
@@ -349,7 +358,8 @@ export default {
       note:{
         title:'',
         content:null,
-        releaseNoteId:''
+        releaseNoteId:'',
+        versionId:''
       }
 
     }
@@ -388,6 +398,13 @@ export default {
     refreshReleaseNotes(){
       this.fetchAllVersions()
       this.cancelReleaseNote()
+    },
+    addNewNote(versionId, releaseNoteId, button){
+     this.note.title = `Add New Note`
+     this.note.content = ''
+     this.note.versionId = versionId
+     this.note.releaseNoteId = releaseNoteId
+     this.$bvModal.show('note-modal')
     },
     editNote(note, releaseNoteId, button) {
       this.note.title = `Edit Note`

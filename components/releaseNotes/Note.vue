@@ -1,8 +1,9 @@
 <template>
   <div>
-    <b-form @submit.prevent="submit">
+    <b-form @submit.prevent="onSubmit">
       <b-form-group label="Text">
         <b-input
+        required
          v-model="form.text"
         >
         </b-input>
@@ -42,12 +43,15 @@
 
 <script>
 export default {
-  props:['note', 'releaseNoteId'],
+  props:['note', 'releaseNoteId', 'versionId'],
   data(){
     return{
       mediaFiles:[],
+      noteToEdit: false,
+
       form:{
         releaseNoteId:'',
+        versionId:'',
         noteId:'',
         text:'',
         media:[]
@@ -55,23 +59,44 @@ export default {
     }
   },
   mounted(){
-    debugger
     this.form.releaseNoteId = this.releaseNoteId
-    this.form.noteId = this.note._id
-    this.form.text = this.note.text
-    this.mediaFiles = this.note.media
+    this.form.versionId = this.versionId
+
+    if(this.note){
+      this.noteToEdit = true
+      this.form.noteId = this.note._id
+      this.form.text = this.note.text
+      this.mediaFiles = this.note.media
+    }
+
   },
   methods:{
-    async submit(e){
+    async onSubmit(e){
       e.preventDefault()
+      if (this.noteToEdit) return this.onUpdate()
 
+        try {
+          const res = await this.$store.dispatch('versions/postNotes',this.form)
+
+          this.$emit('refresh')
+          this.$brynkaToast(res.message, 'success')
+          this.onReset()
+          this.$bvModal.hide('note-modal')
+        } catch (error) {
+
+          this.$brynkaToast(error, 'danger')
+        }
+    },
+    async onUpdate(e){
+      e.preventDefault()
+        debugger
         try {
           const res = await this.$store.dispatch('versions/patchNotes',this.form)
 
           this.$emit('refresh')
           this.$brynkaToast(res.message, 'success')
           this.onReset()
-          this.bvModal.hide('note-modal')
+          this.$bvModal.hide('note-modal')
         } catch (error) {
 
           this.$brynkaToast(error, 'danger')
