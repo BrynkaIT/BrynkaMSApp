@@ -101,7 +101,7 @@
           </b-col>
         </b-row>
         <div class="mt-2">
-          <p class="font-weight-light  text-secondary p-0 m-0">Notes</p>
+          <p class="font-weight-light  text-secondary p-0 m-0">Release Notes</p>
           <p class="font-weight-light font-italic text-muted p-0 m-0">
             <small>Bug fixes, New Features and Upcoming Enhancements</small>
           </p>
@@ -119,7 +119,7 @@
                   v-b-toggle="[`accordion-${index}`]"
                   variant="light"
                   >
-                  <span v-if="form.releaseNotes[index].title == ''">Note {{ index + 1 }}</span>
+                  <span v-if="form.releaseNotes[index].title == ''">Release Note {{ index + 1 }}</span>
                   <span v-else>{{ form.releaseNotes[index].title }}</span>
                   </b-button
                 >
@@ -217,7 +217,7 @@
               variant="transparent"
               class="font-italic text-primary"
               size="sm"
-              ><small>Add a Note</small></a
+              ><small>Add a Release Note</small></a
             >
           </div>
         </div>
@@ -299,17 +299,17 @@ export default {
       if (!this.$v.form.$invalid) {
         const dateString = this.releaseDate + 'T' + this.releaseTime
         this.form.releaseDate = dateString
-        debugger
+
         try {
           const res = await this.$store.dispatch('versions/postVersion', this.form)
-          debugger
+
           this.$emit('refresh')
           this.$brynkaToast(res.message, 'success')
           this.onReset()
           this.$store.commit('closeModal')
 
         } catch (error) {
-          debugger
+     
           this.$brynkaToast(error, 'danger')
         }
       } else {

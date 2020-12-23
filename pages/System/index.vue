@@ -17,7 +17,7 @@
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur aliquid quaerat.</p>
           </div>
           <div class="col-md-4 p-4">
-           <nuxt-link to="system/"><h5 class="text-primary">Themes</h5></nuxt-link>
+           <nuxt-link to="system/preferences"><h5 class="text-primary">Preferences</h5></nuxt-link>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur aliquid quaerat.</p>
           </div>
           <div class="col-md-4 p-4">

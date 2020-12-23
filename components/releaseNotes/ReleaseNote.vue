@@ -19,7 +19,7 @@
         ></b-form-select>
         </b-form-group>
        <div class="text-right ">
-      <b-button type="submit" variant="outline-secondary" @click="$bvModal.hide('releaseNote-modal')" size="sm">Close</b-button>
+      <b-button type="submit" variant="outline-secondary" @click="$bvModal.hide('infoModal')" size="sm">Close</b-button>
       <b-button type="submit" variant="primary" @click="onSubmit" size="sm">Submit</b-button>
 
       </div>
@@ -31,7 +31,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  props:['releaseNote','versionId'],
+  props:['content','versionId'],
 
   data() {
     return {
@@ -56,11 +56,13 @@ export default {
   mounted() {
 
     this.form.versionId =  this.versionId
-    this.form.releaseNoteId = this.releaseNote._id
-    if(this.releaseNote){
+
+    if(this.content){
+      debugger
       this.releaseNoteToEdit = true
-      this.form.title = this.releaseNote.title
-      this.form.module = this.releaseNote.module
+      this.form.releaseNoteId = this.content._id
+      this.form.title = this.content.title
+      this.form.module = this.content.module
     }
 
 
@@ -78,7 +80,7 @@ export default {
           this.$emit('refresh')
           this.$brynkaToast(res.message, 'success')
           this.onReset()
-          this.$bvModal.hide('releaseNote-modal')
+          this.$bvModal.hide('infoModal')
         } catch (error) {
           this.$brynkaToast(error, 'danger')
         }
@@ -92,7 +94,7 @@ export default {
           this.$emit('refresh')
           this.$brynkaToast(res.message, 'success')
           this.onReset()
-          this.$bvModal.hide('releaseNote-modal')
+          this.$bvModal.hide('infoModal')
         } catch (error) {
 
           this.$brynkaToast(error, 'danger')

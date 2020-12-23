@@ -15,12 +15,19 @@ const config = { headers: {'Content-Type': 'multipart/form-data'}};
 
 // Actions
 export const actions = {
-	getVersions({ rootState, commit }, payload) {
+	getAllVersions() {
 
+      return this.$axios.$get(`/versions` )
+      .then(res =>  Promise.resolve(res))
+			.catch(e => Promise.reject(e.response))
 
 	},
-	getVersion({ rootState, commit },  payload) {
+	getVersionByAppName({ },  query) {
+    query = query || ''
 
+    return this.$axios.$get(`/versions?${query}` )
+      .then(res =>  Promise.resolve(res))
+			.catch(e => Promise.reject(e.response))
 	},
 
 

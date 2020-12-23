@@ -11,7 +11,7 @@
           <b-tabs content-class="mt-3" justified>
             <div class="m-3 text-right">
               <b-button pill variant="dark"
-              @click="$store.commit('switchForm',{ title:'Add Release Note', to:'AddVersion',})"
+              @click="$store.commit('switchForm',{ title:'Add Version and Release Notes', to:'AddVersion',})"
               >New</b-button></div>
 
             <b-tab title="Manager App" active>
@@ -29,17 +29,17 @@
                   </div>
                     <b-card-text>
                       <div class="release-header">
-                        <div class="version-session" v-if="version._id != versionSession._id">
+                        <div class="version-session">
                           <h2 class="mt-4">v {{ version.build }}
                             <b-button
                               variant="transparent"
-                              @click="editVersion(version)"
+                             @click="onEdit('Version', version._id, '', version)"
                               class="p-0"
                               size="sm"
                               v-show="showEditBtns"><b-icon  icon="pencil" variant="info" ></b-icon></b-button>
                             <b-button
                               variant="transparent"
-                              @click="deleteVersion(version._id)"
+                              @click="onDelete('Version', version._id)"
                               class="p-0"
                               size="sm"
                               v-show="showEditBtns"><b-icon
@@ -53,13 +53,7 @@
                             </li>
                           </ul>
                         </div >
-                        <div class="edit-version-session mr-5" v-else>
-                          <EditVersion
-                            :vs="versionSession"
-                            @refresh="fetchAllVersions"
-                            @cancel="versionSession = ''"
-                            v-if="version._id == versionSession._id" />
-                        </div>
+
                         <div
                           class="note"
                           v-for="(releaseNote, index) in version.releaseNotes"
@@ -68,7 +62,7 @@
                             class="p-0"
                             v-show="showEditBtns"
                             variant="transparent"
-                            @click="addNewReleaseNote(version._id)">
+                            @click="addNew('ReleaseNote', version._id)">
                             <b-icon icon="plus"></b-icon>
                             <small class="text-primary"><i>Add a New ReleaseNote</i></small>
                         </b-button>
@@ -78,13 +72,13 @@
                               <strong >{{ releaseNote.title }}</strong>
                               <b-button
                                 variant="transparent"
-                                @click="editReleaseNote(releaseNote, version._id)"
+                                @click="onEdit('ReleaseNote', version._id, releaseNote._id, releaseNote)"
                                 class="p-0"
                                 size="sm"
                                 v-show="showEditBtns"><b-icon  icon="pencil" variant="info" ></b-icon></b-button>
                               <b-button
                                 variant="transparent"
-                                @click="deleteReleaseNote(version._id, releaseNote._id)"
+                                @click="onDelete('ReleaseNote', version._id, releaseNote._id)"
                                 class="p-0"
                                 size="sm"
                                 v-show="showEditBtns"><b-icon  icon="trash" variant="danger"></b-icon></b-button>
@@ -101,7 +95,7 @@
                                 <b-button
                                   class="p-0"
                                   variant="transparent"
-                                  @click="editNote(note, releaseNote._id, $event.target)"
+                                  @click="onEdit('Note', version._id, releaseNote._id, note)"
                                   size="sm"
                                   v-show="showEditBtns">
                                   <b-icon icon="pencil" variant="info"></b-icon>
@@ -109,7 +103,7 @@
                               <b-button
                                 class="p-0"
                                 variant="transparent"
-                                @click="deleteNote(releaseNote._id, note._id)"
+                                @click="onDelete('Note', version._id, releaseNote._id, note._id)"
                                 size="sm"
                                 v-show="showEditBtns"><b-icon  icon="trash" variant="danger"></b-icon></b-button>
 
@@ -120,12 +114,11 @@
                                 class="p-0"
                                 v-show="showEditBtns"
                                 variant="transparent"
-                                @click="addNewNote(version._id, releaseNote._id)">
+                                @click="addNew('Note', version._id, releaseNote._id)">
                                 <b-icon icon="plus"></b-icon>
                                 <small class="text-primary"><i>Add a New Note</i></small>
                               </b-button>
                             </ul>
-
                         </div>
                       </div>
                     </b-card-text>
@@ -143,21 +136,27 @@
                     :key="version._id"
                     :class="'active' ? index == 0 : ''"
                   >
-                   <div class="my-2 text-right">
-                    <b-button  variant="light" size="sm" @click="showEditBtns = !showEditBtns"><b-icon  icon="pencil" variant="danger"></b-icon></b-button>
+                   <div class="mt-2 text-right">
+                    <b-button  variant="light" size="sm" @click="showEditBtns = !showEditBtns"><b-icon  icon="tools" variant="danger"></b-icon></b-button>
                   </div>
                     <b-card-text>
-
                       <div class="release-header">
-                        <div class="main-release-note-session" v-if="version._id != versionSession._id">
+                        <div class="version-session">
                           <h2 class="mt-4">v {{ version.build }}
-                          <b-button
-                            variant="outline-secondary"
-                            pill
-                            size="sm"
-                            @click="editVersion(version)"
-                            v-show="showEditBtns">Edit</b-button>
-                          <b-button variant="outline-danger" pill size="sm" v-show="showEditBtns">Delete</b-button>
+                            <b-button
+                              variant="transparent"
+                             @click="onEdit('Version', version._id, '', version)"
+                              class="p-0"
+                              size="sm"
+                              v-show="showEditBtns"><b-icon  icon="pencil" variant="info" ></b-icon></b-button>
+                            <b-button
+                              variant="transparent"
+                               @click="onDelete('Version', version._id)"
+                              class="p-0"
+                              size="sm"
+                              v-show="showEditBtns"><b-icon
+                              icon="trash"
+                              variant="danger"></b-icon></b-button>
                           </h2>
                           <ul>
                             <li>
@@ -165,60 +164,73 @@
                               {{ $moment(version.releaseDate).format('LLLL') }}
                             </li>
                           </ul>
-                        </div>
-                        <div class="edit-main-release-note-session mr-5" v-else>
-                          <EditVersion
-                            :vs="versionSession"
-                            @refresh="fetchAllVersions"
-                            @cancel="versionSession = ''"
-                            v-if="version._id == versionSession._id" />
-                        </div>
+                        </div >
 
                         <div
                           class="note"
                           v-for="(releaseNote, index) in version.releaseNotes"
                           :key="index"
-                        >
-                          <h6 class="mt-4" v-if="!showReleaseNotes">
-                            <strong >{{ releaseNote.title }}</strong>
-                            <b-button variant="outline-secondary" @click="showReleaseNotes = !showReleaseNotes" pill size="sm" v-show="showEditBtns">Edit</b-button>
-                              <b-button variant="outline-danger" pill size="sm" v-show="showEditBtns">Delete</b-button>
-                          </h6>
+                          ><b-button
+                            class="p-0"
+                            v-show="showEditBtns"
+                            variant="transparent"
+                            @click="addNew('ReleaseNote', version._id)">
+                            <b-icon icon="plus"></b-icon>
+                            <small class="text-primary"><i>Add a New ReleaseNote</i></small>
+                        </b-button>
 
-                          <b-input-group prepend="Title" size="sm" v-if="showReleaseNotes">
-                            <b-form-input
-                              size="sm"
-                              v-model="releaseNote.title"
-                              type="text"
-                              placeholder="Title"
-                            ></b-form-input>
-                            <b-input-group-append>
-                              <b-button variant="success" size="sm" @click="showReleaseNotes = false">Save</b-button>
-                            </b-input-group-append>
-                          </b-input-group>
+                          <div class="release-note-session" >
+                            <h6 class="mt-4" >
+                              <strong >{{ releaseNote.title }}</strong>
+                              <b-button
+                                variant="transparent"
+                                @click="onEdit('ReleaseNote', version._id, releaseNote._id, releaseNote)"
+                                class="p-0"
+                                size="sm"
+                                v-show="showEditBtns"><b-icon  icon="pencil" variant="info" ></b-icon></b-button>
+                              <b-button
+                                variant="transparent"
+                                @click="onDelete('ReleaseNote', version._id, releaseNote._id)"
+                                class="p-0"
+                                size="sm"
+                                v-show="showEditBtns"><b-icon  icon="trash" variant="danger"></b-icon></b-button>
+                            </h6>
+                          </div>
 
-                          <ul>
-                            <li
-                              v-for="note in releaseNote.notes"
-                              :key="note._id"
-                               class="note-text"
-                            >
-                            <b-input-group prepend="Note" size="sm" v-if="showReleaseNotes" class="mt-3">
-                            <b-form-input
-                              size="sm"
-                              v-model="note.text"
-                              type="text"
-                              placeholder="Title"
-                            ></b-form-input>
-                            <b-input-group-append>
-                              <b-button variant="success" size="sm" @click="showReleaseNotes = false">Save</b-button>
-                            </b-input-group-append>
-                            </b-input-group>
+                            <ul class="mb-0">
+                              <li
+                                v-for="note in releaseNote.notes"
+                                :key="note._id"
+                                class="note-text"
+                              >
+                              <span> {{ note.text }}
+                                <b-button
+                                  class="p-0"
+                                  variant="transparent"
+                                  @click="onEdit('Note', version._id, releaseNote._id, note)"
+                                  size="sm"
+                                  v-show="showEditBtns">
+                                  <b-icon icon="pencil" variant="info"></b-icon>
+                                  </b-button>
+                              <b-button
+                                class="p-0"
+                                variant="transparent"
+                                @click="onDelete('Note', version._id, releaseNote._id, note._id)"
+                                size="sm"
+                                v-show="showEditBtns"><b-icon  icon="trash" variant="danger"></b-icon></b-button>
 
-                            <span v-else> {{ note.text }}</span>
+                              </span>
 
-                            </li>
-                          </ul>
+                              </li>
+                              <b-button
+                                class="p-0"
+                                v-show="showEditBtns"
+                                variant="transparent"
+                                @click="addNew('Note', version._id, releaseNote._id)">
+                                <b-icon icon="plus"></b-icon>
+                                <small class="text-primary"><i>Add a New Note</i></small>
+                              </b-button>
+                            </ul>
                         </div>
                       </div>
                     </b-card-text>
@@ -236,20 +248,27 @@
                     :key="version._id"
                     :class="'active' ? index == 0 : ''"
                   >
-                  <div class="my-2 text-right">
-                    <b-button  variant="light" size="sm" @click="showEditBtns = !showEditBtns"><b-icon  icon="pencil" variant="danger"></b-icon></b-button>
+                  <div class="mt-2 text-right">
+                    <b-button  variant="light" size="sm" @click="showEditBtns = !showEditBtns"><b-icon  icon="tools" variant="danger"></b-icon></b-button>
                   </div>
                     <b-card-text>
                       <div class="release-header">
-                        <div class="main-release-note-session" v-if="version._id != versionSession._id">
+                        <div class="version-session">
                           <h2 class="mt-4">v {{ version.build }}
                             <b-button
-                              variant="outline-secondary"
-                              @click="editVersion(version)"
-                              pill
+                              variant="transparent"
+                             @click="onEdit('Version', version._id, '', version)"
+                              class="p-0"
                               size="sm"
-                              v-show="showEditBtns">Edit</b-button>
-                            <b-button variant="outline-danger" pill size="sm" v-show="showEditBtns">Delete</b-button>
+                              v-show="showEditBtns"><b-icon  icon="pencil" variant="info" ></b-icon></b-button>
+                            <b-button
+                              variant="transparent"
+                              @click="onDelete('Version', version._id)"
+                              class="p-0"
+                              size="sm"
+                              v-show="showEditBtns"><b-icon
+                              icon="trash"
+                              variant="danger"></b-icon></b-button>
                           </h2>
                           <ul>
                             <li>
@@ -257,60 +276,73 @@
                               {{ $moment(version.releaseDate).format('LLLL') }}
                             </li>
                           </ul>
-                        </div>
-                        <div class="edit-main-release-note-session mr-5" v-else>
-                          <EditVersion
-                            :vs="versionSession"
-                            @refresh="fetchAllVersions"
-                            @cancel="versionSession = ''"
-                            v-if="version._id == versionSession._id" />
-                        </div>
+                        </div >
+
                         <div
                           class="note"
                           v-for="(releaseNote, index) in version.releaseNotes"
                           :key="index"
-                        >
+                          ><b-button
+                            class="p-0"
+                            v-show="showEditBtns"
+                            variant="transparent"
+                            @click="addNew('ReleaseNote', version._id)">
+                            <b-icon icon="plus"></b-icon>
+                            <small class="text-primary"><i>Add a New ReleaseNote</i></small>
+                        </b-button>
 
-                          <h6 class="mt-4" v-if="!showReleaseNotes">
-                            <strong >{{ releaseNote.title }}</strong>
-                            <b-button variant="outline-secondary" @click="showReleaseNotes = !showReleaseNotes" pill size="sm" v-show="showEditBtns">Edit</b-button>
-                              <b-button variant="outline-danger" pill size="sm" v-show="showEditBtns">Delete</b-button>
-                          </h6>
+                          <div class="release-note-session" >
+                            <h6 class="mt-4" >
+                              <strong >{{ releaseNote.title }}</strong>
+                              <b-button
+                                variant="transparent"
+                                @click="onEdit('ReleaseNote', version._id, releaseNote._id, releaseNote)"
+                                class="p-0"
+                                size="sm"
+                                v-show="showEditBtns"><b-icon  icon="pencil" variant="info" ></b-icon></b-button>
+                              <b-button
+                                variant="transparent"
+                                @click="onDelete('ReleaseNote', version._id, releaseNote._id)"
+                                class="p-0"
+                                size="sm"
+                                v-show="showEditBtns"><b-icon  icon="trash" variant="danger"></b-icon></b-button>
+                            </h6>
+                          </div>
 
-                          <b-input-group prepend="Title" size="sm" v-if="showReleaseNotes">
-                            <b-form-input
-                              size="sm"
-                              v-model="releaseNote.title"
-                              type="text"
-                              placeholder="Title"
-                            ></b-form-input>
-                            <b-input-group-append>
-                              <b-button variant="success" size="sm" @click="showReleaseNotes = false">Save</b-button>
-                            </b-input-group-append>
-                          </b-input-group>
+                            <ul class="mb-0">
+                              <li
+                                v-for="note in releaseNote.notes"
+                                :key="note._id"
+                                class="note-text"
+                              >
+                              <span> {{ note.text }}
+                                <b-button
+                                  class="p-0"
+                                  variant="transparent"
+                                  @click="onEdit('Note', version._id, releaseNote._id, note)"
+                                  size="sm"
+                                  v-show="showEditBtns">
+                                  <b-icon icon="pencil" variant="info"></b-icon>
+                                  </b-button>
+                              <b-button
+                                class="p-0"
+                                variant="transparent"
+                                @click="onDelete('Note', version._id, releaseNote._id, note._id)"
+                                size="sm"
+                                v-show="showEditBtns"><b-icon  icon="trash" variant="danger"></b-icon></b-button>
 
-                          <ul>
-                            <li
-                              v-for="note in releaseNote.notes"
-                              :key="note._id"
-                               class="note-text"
-                            >
-                            <b-input-group prepend="Note" size="sm" v-if="showReleaseNotes" class="mt-3">
-                            <b-form-input
-                              size="sm"
-                              v-model="note.text"
-                              type="text"
-                              placeholder="Title"
-                            ></b-form-input>
-                            <b-input-group-append>
-                              <b-button variant="success" size="sm" @click="showReleaseNotes = false">Save</b-button>
-                            </b-input-group-append>
-                            </b-input-group>
+                              </span>
 
-                            <span v-else> {{ note.text }}</span>
-
-                            </li>
-                          </ul>
+                              </li>
+                              <b-button
+                                class="p-0"
+                                v-show="showEditBtns"
+                                variant="transparent"
+                                @click="addNew('Note', version._id, releaseNote._id)">
+                                <b-icon icon="plus"></b-icon>
+                                <small class="text-primary"><i>Add a New Note</i></small>
+                              </b-button>
+                            </ul>
                         </div>
                       </div>
                     </b-card-text>
@@ -324,11 +356,13 @@
        <FullWidthModal :show="this.formToOpen.showModal">
         <AddVersion @refresh="fetchAllVersions"/>
     </FullWidthModal>
-    <b-modal id="note-modal" :title="note.title" :hide-footer="true">
-      <Note :note="note.content" :releaseNoteId="note.releaseNoteId" :versionId="note.versionId" @refresh="fetchAllVersions"/>
-    </b-modal>
-    <b-modal id="releaseNote-modal" :title="releaseNote.title" :hide-footer="true">
-      <ReleaseNote :releaseNote="releaseNote.content" :versionId="releaseNote.versionId" @refresh="fetchAllVersions"/>
+    <b-modal id="infoModal" :title="infoModal.modalTitle" :hide-footer="true">
+      <component
+        :is="activeComponent"
+        :content="infoModal.content"
+        :releaseNoteId="infoModal.releaseNoteId"
+        :versionId="infoModal.versionId"
+        @refresh="fetchAllVersions" />
     </b-modal>
     </div>
   </div>
@@ -340,7 +374,7 @@ import SideNav from '@/components/shared/SideNav.vue'
 import RibbonHeader from '@/components/shared/RibbonHeader'
 import FullWidthModal from '@/components/shared/FullWidthModal.vue'
 import AddVersion from '@/components/releaseNotes/AddVersion'
-import EditVersion from '@/components/releaseNotes/EditVersion'
+import Version from '@/components/releaseNotes/EditVersion'
 import ReleaseNote from '@/components/releaseNotes/ReleaseNote'
 import Note from '@/components/releaseNotes/Note'
 
@@ -351,16 +385,17 @@ export default {
     ...mapState({
       formToOpen: state => state.formToOpen,
     }),
-    releaseNoteIndex(){
-      return this.noteIndex
-    }
+
+    activeComponent(){
+      return this.infoModal.name
+    },
   },
   components: {
     SideNav,
     RibbonHeader,
     FullWidthModal,
     AddVersion,
-    EditVersion,
+    Version,
     ReleaseNote,
     Note
   },
@@ -370,20 +405,13 @@ export default {
       managerAppVersions: '',
       apiVersions:'',
       showEditBtns: false,
-      showReleaseNotes: false,
-      noteIndex:'',
-      versionSession:'',
-      releaseNote:{
-        title:'',
-        content:null,
-        versionId:''
-      },
-      note:{
-        title:'',
-        content:null,
+      infoModal:{
+        name:'',
+        modalTitle:'',
         releaseNoteId:'',
-        versionId:''
-      }
+        versionId:'',
+        content:''
+      },
 
     }
   },
@@ -392,9 +420,9 @@ export default {
   },
 
   methods: {
-    //Version
+
     async fetchAllVersions(){
-      this.versionSession = ''
+
       this.showEditBtns = false
       this.webAppVersions = await this.fetchVersion('webApp')
       this.managerAppVersions = await this.fetchVersion('managerApp')
@@ -408,10 +436,31 @@ export default {
         this.$brynkaToast(error.response, 'danger')
       }
     },
-    editVersion(version) {
-      this.versionSession = version
+
+     addNew(ModalToOpen, versionId, releaseNoteId){
+       const vid = versionId || ''
+       const rid = releaseNoteId || ''
+      this.infoModal.name = ModalToOpen
+      this.infoModal.modalTitle = `Add New ${ModalToOpen}`
+      this.infoModal.content = ''
+      this.infoModal.releaseNoteId = rid,
+      this.infoModal.versionId = vid,
+     this.$bvModal.show('infoModal')
     },
-    async deleteVersion(versionId) {
+    onEdit(ModalToOpen, versionId, releaseNoteId, content){
+       const vid = versionId || ''
+       const rid = releaseNoteId || ''
+      this.infoModal.name = ModalToOpen
+      this.infoModal.modalTitle = `Edit ${ModalToOpen}`
+      this.infoModal.content = content
+      this.infoModal.releaseNoteId = rid,
+      this.infoModal.versionId = vid,
+     this.$bvModal.show('infoModal')
+    },
+    async onDelete(session, versionId, releaseNoteId, noteId) {
+      const vid = versionId || ''
+      const rid = releaseNoteId || ''
+      const nid = noteId || ''
       this.$bvModal
         .msgBoxConfirm(`Really Delete?`, {
           title: 'Confirm',
@@ -429,61 +478,11 @@ export default {
             return
           } else {
             try {
-        const res = await this.$store.dispatch('versions/deleteVersion', {
-          versionId: versionId,
-        })
-        this.$brynkaToast(res.message, 'success')
-        this.fetchAllVersions()
-      } catch (error) {
-         this.$brynkaToast(error, 'danger')
-      }
-      }
-    })
-    },
-    //Release Note
-    addNewReleaseNote(versionId, button){
-    this.releaseNote.title = `Add New Release Note`
-     this.releaseNote.content = ''
-     this.releaseNote.versionId = versionId
-     this.$bvModal.show('releaseNote-modal')
-    },
-    editReleaseNote(releaseNote, versionId) {
-      this.releaseNote.content = releaseNote
-      this.showReleaseNotes = true
-      this.releaseNote.title = `Edit Release Note`
-      this.releaseNote.versionId = versionId
-      this.$bvModal.show( 'releaseNote-modal')
-    },
-    cancelReleaseNote() {
-      this.releaseNote = ''
-      this.showReleaseNotes = false
-    },
-    refreshReleaseNotes(){
-      this.fetchAllVersions()
-      this.cancelReleaseNote()
-    },
-    async deleteReleaseNote(versionId, releaseNoteId) {
-      this.$bvModal
-        .msgBoxConfirm(`Really Delete?`, {
-          title: 'Confirm',
-          size: 'sm',
-          buttonSize: 'sm',
-          okVariant: 'danger',
-          okTitle: 'YES',
-          cancelTitle: 'NO',
-          footerClass: 'p-2',
-          hideHeaderClose: false,
-          centered: true
-        })
-        .then(async value => {
-          if (!value) {
-            return
-          } else {
-            try {
-        const res = await this.$store.dispatch('versions/deleteReleaseNote', {
-          versionId: versionId,
-          releaseNoteId: releaseNoteId,
-        })
+          const res = await this.$store.dispatch(`versions/delete${session}`, {
+            versionId: vid,
+            releaseNoteId: rid,
+            noteId: nid
+          })
         this.$brynkaToast(res.message, 'success')
         this.fetchAllVersions()
       } catch (error) {
@@ -493,51 +492,7 @@ export default {
     })
     },
 
-    //Note
-    addNewNote(versionId, releaseNoteId, button){
-     this.note.title = `Add New Note`
-     this.note.content = ''
-     this.note.versionId = versionId
-     this.note.releaseNoteId = releaseNoteId
-     this.$bvModal.show('note-modal')
-    },
-    editNote(note, releaseNoteId, button) {
-      this.note.title = `Edit Note`
-      this.note.content = note
-      this.note.releaseNoteId = releaseNoteId
-      this.$root.$emit('bv::show::modal', 'note-modal', button)
-    },
-    async deleteNote(releaseNoteId, noteId) {
-      this.$bvModal
-        .msgBoxConfirm(`Really Delete?`, {
-          title: 'Confirm',
-          size: 'sm',
-          buttonSize: 'sm',
-          okVariant: 'danger',
-          okTitle: 'YES',
-          cancelTitle: 'NO',
-          footerClass: 'p-2',
-          hideHeaderClose: false,
-          centered: true
-        })
-        .then(async value => {
-          if (!value) {
-            return
-          } else {
-            try {
-        const res = await this.$store.dispatch('versions/deleteNote', {
-          releaseNoteId: releaseNoteId,
-           noteId : noteId,
-        })
-        this.$brynkaToast(res.message, 'success')
-        this.fetchAllVersions()
-      } catch (error) {
-         this.$brynkaToast(error, 'danger')
-      }
-      }
-    })
 
-    },
   }
 }
 </script>

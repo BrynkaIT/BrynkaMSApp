@@ -6,7 +6,7 @@ export const state = () => {
 
     sideBarOpen: false,
     formToOpen: {},
-    versions:''
+    // versions:''
   };
 };
 
@@ -17,9 +17,9 @@ export const getters = {
 // Mutations
 export const mutations = {
 
-  setVersions(state, versions){
-    state.versions = versions
-  },
+  // setVersions(state, versions){
+  //   state.versions = versions
+  // },
   toggleSideBar(state, event){
     state.sideBarOpen = event
   },
@@ -55,15 +55,15 @@ export const actions = {
     commit('auth/setCurrentUser', managerApp_currentUser, { root: true })
   },
 
- 
 
-  async getVersion({ commit }){
-    try {
-      const { versions } = await this.$axios.$get(`/versions?app=webApp&build=^${process.env.version}`)
-      // console.log('version', versions)
-      commit('setVersions', versions.reverse())
-    } catch (error) {
-      console.log('Was unable to fetch versions')
-    }
-  }
+
+  // async getVersion({ commit }){
+  //   try {
+  //     const { versions } = await this.$axios.$get(`/versions?app=webApp&build=^${process.env.version}`)
+  //     // console.log('version', versions)
+  //     commit('setVersions', versions.reverse())
+  //   } catch (error) {
+  //     console.log('Was unable to fetch versions')
+  //   }
+  // }
 }

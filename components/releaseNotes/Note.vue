@@ -33,7 +33,7 @@
 
 
         <div class="text-right">
-          <b-button variant="secondary"  size="sm" @click="$bvModal.hide('note-modal')" >  Close  </b-button>
+          <b-button variant="secondary"  size="sm" @click="$bvModal.hide('infoModal')" > Close</b-button>
           <b-button  size="sm" variant="primary" type="submit">Submit</b-button>
         </div>
 
@@ -43,7 +43,7 @@
 
 <script>
 export default {
-  props:['note', 'releaseNoteId', 'versionId'],
+  props:['content', 'releaseNoteId', 'versionId'],
   data(){
     return{
       mediaFiles:[],
@@ -62,11 +62,11 @@ export default {
     this.form.releaseNoteId = this.releaseNoteId
     this.form.versionId = this.versionId
 
-    if(this.note){
+    if(this.content){
       this.noteToEdit = true
-      this.form.noteId = this.note._id
-      this.form.text = this.note.text
-      this.mediaFiles = this.note.media
+      this.form.noteId = this.content._id
+      this.form.text = this.content.text
+      this.mediaFiles = this.content.media
     }
 
   },
@@ -81,7 +81,7 @@ export default {
           this.$emit('refresh')
           this.$brynkaToast(res.message, 'success')
           this.onReset()
-          this.$bvModal.hide('note-modal')
+          this.$bvModal.hide('infoModal')
         } catch (error) {
 
           this.$brynkaToast(error, 'danger')
@@ -94,7 +94,7 @@ export default {
           this.$emit('refresh')
           this.$brynkaToast(res.message, 'success')
           this.onReset()
-          this.$bvModal.hide('note-modal')
+          this.$bvModal.hide('infoModal')
         } catch (error) {
 
           this.$brynkaToast(error, 'danger')
