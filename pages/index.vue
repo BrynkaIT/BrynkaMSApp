@@ -157,7 +157,8 @@ export default {
           this.$router.push(`/dashboard`)
         } catch (e) {
           this.loading.status = false
-          this.msg.credentials = e.response.data.message
+          // this.msg.credentials = e.response.data.message
+          this.$brynkaToast(e, 'danger')
           return false
         }
       }
