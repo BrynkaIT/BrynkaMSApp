@@ -58,7 +58,7 @@ export default {
     this.form.versionId =  this.versionId
 
     if(this.content){
-      debugger
+
       this.releaseNoteToEdit = true
       this.form.releaseNoteId = this.content._id
       this.form.title = this.content.title

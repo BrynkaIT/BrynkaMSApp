@@ -35,7 +35,7 @@ export const actions = {
 
 	async patchEmailNotification({ dispatch }, data) {
 		const formData =  await dispatch('createFormData', data)
-		debugger
+
 		return this.$axios.$patch(`/emailnotifications/${ data.id }`, formData, config)
 		.then(res => {
 			return Promise.resolve(res)
@@ -73,7 +73,7 @@ export const actions = {
 	},
 
 	async putEmailNotification({ dispatch }, data) {
-		debugger
+
 		const formData =  await dispatch('createFormData', data)
 		return this.$axios.$put(`/emailnotifications/${ data.id }`, formData, config)
 		.then(res => {
@@ -83,7 +83,7 @@ export const actions = {
 	},
 
 	async putSmsNotification({ dispatch }, data) {
-		debugger
+
 		const formData =  await dispatch('createFormData', data)
 		return this.$axios.$put(`/smsnotifications/${ data.id }`, formData, config)
 		.then(res => {

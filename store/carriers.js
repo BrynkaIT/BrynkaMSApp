@@ -46,7 +46,7 @@ export const actions = {
 	},
 
 	putCarrier({ commit }, carrierToEdit) {
-    debugger
+
 		return this.$axios.$put(`/carrier/${ carrierToEdit.id }`, carrierToEdit)
 			.then(res => {
 				return Promise.resolve(res)

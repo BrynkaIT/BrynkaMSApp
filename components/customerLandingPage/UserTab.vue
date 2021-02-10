@@ -205,7 +205,7 @@ export default {
 
       } catch (error) {
         console.log(error)
-        debugger
+
         this.$brynkaToast(error, 'danger')
       }
 

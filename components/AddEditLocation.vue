@@ -175,10 +175,10 @@ export default {
     },
     async onUpdate(location) {
       try {
-        debugger
+
         const res = await this.$store.dispatch('locations/putLocation', location)
         this.$emit('refresh')
-        debugger
+
         this.$brynkaToast(res.message, 'success')
         this.onReset()
         this.$store.commit('closeModal')

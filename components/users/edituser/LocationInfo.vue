@@ -175,7 +175,7 @@ export default {
 methods:{
 
   async getLocationInfo(){
-    debugger
+
       if(this.user.location){
       this.locationInfo.locationId = this.user.location._id
       this.staticFields.location = this.user.location.name
@@ -211,7 +211,7 @@ methods:{
       await this.$store.dispatch('locations/getLocations', {customerId:this.$route.params.id})
     },
     async getBuildings(lid) {
-      debugger
+
       const locationId = lid || this.locationInfo.locationId
       if (locationId != null) {
       await this.$store.dispatch('buildings/getBuildings', `?lid=${locationId}`)
@@ -243,7 +243,7 @@ methods:{
       if (!this.$v.locationInfo.$invalid) {
          this.overlay = true
         this.locationInfo.id = this.user._id
-        debugger
+
         try {
           const res = await this.$store.dispatch('contacts/patchContact', this.locationInfo)
           this.$emit('refresh', res.contact._id)

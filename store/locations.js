@@ -24,7 +24,7 @@ export const mutations = {
 export const actions = {
 	getLocations({ rootState, commit }, payload) {
 
-    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubfolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/${payload.customerId}/locations`
     }else{
       URL = `/manage/customer/${payload.customerId}/locations`
@@ -34,18 +34,18 @@ export const actions = {
 
 		return this.$axios.$get(`${URL}${query}`)
 			.then(res => {
-        debugger
+
 				commit('setLocations', res.locations )
 				return Promise.resolve(res)
 			})
 			.catch(e => {
-        debugger
+
         Promise.reject(e.response)
       });
 	},
 	getLocation({ rootState, commit },  payload) {
 
-    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubfolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/${payload.customerId}/locations`
     }else{
       URL = `/manage/customer/${payload.customerId}/locations`
@@ -64,7 +64,7 @@ export const actions = {
 
 	postLocation({ rootState }, payload) {
 
-    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubfolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/${payload.customerId}/locations`
     }else{
       URL = `/manage/customer/${payload.customerId}/locations`
@@ -76,7 +76,7 @@ export const actions = {
 	},
 
 	putLocation({ rootState },  payload) {
-    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubfolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/${payload.customerId}/locations`
     }else{
       URL = `/manage/customer/${payload.customerId}/locations`
@@ -87,7 +87,7 @@ export const actions = {
 	},
 
 	deleteLocation({ rootState }, locationId) {
-    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubfolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/locations`
     }else{
       URL = `/manage/locations`

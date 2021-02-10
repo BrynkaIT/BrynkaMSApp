@@ -35,7 +35,7 @@ export const actions = {
   async patchVersion({ rootState, dispatch },  payload) {
 
     const version = await dispatch('createFormData', payload)
-    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubfolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/versions`
     }else{
       throw "You are not authorized"
@@ -48,7 +48,7 @@ export const actions = {
   async patchReleaseNotes({ rootState, dispatch },  payload) {
 
     const rn = await dispatch('createFormData', payload)
-    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubfolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/versions/${payload.versionId}/releaseNotes/${payload.releaseNoteId}`
     }else{
       throw "You are not authorized"
@@ -62,7 +62,7 @@ export const actions = {
   async patchNotes({ rootState, dispatch },  payload) {
 
     const note = await dispatch('createFormData', payload)
-    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubfolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/versions/${payload.releaseNoteId}/notes/${payload.noteId}`
     }else{
       throw "You are not authorized"
@@ -75,8 +75,8 @@ export const actions = {
 
   // Post Routes
   postVersion({ rootState }, payload) {
-debugger
-    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+
+    if(rootState.auth.auth.customerSubfolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/versions`
     }else{
       throw "You are not authorized"
@@ -88,7 +88,7 @@ debugger
 
   postReleaseNotes({ rootState }, payload){
 
-    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubfolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/versions/releaseNotes/${payload.versionId}`
 
     }else{
@@ -100,7 +100,7 @@ debugger
   },
   async postNotes({ rootState, dispatch },  payload) {
 
-    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubfolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/versions/${payload.versionId}/releaseNotes/${payload.releaseNoteId}`
     }else{
       throw "You are not authorized"
@@ -115,7 +115,7 @@ debugger
 	async putVersion({ rootState, dispatch },  payload) {
 
     const version = await dispatch('createFormData', payload)
-    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubfolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/versions`
     }else{
       throw "You are not authorized"
@@ -127,7 +127,7 @@ debugger
 	},
   async putReleaseNotes({ rootState, dispatch },  payload) {
 
-    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubfolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/versions/${payload.versionId}/releaseNotes/${payload.releaseNoteId}`
     }else{
       throw "You are not authorized"
@@ -140,7 +140,7 @@ debugger
 
   //Delete routes
   async deleteVersion({ rootState }, payload) {
-    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubfolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/versions/${payload.versionId}/`
     }else{
       throw "You are not authorized"
@@ -150,7 +150,7 @@ debugger
 			.catch(e => Promise.reject(e.response))
   },
 	async deleteReleaseNote({ rootState }, payload) {
-    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubfolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/versions/${payload.versionId}/releaseNotes/${payload.releaseNoteId}`
     }else{
       throw "You are not authorized"
@@ -160,7 +160,7 @@ debugger
 			.catch(e => Promise.reject(e.response))
   },
   async deleteNote({ rootState }, payload) {
-    if(rootState.auth.auth.customerSubFolder === 'brynka' && rootState.auth.auth.userType === 'API'){
+    if(rootState.auth.auth.customerSubfolder === 'brynka' && rootState.auth.auth.userType === 'API'){
       URL= `/manage/brynka/versions/${payload.releaseNoteId}/notes/${payload.noteId}`
 
     }else{

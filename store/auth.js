@@ -13,8 +13,10 @@ export const getters = {
     return !!state.auth;
   },
   isBrynka(state){
+
     if(state.auth){
-      if(state.auth.customerSubFolder === 'brynka' && state.auth.userType === 'API'){
+
+      if(state.auth.customerSubfolder === 'brynka' && state.auth.userType === 'API'){
         return true
       }else{
         return false

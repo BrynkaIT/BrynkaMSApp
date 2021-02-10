@@ -249,6 +249,7 @@ export default {
 }
 .logo-width{
   width:20%;
+  height: 20%;
 }
 .list-group-item {
     padding: 0.5rem 1rem !important;

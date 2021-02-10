@@ -8,7 +8,6 @@
                   <img src="../assets/images/brynkaManagerLogo-lg.png" class="w-100"/>
                     <span class="display-1 d-block text-success wrong">Wrong Page!</span>
                     <div class="mb-4">Please enter your specific login page</div>
-                    <!-- <nuxt-link to="./">Back Home </nuxt-link> -->
                 </div>
             </div>
         </div>

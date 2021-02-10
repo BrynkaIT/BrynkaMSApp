@@ -707,14 +707,14 @@ export default {
       this.form.subFolder = this.form.name.toLowerCase().replace(/\s/g, '')
     },
     async displaySelectedCustomerParents(ids) {
- 
+
       if(ids[0] == null) {
         this.$brynkaToast("This customer is not assigned to a parent customer", "warning")
       }
       ids.forEach(async (id) => {
 
         let URL;
-        if(this.auth.customerSubFolder === 'brynka' && this.auth.userType === 'API'){
+        if(this.auth.customerSubfolder === 'brynka' && this.auth.userType === 'API'){
           URL= "/manage/brynka/customers"
           }else{
           URL = "/manage/customers"

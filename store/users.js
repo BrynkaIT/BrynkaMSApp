@@ -62,15 +62,15 @@ export const actions = {
 			.catch(e => Promise.reject(e.response))
 	},
 	async patchUser({ dispatch }, data) {
-      debugger
+
 			const userToEdit = await dispatch('createFormData', data)
 			return this.$axios.$patch(`/users/${data.id}`, userToEdit, config)
 			.then(res => {
-        debugger
+
 				return Promise.resolve(res)
 			})
 			.catch(e => {
-        debugger
+
         Promise.reject(e.response)})
 
 
