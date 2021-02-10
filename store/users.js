@@ -1,15 +1,26 @@
 const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 
-// export const state = () => {
-//     return {
-//         users: null,
+export const state = () => {
+  return {
+    users: null,
+    currentUser: null,
+  }
+}
 
-//     }
-// }
+
+// Getter functions
+export const getters = {
+
+	currentUser(state) {
+	  return state.currentUser || null;
+	},
+}
 
 // Mutations
 export const mutations = {
-
+  setCurrentUser(state, currentUser) {
+    state.currentUser = currentUser
+  },
 }
 
 

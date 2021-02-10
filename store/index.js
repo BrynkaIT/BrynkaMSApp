@@ -1,25 +1,20 @@
 const cookieparser = process.server ? require('cookieparser') : undefined
-const Cookie = process.client ? require('js-cookie') : undefined
 
 export const state = () => {
   return {
-
+    managedService: null,
     sideBarOpen: false,
     formToOpen: {},
-    // versions:''
+
   };
 };
 
-// Getter functions
-export const getters = {
-
-}
 // Mutations
 export const mutations = {
+  setManagedService(state, ms) {
+    state.managedService = ms
+  },
 
-  // setVersions(state, versions){
-  //   state.versions = versions
-  // },
   toggleSideBar(state, event){
     state.sideBarOpen = event
   },
@@ -34,16 +29,26 @@ export const mutations = {
 
 // Actions
 export const actions = {
-  nuxtServerInit({ commit }, { req }) {
+  async nuxtServerInit({ commit, dispatch }, { req }) {
     let managerApp_auth = null
-    let managerApp_currentUser = null
+    let url = req.url
+    const regex = /\/([a-z0-9]+\/)+/gm
+    const urlParams = url.match(regex)
+    let managerApp_managedService = {}
 
+    if (urlParams != null) {
+      managerApp_managedService = await dispatch('createMSObj', urlParams[0].slice(1, -1))
+    }
 
     if (req.headers.cookie) {
       const parsed = cookieparser.parse(req.headers.cookie)
       try {
-        if (parsed.managerApp_auth) { managerApp_auth = JSON.parse(parsed.managerApp_auth) }
-        if (parsed.managerApp_currentUser) { managerApp_currentUser = JSON.parse(parsed.managerApp_currentUser) }
+        if (parsed.managerApp_auth) {
+          managerApp_auth = JSON.parse(parsed.managerApp_auth)
+        }
+        if (parsed.managerApp_managedService) {
+          managerApp_managedService = await dispatch('createMSObj', parsed.managerApp_managedService)
+        }
 
       } catch (err) {
         // No valid cookie found
@@ -52,18 +57,39 @@ export const actions = {
 
     }
     commit('auth/setAuth', managerApp_auth, { root: true })
-    commit('auth/setCurrentUser', managerApp_currentUser, { root: true })
+    commit('setManagedService', managerApp_managedService)
+  },
+  async validateCustomer({}, subFolder){
+    return this.$axios.$get(`/validateCustomerSubfolder/${subFolder}`)
+    .then(res =>{
+      // dispatch('getVersion')
+      return res
+    } )
+    .catch(e => Promise.reject(e.response));
+  },
+  async createMSObj({}, msName) {
+
+    const customerSubfolder = msName.split('/').shift();
+    try {
+      let { logoUrl } = await this.$axios.$get(`/customers/${customerSubfolder}/logo`)
+
+      if(!logoUrl){
+        logoUrl = process.env.WEB_APP_DOMAIN+'/img/brynka.png'
+      }else{
+        logoUrl = process.env.baseURL+logoUrl;
+      }
+
+      return  {
+        name : customerSubfolder,
+        path :`/${customerSubfolder}/`,
+        mainLogo :logoUrl,
+        secondaryLogo : logoUrl,
+      }
+
+    } catch (error) {
+      console.log('Invalid Customer!')
+    }
   },
 
-
-
-  // async getVersion({ commit }){
-  //   try {
-  //     const { versions } = await this.$axios.$get(`/versions?app=webApp&build=^${process.env.version}`)
-  //     // console.log('version', versions)
-  //     commit('setVersions', versions.reverse())
-  //   } catch (error) {
-  //     console.log('Was unable to fetch versions')
-  //   }
-  // }
+ 
 }

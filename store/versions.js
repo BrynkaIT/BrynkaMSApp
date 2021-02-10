@@ -1,10 +1,10 @@
 const config = { headers: {'Content-Type': 'multipart/form-data'}};
-// export const state = () => {
-// 	return {
-// 		// versions: null,
+export const state = () => {
+	return {
+		versions: null,
 
-// 	}
-// }
+	}
+}
 // Mutations
 // export const mutations = {
 // 	setReleaseNotes(state, versions) {

@@ -1,11 +1,9 @@
-const cookieparser = process.server ? require('cookieparser') : undefined
 const Cookie = process.client ? require('js-cookie') : undefined
 
 export const state = () => {
   return {
     auth: null,
-    currentUser:null,
-
+    requestedUrl:''
   };
 };
 
@@ -23,9 +21,7 @@ export const getters = {
       }
     }
   },
-  currentUser(state) {
-    return state.currentUser || null;
-  },
+
 }
 // Mutations
 export const mutations = {
@@ -33,32 +29,65 @@ export const mutations = {
     state.auth = auth
   },
 
-  setCurrentUser(state, currentUser) {
-    state.currentUser = currentUser
+  setTempAuth(state, auth) {
+    state.tempAuth = auth
+  },
+  setResetToken(state, token) {
+    state.resetToken = token
+  },
+  setAccountToken(state, token) {
+    state.accountToken = token
+  },
+  setRequestedUrl(state, url){
+    state.requestedUrl = url
   }
-
 }
 
 // Actions
 export const actions = {
+  forgetPassword({}, payload) {
+    return this.$axios.post('/requestPasswordReset', payload)
+    .then(res => {
+      return Promise.resolve(res)
+    })
+    .catch(e => Promise.reject(e.response))
+  },
 
-  async login({commit }, credentials) {
-
+  async genericLogin({ commit }, credentials) {
     try {
-      const auth = await this.$axios.post('/login', credentials)
-      if (!auth)  return Promise.reject(e)
 
+      const auth = await this.$axios.post('/login', credentials)
+      if (!auth) { return Promise.reject(e) }
+      commit('setTempAuth', auth.data)
+      return auth
+    }
+    catch (e) {
+      return Promise.reject(e)
+    }
+  },
+
+  async login({ dispatch, commit }, credentials) {
+
+    let apiURL = credentials.customerId ? '/login/changeCustomer': '/login'
+debugger
+    try {
+      const auth = await this.$axios.post(apiURL, credentials)
+      if (!auth) { return Promise.reject(e) }
+      debugger
       commit('setAuth', auth.data) // mutating to store for client rendering
       Cookie.set('managerApp_auth', auth.data) // saving token in cookie for server rendering
+      debugger
+      const res = await this.$axios.get('/users/me?deep=true') // get current user
+      localStorage.setItem('managerApp_currentUser', JSON.stringify(res.data.user));
+      debugger
+      const ms = await dispatch ('createMSObj', auth.data.customerSubfolder, { root:true })
+      if (!ms) return Promise.reject(e)
+      debugger
+      commit('setManagedService', ms, { root:true }) // mutating to store set
+      Cookie.set('managerApp_managedService', auth.data.customerSubfolder, { expires: 1 }) // saving token in cookie for server rendering
 
-      const currentuser = await this.$axios.get(`/users/${auth.data.userId}?deep=true`) // get current user
-      if (!currentuser) { return Promise.reject(e) }
+      return auth
 
-      commit('setCurrentUser', currentuser.data.user) // mutating to store for client rendering
-      // Cookie.set('managerApp_currentUser', currentuser.data.user) // saving token in cookie for server rendering
-      localStorage.setItem('managerApp_currentUser', JSON.stringify(currentuser.data.user));
-
-      // await this.$store.dispatch('getVersion') // Fetch version
     }
     catch (e) {
       return Promise.reject(e)
@@ -68,10 +97,19 @@ export const actions = {
   logOut({ commit }) {
     if(Cookie){
       Cookie.remove('managerApp_auth')
-      // Cookie.remove('managerApp_currentUser')
+      Cookie.remove('managerApp_managedService')
     }
-
     commit('auth/setAuth', null, { root: true })
-    commit('auth/setCurrentUser', null, { root: true })
-  }
+
+  },
+  resetPassword({commit}, payload) {
+
+    commit('setResetToken', payload.token)
+
+    return this.$axios.post('/resetPassword', payload.form)
+    .then(res => {
+      return Promise.resolve(res)
+    })
+    .catch(e => Promise.reject(e.response))
+  },
 }
