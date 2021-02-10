@@ -7,7 +7,7 @@
                 <div class="col-md-12 text-center">
                     <span class="display-1 d-block">404</span>
                     <div class="mb-4 lead">The page you are looking for was not found.</div>
-                    <nuxt-link to="./">Back Home </nuxt-link>
+                    <a href="#" @click="() => {this.$router.back()}">Back Home </a>
                 </div>
             </div>
         </div>
@@ -17,8 +17,23 @@
 </template>
 
 <script>
-export default {
 
+import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
+
+export default {
+  layout: 'login',
+
+  computed: {
+    ...mapState({
+
+      auth: state => state.auth.auth,
+      sideBarOpen: state => state.sideBarOpen,
+      managedService : state => state.managedService
+
+    }),
+
+  },
 }
 </script>
 

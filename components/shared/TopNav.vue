@@ -58,7 +58,7 @@ export default {
 
       auth: state => state.auth.auth,
       sideBarOpen: state => state.sideBarOpen,
-      // currentUser : state => state.auth.currentUser
+      managedService : state => state.managedService
 
     }),
     ...mapGetters({
@@ -89,7 +89,7 @@ export default {
    logout () {
       this.$store.dispatch('auth/logOut')
       localStorage.clear()
-      this.$router.push(`/`)
+      this.$router.push(`/${this.managedService.name}/login`)
     }
   }
 }

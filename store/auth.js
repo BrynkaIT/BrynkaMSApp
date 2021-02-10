@@ -69,20 +69,20 @@ export const actions = {
   async login({ dispatch, commit }, credentials) {
 
     let apiURL = credentials.customerId ? '/login/changeCustomer': '/login'
-debugger
+
     try {
       const auth = await this.$axios.post(apiURL, credentials)
       if (!auth) { return Promise.reject(e) }
-      debugger
+
       commit('setAuth', auth.data) // mutating to store for client rendering
       Cookie.set('managerApp_auth', auth.data) // saving token in cookie for server rendering
-      debugger
+
       const res = await this.$axios.get('/users/me?deep=true') // get current user
       localStorage.setItem('managerApp_currentUser', JSON.stringify(res.data.user));
-      debugger
+
       const ms = await dispatch ('createMSObj', auth.data.customerSubfolder, { root:true })
       if (!ms) return Promise.reject(e)
-      debugger
+
       commit('setManagedService', ms, { root:true }) // mutating to store set
       Cookie.set('managerApp_managedService', auth.data.customerSubfolder, { expires: 1 }) // saving token in cookie for server rendering
 

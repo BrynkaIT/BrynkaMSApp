@@ -112,15 +112,15 @@ export default {
    layout:'login',
    middleware: 'notAuthenticated',
 
-  // async validate({ params , store }) {
+  async validate({ params , store }) {
 
-  //   const { message } =  await store.dispatch('validateCustomer', params.customer)
-  //   if(message === 'Valid'){
-  //     return true
-  //   }else{
-  //     return false
-  //   }
-  // },
+    const { message } =  await store.dispatch('validateCustomer', params.managedService)
+    if(message === 'Valid'){
+      return true
+    }else{
+      return false
+    }
+  },
   data() {
     return {
       credentials: {
@@ -163,10 +163,10 @@ export default {
         if(this.$route.params.managedService){
             this.credentials.customer = this.$route.params.managedService
         }
-        debugger
+
         try {
           const res = await this.$store.dispatch('auth/login', this.credentials)
-          debugger
+
           this.loading.status = false
           // await this.$store.dispatch('versions/getVersion')
 

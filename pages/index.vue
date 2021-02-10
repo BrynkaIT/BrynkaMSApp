@@ -20,7 +20,7 @@
 <script>
 export default {
  layout:'login',
-   middleware: 'notAuthenticated',
+  middleware: 'notAuthenticated',
 }
 </script>
 
