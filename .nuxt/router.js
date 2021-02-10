@@ -18,6 +18,7 @@ const _163cd678 = () => interopDefault(import('../pages/customers/_id/buildings/
 const _02e926c3 = () => interopDefault(import('../pages/customers/_id/locations/_lid.vue' /* webpackChunkName: "pages/customers/_id/locations/_lid" */))
 const _84e1c4bc = () => interopDefault(import('../pages/customers/_id/users/_uid.vue' /* webpackChunkName: "pages/customers/_id/users/_uid" */))
 const _6cf31c67 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
+const _123ea824 = () => interopDefault(import('../pages/_managedService/login.vue' /* webpackChunkName: "pages/_managedService/login" */))
 
 // TODO: remove in Nuxt 3
 const emptyFn = () => {}
@@ -95,6 +96,10 @@ export const routerOptions = {
     path: "/",
     component: _6cf31c67,
     name: "index"
+  }, {
+    path: "/:managedService/login",
+    component: _123ea824,
+    name: "managedService-login"
   }],
 
   fallback: false

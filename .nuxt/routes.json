@@ -103,5 +103,12 @@
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/index.vue",
     "chunkName": "pages/index",
     "_name": "_6cf31c67"
+  },
+  {
+    "name": "managedService-login",
+    "path": "/:managedService/login",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/_managedService/login.vue",
+    "chunkName": "pages/_managedService/login",
+    "_name": "_123ea824"
   }
 ]
