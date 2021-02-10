@@ -90,7 +90,7 @@
                 </form>
               </div>
               <div class="login-forgot text-center mt-2">
-                <a href="#"><small><i>Forgot your password?</i></small></a>
+                <nuxt-link to="/forgotPassword" style="color:#607d8b"><small><i>Forgot your password?</i></small></nuxt-link>
               </div>
               <div>
                 <p class="mt-4">

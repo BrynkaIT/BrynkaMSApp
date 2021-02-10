@@ -3,112 +3,108 @@
     "name": "customers",
     "path": "/customers",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/customers/index.vue",
-    "chunkName": "pages/customers/index",
-    "_name": "_5db9c226"
+    "chunkName": "pages/customers/index"
   },
   {
     "name": "dashboard",
     "path": "/dashboard",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/dashboard.vue",
-    "chunkName": "pages/dashboard",
-    "_name": "_1bb0e6a9"
+    "chunkName": "pages/dashboard"
+  },
+  {
+    "name": "forgotPassword",
+    "path": "/forgotPassword",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/forgotPassword.vue",
+    "chunkName": "pages/forgotPassword"
   },
   {
     "name": "internal",
     "path": "/internal",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/internal/index.vue",
-    "chunkName": "pages/internal/index",
-    "_name": "_c08fcf8a"
+    "chunkName": "pages/internal/index"
   },
   {
     "name": "notAuthorized",
     "path": "/notAuthorized",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/notAuthorized.vue",
-    "chunkName": "pages/notAuthorized",
-    "_name": "_8f50cd3a"
+    "chunkName": "pages/notAuthorized"
+  },
+  {
+    "name": "passwordReset",
+    "path": "/passwordReset",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/passwordReset.vue",
+    "chunkName": "pages/passwordReset"
   },
   {
     "name": "preferences",
     "path": "/preferences",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/preferences.vue",
-    "chunkName": "pages/preferences",
-    "_name": "_f76dc466"
+    "chunkName": "pages/preferences"
   },
   {
     "name": "system",
     "path": "/system",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/system/index.vue",
-    "chunkName": "pages/system/index",
-    "_name": "_5c64e9ed"
+    "chunkName": "pages/system/index"
   },
   {
     "name": "internal-inventory",
     "path": "/internal/inventory",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/internal/inventory.vue",
-    "chunkName": "pages/internal/inventory",
-    "_name": "_10273976"
+    "chunkName": "pages/internal/inventory"
   },
   {
     "name": "internal-rma",
     "path": "/internal/rma",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/internal/rma.vue",
-    "chunkName": "pages/internal/rma",
-    "_name": "_65146f2f"
+    "chunkName": "pages/internal/rma"
   },
   {
     "name": "system-preferences",
     "path": "/system/preferences",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/system/preferences.vue",
-    "chunkName": "pages/system/preferences",
-    "_name": "_68f02ed3"
+    "chunkName": "pages/system/preferences"
   },
   {
     "name": "system-versions",
     "path": "/system/versions",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/system/versions.vue",
-    "chunkName": "pages/system/versions",
-    "_name": "_24ce5d60"
+    "chunkName": "pages/system/versions"
   },
   {
     "name": "customers-id",
     "path": "/customers/:id",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/customers/_id/index.vue",
-    "chunkName": "pages/customers/_id/index",
-    "_name": "_9b6e0950"
+    "chunkName": "pages/customers/_id/index"
   },
   {
     "name": "customers-id-buildings-bid",
     "path": "/customers/:id/buildings/:bid?",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/customers/_id/buildings/_bid.vue",
-    "chunkName": "pages/customers/_id/buildings/_bid",
-    "_name": "_163cd678"
+    "chunkName": "pages/customers/_id/buildings/_bid"
   },
   {
     "name": "customers-id-locations-lid",
     "path": "/customers/:id/locations/:lid?",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/customers/_id/locations/_lid.vue",
-    "chunkName": "pages/customers/_id/locations/_lid",
-    "_name": "_02e926c3"
+    "chunkName": "pages/customers/_id/locations/_lid"
   },
   {
     "name": "customers-id-users-uid",
     "path": "/customers/:id/users/:uid?",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/customers/_id/users/_uid.vue",
-    "chunkName": "pages/customers/_id/users/_uid",
-    "_name": "_84e1c4bc"
+    "chunkName": "pages/customers/_id/users/_uid"
   },
   {
     "name": "index",
     "path": "/",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/index.vue",
-    "chunkName": "pages/index",
-    "_name": "_6cf31c67"
+    "chunkName": "pages/index"
   },
   {
     "name": "managedService-login",
     "path": "/:managedService/login",
     "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/_managedService/login.vue",
-    "chunkName": "pages/_managedService/login",
-    "_name": "_123ea824"
+    "chunkName": "pages/_managedService/login"
   }
 ]

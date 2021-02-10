@@ -5,8 +5,10 @@ import scrollBehavior from './router.scrollBehavior.js'
 
 const _5db9c226 = () => interopDefault(import('../pages/customers/index.vue' /* webpackChunkName: "pages/customers/index" */))
 const _1bb0e6a9 = () => interopDefault(import('../pages/dashboard.vue' /* webpackChunkName: "pages/dashboard" */))
+const _4c2b3519 = () => interopDefault(import('../pages/forgotPassword.vue' /* webpackChunkName: "pages/forgotPassword" */))
 const _c08fcf8a = () => interopDefault(import('../pages/internal/index.vue' /* webpackChunkName: "pages/internal/index" */))
 const _8f50cd3a = () => interopDefault(import('../pages/notAuthorized.vue' /* webpackChunkName: "pages/notAuthorized" */))
+const _35ff6109 = () => interopDefault(import('../pages/passwordReset.vue' /* webpackChunkName: "pages/passwordReset" */))
 const _f76dc466 = () => interopDefault(import('../pages/preferences.vue' /* webpackChunkName: "pages/preferences" */))
 const _5c64e9ed = () => interopDefault(import('../pages/system/index.vue' /* webpackChunkName: "pages/system/index" */))
 const _10273976 = () => interopDefault(import('../pages/internal/inventory.vue' /* webpackChunkName: "pages/internal/inventory" */))
@@ -45,6 +47,10 @@ export const routerOptions = {
     component: _1bb0e6a9,
     name: "dashboard"
   }, {
+    path: "/forgotPassword",
+    component: _4c2b3519,
+    name: "forgotPassword"
+  }, {
     path: "/internal",
     component: _c08fcf8a,
     name: "internal"
@@ -52,6 +58,10 @@ export const routerOptions = {
     path: "/notAuthorized",
     component: _8f50cd3a,
     name: "notAuthorized"
+  }, {
+    path: "/passwordReset",
+    component: _35ff6109,
+    name: "passwordReset"
   }, {
     path: "/preferences",
     component: _f76dc466,
