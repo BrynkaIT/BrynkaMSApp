@@ -172,9 +172,11 @@ export default {
 
           this.$router.push(`/dashboard`)
         } catch (e) {
+
           this.loading.status = false
-          this.msg.credentials = e.response.data.message
-          return false
+          this.$brynkaToast(e, 'danger')
+          // this.msg.credentials = e.response.data.message
+          // return false
         }
       }
     }

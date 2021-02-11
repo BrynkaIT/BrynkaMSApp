@@ -31,15 +31,10 @@ export const mutations = {
     state.auth = auth
   },
 
-  setTempAuth(state, auth) {
-    state.tempAuth = auth
-  },
   setResetToken(state, token) {
     state.resetToken = token
   },
-  setAccountToken(state, token) {
-    state.accountToken = token
-  },
+
   setRequestedUrl(state, url){
     state.requestedUrl = url
   }
@@ -75,6 +70,9 @@ export const actions = {
     try {
       const auth = await this.$axios.post(apiURL, credentials)
       if (!auth) { return Promise.reject(e) }
+      if (auth.data.userType == 'Standard') {
+        return Promise.reject("You are not Authorized")
+      }
 
       commit('setAuth', auth.data) // mutating to store for client rendering
       Cookie.set('managerApp_auth', auth.data) // saving token in cookie for server rendering
@@ -92,6 +90,7 @@ export const actions = {
 
     }
     catch (e) {
+
       return Promise.reject(e)
     }
   },
