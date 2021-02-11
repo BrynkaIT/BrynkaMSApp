@@ -10,12 +10,11 @@
               <img src="../assets/images/brynkaManagerLogo-sm.png"  />
             </div>
             <hr />
+            <div>
             <p class="text-dark">Forgot your password?</p>
 
-              <b-form @submit="onSubmit" @reset="onReset">
-                <b-form-group
-                  description="Enter the email address associated with your account"
-                >
+              <b-form @submit="onSubmit" >
+                <b-input-group>
                   <b-form-input
                     v-model="email"
                     :class="{ 'form-error': $v.email.$error }"
@@ -24,25 +23,18 @@
                     required
                     placeholder="Email"
                   ></b-form-input>
-                  <div v-if="!$v.email.email">
-                    <span class="error-text">Please Enter Email</span>
-                  </div>
-                </b-form-group>
-                <b-button
-
-                  type="submit"
-                  variant="primary"
-                  style="float:right; margin:10px 2px"
-                  >Submit</b-button
-                >
-                <b-button
-                
-                  type="reset"
-                  variant="warning"
-                  style="float:right; margin:10px 2px"
-                  >Cancel</b-button
-                >
+                  <b-input-group-append>
+                  <b-button variant="primary" type="submit">Submit</b-button>
+                </b-input-group-append>
+                </b-input-group>
+                <div v-if="!$v.email.email">
+                  <span class="error-text">Please enter a valid email address</span>
+                </div>
+                <div v-else>
+                  <small class="text-muted">Enter the email associated with your account</small>
+                </div>
               </b-form>
+            </div>
 
           </b-card-body>
         </b-card>
@@ -56,7 +48,7 @@ import { email, required } from 'vuelidate/lib/validators'
 import { mapState } from 'vuex'
 export default {
   middleware: 'notAuthenticated',
-  transition: 'tile',
+  // transition: 'tile',
   layout:'login',
   computed: {
     ...mapState({
@@ -68,7 +60,9 @@ export default {
   data() {
     return {
       showOverlay: false,
-      email: ''
+
+      email: '',
+      companyName:''
     }
   },
   validations: {
@@ -90,19 +84,15 @@ export default {
 
           this.$brynkaToast(data.message, 'success')
           this.showOverlay = false
-          this.$router.push('/')
+
         } catch (error) {
           this.showOverlay = false
+
           this.$brynkaToast(error, 'danger')
         }
       }
     },
-    onReset(evt) {
-      evt.preventDefault()
-      // Reset our form values
-      this.email = ''
-      this.$router.push('/')
-    }
+
   }
 }
 </script>

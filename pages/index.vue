@@ -5,8 +5,8 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-12 text-center">
-                  <img src="../assets/images/brynkaManagerLogo-lg.png" class="w-100"/>
-                    <span class="display-1 d-block text-success wrong">Wrong Page!</span>
+                  <!-- <img src="../assets/images/brynkaManagerLogo-lg.png" class="w-100"/> -->
+                    <span class="display-1 d-block text-warning wrong">Wrong Page!</span>
                     <div class="mb-4">Please enter your specific login page</div>
                 </div>
             </div>

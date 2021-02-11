@@ -1,10 +1,11 @@
 <template>
   <div class="w-100 text-white">
-
+    <div v-if="!resetSuccessful">
       <p class="text-dark">
         Remember, your new password <br />must be at least 6 characters long.
       </p>
-      <b-form @submit="onSubmit" @reset="onReset">
+
+        <b-form @submit="onSubmit" @reset="onReset">
         <b-form-group>
           <input
             :class="{ 'form-error': $v.form.password.$error }"
@@ -49,6 +50,19 @@
           >Submit</b-button
         >
       </b-form>
+      </div>
+       <div v-else>
+          <p class="text-success text-left">Next Step!</p>
+          <b-input-group>
+            <b-form-input
+              v-model.trim="companyName"
+              type="text"
+              placeholder="Enter Company Name"
+            ></b-form-input>
+          </b-input-group>
+          <small class="text-muted">You will be redirected to company's login page</small>
+          <b-button variant="success" @click="forwardToLogin">Login</b-button>
+        </div>
 
   </div>
 </template>
@@ -75,7 +89,8 @@ export default {
         password: '',
         confirmPassword: ''
       },
-      changeComplete: false
+      resetSuccessful: false,
+      companyName:''
     }
   },
   validations: {
@@ -102,12 +117,13 @@ export default {
             form: this.form,
             token: this.$route.query.t
           })
-
+          this.resetSuccessful = true
           this.$emit('response', true)
           this.$brynkaToast(data.message, 'success')
 
         } catch (error) {
-            this.$emit('response', false)
+          this.resetSuccessful = false
+          this.$emit('response', false)
           this.$brynkaToast(error, 'danger')
         }
       }
@@ -117,6 +133,25 @@ export default {
       // Reset our form values
       this.form.password = ''
       this.form.confirmPassword = ''
+    },
+
+    async forwardToLogin(){
+
+      if(this.companyName != ''){
+
+        try {
+          const { message } =  await this.$store.dispatch('validateCustomer', this.companyName.toLowerCase())
+          if(message === 'Valid'){
+          this.$router.push(`/${this.companyName.toLowerCase()}/login`)
+          }
+        } catch (error) {
+          this.$brynkaToast("We could not validate that company name, Please go directly to company's Login page", 'warning')
+        }
+
+      }else{
+       this.$brynkaToast("Enter company name or go directly to company's Login page.", 'warning')
+      }
+
     }
   }
 }

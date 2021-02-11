@@ -64,11 +64,11 @@ export default {
   methods: {
     responseFromApi(value){
       this.isChangeComplete = value
-      if(value){
-        setTimeout(() => {
-        this.$router.push('/')
-        }, 1500)
-      }
+      // if(value){
+      //   setTimeout(() => {
+      //   this.$router.push('/')
+      //   }, 1500)
+      // }
     },
   }
 }
@@ -80,7 +80,7 @@ export default {
 }
 
 .body {
-  background: #dae0e8;
+  background: #343a40 !important;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -89,7 +89,7 @@ export default {
 
 }
 .form-container {
-  background-color: #222d32;
+  background-color: #495057;
   margin: 10px;
   border-radius: 10px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
