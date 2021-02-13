@@ -112,15 +112,15 @@ export default {
    layout:'login',
    middleware: 'notAuthenticated',
 
-  // async validate({ params , store }) {
+  async validate({ params , store }) {
 
-  //   const { message } =  await store.dispatch('validateCustomer', params.managedService)
-  //   if(message === 'Valid'){
-  //     return true
-  //   }else{
-  //     return false
-  //   }
-  // },
+    const { message } =  await store.dispatch('validateCustomer', params.managedService)
+    if(message === 'Valid'){
+      return true
+    }else{
+      return false
+    }
+  },
   data() {
     return {
       credentials: {
