@@ -19,6 +19,7 @@ const _9b6e0950 = () => interopDefault(import('../pages/customers/_id/index.vue'
 const _163cd678 = () => interopDefault(import('../pages/customers/_id/buildings/_bid.vue' /* webpackChunkName: "pages/customers/_id/buildings/_bid" */))
 const _02e926c3 = () => interopDefault(import('../pages/customers/_id/locations/_lid.vue' /* webpackChunkName: "pages/customers/_id/locations/_lid" */))
 const _84e1c4bc = () => interopDefault(import('../pages/customers/_id/users/_uid.vue' /* webpackChunkName: "pages/customers/_id/users/_uid" */))
+const _7ea7628e = () => interopDefault(import('../pages/_index.vue' /* webpackChunkName: "pages/_index" */))
 const _6cf31c67 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 const _123ea824 = () => interopDefault(import('../pages/_managedService/login.vue' /* webpackChunkName: "pages/_managedService/login" */))
 
@@ -103,9 +104,13 @@ export const routerOptions = {
     component: _84e1c4bc,
     name: "customers-id-users-uid"
   }, {
-    path: "/",
-    component: _6cf31c67,
-    name: "index"
+    path: "/:index",
+    component: _7ea7628e,
+    children: [{
+      path: "",
+      component: _6cf31c67,
+      name: "index"
+    }]
   }, {
     path: "/:managedService/login",
     component: _123ea824,

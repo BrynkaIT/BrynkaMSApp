@@ -96,10 +96,17 @@
     "chunkName": "pages/customers/_id/users/_uid"
   },
   {
-    "name": "index",
-    "path": "/",
-    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/index.vue",
-    "chunkName": "pages/index"
+    "path": "/:index",
+    "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/_index.vue",
+    "chunkName": "pages/_index",
+    "children": [
+      {
+        "name": "index",
+        "path": "",
+        "component": "/Users/kirkywills/Brynka-Apps/BrynkaManager/pages/index.vue",
+        "chunkName": "pages/index"
+      }
+    ]
   },
   {
     "name": "managedService-login",

@@ -60,9 +60,9 @@ export const actions = {
     commit('setManagedService', managerApp_managedService)
   },
   async validateCustomer({}, subFolder){
+
     return this.$axios.$get(`/validateCustomerSubfolder/${subFolder}`)
     .then(res =>{
-      // dispatch('getVersion')
       return res
     } )
     .catch(e => Promise.reject(e.response));

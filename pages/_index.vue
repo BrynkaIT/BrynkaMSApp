@@ -18,8 +18,21 @@
 
 <script>
 export default {
- layout:'login',
-  middleware: 'notAuthenticated',
+  layout:'login',
+  middleware({ redirect, params }) {
+    if(params.index){
+     return redirect(`/${params.index}/login`)
+    }
+  },
+  async validate({ params , store }) {
+
+    const { message } =  await store.dispatch('validateCustomer', params.index)
+    if(message === 'Valid'){
+      return true
+    }else{
+      return false
+    }
+  },
 }
 </script>
 
