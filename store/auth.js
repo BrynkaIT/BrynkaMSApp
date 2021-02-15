@@ -43,7 +43,7 @@ export const mutations = {
 // Actions
 export const actions = {
   forgetPassword({}, payload) {
-    return this.$axios.post('/requestPasswordReset', payload)
+    return this.$axios.post('/requestPasswordReset?app=manager', payload)
     .then(res => {
       return Promise.resolve(res)
     })

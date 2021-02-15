@@ -74,7 +74,7 @@ export const actions = {
       let { logoUrl } = await this.$axios.$get(`/customers/${customerSubfolder}/logo`)
 
       if(!logoUrl){
-        logoUrl = process.env.WEB_APP_DOMAIN+'/img/brynka.png'
+        logoUrl = process.env.MANAGER_APP_DOMAIN+'/img/brynka.png'
       }else{
         logoUrl = process.env.baseURL+logoUrl;
       }
@@ -91,5 +91,5 @@ export const actions = {
     }
   },
 
- 
+
 }

@@ -91,7 +91,7 @@ module.exports = {
     baseURL: process.env.API_DOMAIN,
     username: process.env.BRYNKA_USER_USERNAME,
     password: process.env.BRYNKA_USER_PASSWORD,
-    version: process.env.WEB_APP_VERSION
+    version: process.env.MANAGER_APP_VERSION
   },
   /*
    ** Axios module configuration
