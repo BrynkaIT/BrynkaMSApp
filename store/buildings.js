@@ -33,14 +33,14 @@ export const actions = {
 			})
 	},
 	getBuilding({ commit }, buildingId) {
-		return this.$axios.$get(`/building/${buildingId}`)
+		return this.$axios.$get(`/buildings${buildingId}`)
 			.then(res => {
 				return res
 			})
 			.catch(e => Promise.reject(e.response));
 	},
 	postBuilding({ commit }, building) {
-		return this.$axios.$post(`/building`, building)
+		return this.$axios.$post(`/buildings`, building)
 			.then(res => {
 				return Promise.resolve(res)
 			})
@@ -48,7 +48,7 @@ export const actions = {
 	},
 
 	putBuilding({ commit }, buildingToEdit) {
-		return this.$axios.$put(`/building/${buildingToEdit.id}`, buildingToEdit)
+		return this.$axios.$put(`/buildings/${buildingToEdit.id}`, buildingToEdit)
 			.then(res => {
 				return Promise.resolve(res)
 			})
@@ -56,7 +56,7 @@ export const actions = {
 	},
 
 	deleteBuilding({ commit }, buildingId) {
-		return this.$axios.$delete(`/building/${buildingId}`)
+		return this.$axios.$delete(`/buildings/${buildingId}`)
 			.then(res => {
 				return Promise.resolve(res)
 			})

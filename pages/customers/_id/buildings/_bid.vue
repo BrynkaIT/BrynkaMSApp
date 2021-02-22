@@ -101,7 +101,7 @@ export default {
       async fetchBuilding() {
       try {
 
-      const { building } = await this.$axios.$get(`/building/${this.$route.params.bid}`)
+      const { building } = await this.$axios.$get(`/buildings/${this.$route.params.bid}`)
 
       this.building = building
 
